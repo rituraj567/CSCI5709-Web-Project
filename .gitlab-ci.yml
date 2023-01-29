@@ -1,3 +1,4 @@
+image: node
 stages:
   - build
   - test
@@ -5,6 +6,9 @@ stages:
 
 build:
   stage: build
+  tags:
+    - ugrad
+
   script:
     - npm install
     - npm run build
@@ -14,5 +18,8 @@ build:
 
 test:
   stage: test
+  tags:
+    - ugrad
+
   script:
     - npm test

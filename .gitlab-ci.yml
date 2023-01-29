@@ -15,6 +15,7 @@ build:
   artifacts:
     paths:
       - build/
+      - node_modules/
 
 test:
   stage: test

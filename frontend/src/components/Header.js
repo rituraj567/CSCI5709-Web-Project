@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   const primaryColor = "#2B2D42";
@@ -38,12 +39,12 @@ const Header = () => {
         >
           <a href="/" aria-label="Company logo">
             <img
-              style={{ height: "2.5rem", width: "2rem" }}
+              style={{ height: "15rem", width: "15rem" }}
               src={Logo}
               alt="logo"
             />
           </a>
-          <p style={{ fontFamily: "Lato", color: { primaryColor } }}>Logo</p>
+          {/* <p style={{ fontFamily: "Lato", color: { primaryColor } }}>Logo</p> */}
         </Box>
       </Box>
       <Box
@@ -123,15 +124,13 @@ const Header = () => {
                 <Menu {...bindMenu(popupState)}>
                   <MenuItem
                     aria-label="Update your password"
-                    onClick={popupState.close}
-                  >
-                    Update Password
+                    onClick={popupState.close}  
+                    ><NavLink  to="/updatepassword" style={{ textDecoration: 'none' }}>Update Password</NavLink>
                   </MenuItem>
                   <MenuItem
                     aria-label="Update your account details"
-                    onClick={popupState.close}
-                  >
-                    Update Details
+                    onClick={popupState.close}>                   
+                   <NavLink to="/account" style={{ textDecoration: 'none' }}>Update Details</NavLink>
                   </MenuItem>
                 </Menu>
               </Box>

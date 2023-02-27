@@ -135,12 +135,7 @@ function Registration(){
     const submit=(e)=>{
         e.preventDefault();
        
-        navigate("/profile",{state:{
-            firstName: firstName,
-            lastName:lastName,
-            email:email
-        
-        }})
+        navigate("/login")
       
 
     }

@@ -177,31 +177,20 @@ function Account(){
     const submit=(e)=>{
         e.preventDefault();
        
-        // navigate("/profile",{state:{
-        //     firstName: firstName,
-        //     lastName:lastName,
-        //     email:email
-        
-        // }})
       
 
     }
     const cancel=(e)=>{
         e.preventDefault();
        
-        // navigate("/profile",{state:{
-        //     firstName: firstName,
-        //     lastName:lastName,
-        //     email:email
-        
-        // }})
+        navigate("/home")
       
 
     }
 
     const gotoOrderDetails=()=>{
 
-        navigate('/orderDetails'); 
+        navigate('/orderdetails'); 
 
 
     }

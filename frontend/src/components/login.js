@@ -79,21 +79,20 @@ function Login(){
  
     const submit=(e)=>{
         e.preventDefault();
-        // const user = api call
-        // if(user){
-
-        // }
+    
         setIsUserLoggedIn(true);
         localStorage.setItem("isUserLoggedIn",true);
         console.log(localStorage.getItem("isUserLoggedIn"));
+        if(userType=="Buyer"){
+            navigate("/home");
+        }
+        else{
+            navigate("/sellerdashboard");
+        }
 
-       
-        // navigate("/profile",{state:{
-        //     firstName: firstName,
-        //     lastName:lastName,
-        //     email:email
         
-        // }})
+       
+ 
       
 
     }
@@ -138,7 +137,7 @@ function Login(){
  }} disabled={submitted || (errorMessageforPassword || errorMessageforEmail )} className="button" onClick={submit}>Submit</Button>
         <Grid container>
               <Grid item xs>
-                <Link to="/OTP" variant="body2">
+                <Link to="/otp" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>

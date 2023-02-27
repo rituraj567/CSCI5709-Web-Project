@@ -1,4 +1,4 @@
-import OTP  from './components/OTP';
+import OTP  from '../components/OTP';
 
 
 function ResetPage(){

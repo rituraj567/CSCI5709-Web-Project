@@ -4,18 +4,18 @@ import {useNavigate} from "react-router-dom";
 import '../Main.css';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/Button';
-import Logo from '../images/LOGO.jpeg';
+import Logo from "../images/logo.png";
 function Main() {
     const navigate = useNavigate();
     
     const goTologin = () => {
     
-      // This will navigate to second component
+    
       navigate('/login'); 
     };
     const goToRegistration = () => {
     
-      // This will navigate to first component
+      
       navigate('/register'); 
     };
     

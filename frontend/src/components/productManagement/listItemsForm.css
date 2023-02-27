@@ -1,0 +1,43 @@
+.listItemsForm{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+
+#addNewItemStyle{
+    display: fle;
+    flex-wrap: nowrwrap;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    /* flex-grow: 2; */
+}
+
+
+#uploaded-images{
+    display: flexbox;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;   
+    padding-right: 20px;
+
+}
+
+
+#updateItemsPage{
+    display: flex;
+}
+
+#buttons{
+    background-color: #2B2D42;
+}
+
+#buttons:hover{
+    background-color: #8D99AE;
+}
+
+#links{
+    color: white;
+    text-decoration: none;
+}

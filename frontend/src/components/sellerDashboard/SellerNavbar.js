@@ -10,14 +10,16 @@ import "./sellerdashboard.css";
 function SellerNavbar() {
   return (
     <Box sx={{ alignSelf: "stretch" }}>
-      <AppBar position="static" sx={{ bgcolor: "#D90429" }}>
+      <AppBar position="static" sx={{ bgcolor: "#FFFFFF" }}>
         <Toolbar>
           <Button variant="contained" sx={{ marginRight: "10px" }} id="buttons">
             {/* <Link to="/" id="links">
               <HomeIcon />
             </Link> */}
           </Button>
-          <b>Seller Dashboard</b>
+          <b>
+            <font style={{ color: "black" }}>Seller Dashboard</font>
+          </b>
           <Button variant="contained" sx={{ marginLeft: "auto" }} id="buttons">
             <AccountCircle />
           </Button>

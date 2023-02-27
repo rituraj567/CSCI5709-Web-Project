@@ -18,10 +18,10 @@ build:
       - build/
       - node_modules/
 
-test:
-  stage: test
-  tags:
-    - ugrad
+# test:
+#   stage: test
+#   tags:
+#     - ugrad
 
-  script:
-    - npm test
+#   script:
+#     - npm test

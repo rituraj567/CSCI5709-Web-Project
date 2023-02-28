@@ -1,12 +1,20 @@
+import { Box } from "@mui/material";
 import React from "react";
+import Divider from "@mui/material/Divider";
 import Category from "../components/homePage/Category";
-
-function HomePage() {
+import ProductsPage from "../components/homePage/ProductsPage";
+import Sort from "../components/homePage/Sort";
+import Header from "../components/Header";
+const HomePage = () => {
   return (
-    <div>
+    <Box>
+      <Header/>
+      <Divider />
       <Category />
-    </div>
+      <Sort />
+      <ProductsPage />
+    </Box>
   );
-}
+};
 
 export default HomePage;

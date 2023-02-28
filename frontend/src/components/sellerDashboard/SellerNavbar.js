@@ -4,26 +4,38 @@ import Box from "@mui/material/Box";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
 import HomeIcon from "@mui/icons-material/Home";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./sellerdashboard.css";
-
 function SellerNavbar() {
+
+  const navigate=useNavigate();
+
+  const logout=()=>{
+    const isUserLoggedIn=localStorage.getItem("isUserLoggedIn");
+    if(isUserLoggedIn){
+      localStorage.setItem("isUserLoggedIn",false);
+      navigate("/");
+    }
+  }
   return (
     <Box sx={{ alignSelf: "stretch" }}>
       <AppBar position="static" sx={{ bgcolor: "#FFFFFF" }}>
         <Toolbar>
           <Button variant="contained" sx={{ marginRight: "10px" }} id="buttons">
-            {/* <Link to="/" id="links">
+            <Link to="/sellerdashboard" id="links">
               <HomeIcon />
-            </Link> */}
+            </Link>
           </Button>
           <b>
             <font style={{ color: "black" }}>Seller Dashboard</font>
           </b>
           <Button variant="contained" sx={{ marginLeft: "auto" }} id="buttons">
+            <Link to="/sellerdashboard" id="links">
             <AccountCircle />
+            </Link>
+
           </Button>
-          <Button variant="contained" sx={{ marginLeft: "10px" }} id="buttons">
+          <Button variant="contained" sx={{ marginLeft: "10px" }} id="buttons" onClick={logout} >
             <LogoutIcon />
           </Button>
         </Toolbar>

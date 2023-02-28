@@ -8,6 +8,7 @@ import { useState } from "react";
 import UploadProductImage from "./UploadProductImage";
 import { Link } from "react-router-dom";
 import SellerNavbar from "../sellerDashboard/SellerNavbar";
+import { useNavigate} from 'react-router-dom';
 
 
 const ListItemForm = (props) => {
@@ -21,6 +22,8 @@ const ListItemForm = (props) => {
         setPreFilled(false);
       }
     };
+
+    const navigate=useNavigate()
   
     useEffect(() => {
       handlePreFilled();
@@ -73,7 +76,7 @@ const ListItemForm = (props) => {
           } else {
             setProductNameError(false);
             // <Redirect to="/" />;
-            <Link to="/additem"/>
+            navigate("/sellerdashboard");
             // history.push("/");
             alert("Success");
           }

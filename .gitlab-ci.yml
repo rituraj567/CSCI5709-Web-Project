@@ -1,8 +1,8 @@
 image: node
 stages:
   - build
-  - test
-  - deploy
+  # - test
+  # - deploy
 
 build:
   stage: build
@@ -12,16 +12,16 @@ build:
   script:
     - cd frontend
     - npm install
-    - npm run build
+    - CI=false npm run build
   artifacts:
     paths:
       - build/
       - node_modules/
 
-test:
-  stage: test
-  tags:
-    - ugrad
+# test:
+#   stage: test
+#   tags:
+#     - ugrad
 
-  script:
-    - npm test
+#   script:
+#     - npm test

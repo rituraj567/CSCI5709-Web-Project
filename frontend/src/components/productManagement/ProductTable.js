@@ -63,9 +63,9 @@ function ProductTable(props) {
                     ? false
                     : true && (
                         <TableCell align="right">
-                          {/* <Link to="/updateitemform">
+                          <Link to="/updateitemform">
                             <EditSharpIcon />
-                          </Link> */}
+                          </Link>
                         </TableCell>
                       )}
                 </TableRow>

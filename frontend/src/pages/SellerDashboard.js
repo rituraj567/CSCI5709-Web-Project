@@ -10,7 +10,7 @@ function SellerDashboard() {
     <div>
       <SellerNavbar/>
     <div className="dashboard">
-    {/* <div id="updateInventory">
+    <div id="updateInventory">
       <Button variant="contained" id="buttons">
         <Link to="/additem" id="links">
           Add Item
@@ -22,7 +22,7 @@ function SellerDashboard() {
           Update Item{" "}
         </Link>
       </Button>
-    </div> */}
+    </div>
 
     <div id="seller-overview">
       <Card variant="outlined" id="dashboard-card">

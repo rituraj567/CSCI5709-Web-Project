@@ -15,20 +15,64 @@ import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
-
 const Header = () => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";
   const handleSearch = () => {};
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const cartItems = [
+    {
+      id: 9,
+      title: "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
+      price: 64,
+      description:
+        "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems; Compatibility may vary depending on user’s hardware configuration and operating system",
+      category: "electronics",
+      image: "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg",
+      rating: {
+        rate: 3.3,
+        count: 203,
+      },
+      reviews: [
+        {
+          rating: 4,
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Crasfermentum fringilla ante, nec gravida urna elementum ut. Nullaporttitor sit amet nisl vitae tincidunt. Pellentesque ut eniminterdum, scelerisque turpis gravida, fringilla nibh",
+          user: "Rituraj",
+          date: "February 22nd, 2023",
+        },
+        {
+          rating: 3,
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Crasfermentum fringilla ante, nec gravida urna elementum ut. Nullaporttitor sit amet nisl vitae tincidunt. Pellentesque ut eniminterdum, scelerisque turpis gravida, fringilla nibh",
+          user: "Yogesh",
+          date: "February 22nd, 2023",
+        },
+      ],
+      quantity: 1,
+    },
+  ];
+  const totalCost = 30;
+  const totalItems = 1;
 
-  const logout=()=>{
-    const isUserLoggedIn=localStorage.getItem("isUserLoggedIn");
-    if(isUserLoggedIn){
-      localStorage.setItem("isUserLoggedIn",false);
+  const logout = () => {
+    const isUserLoggedIn = localStorage.getItem("isUserLoggedIn");
+    if (isUserLoggedIn) {
+      localStorage.setItem("isUserLoggedIn", false);
       navigate("/");
     }
-  }
+  };
+
+  const handleViewCart = () => {
+    navigate("/cart", {
+      replace: false,
+      state: {
+        cartItems: cartItems,
+        totalCost: totalCost,
+        totalItems: totalItems,
+      },
+    });
+  };
   return (
     <Box
       sx={{
@@ -134,13 +178,22 @@ const Header = () => {
                 <Menu {...bindMenu(popupState)}>
                   <MenuItem
                     aria-label="Update your password"
-                    onClick={popupState.close}  
-                    ><NavLink  to="/updatepassword" style={{ textDecoration: 'none' }}>Update Password</NavLink>
+                    onClick={popupState.close}
+                  >
+                    <NavLink
+                      to="/updatepassword"
+                      style={{ textDecoration: "none" }}
+                    >
+                      Update Password
+                    </NavLink>
                   </MenuItem>
                   <MenuItem
                     aria-label="Update your account details"
-                    onClick={popupState.close}>                   
-                   <NavLink to="/account" style={{ textDecoration: 'none' }}>Update Details</NavLink>
+                    onClick={popupState.close}
+                  >
+                    <NavLink to="/account" style={{ textDecoration: "none" }}>
+                      Update Details
+                    </NavLink>
                   </MenuItem>
                 </Menu>
               </Box>
@@ -227,6 +280,7 @@ const Header = () => {
               sx={{
                 padding: "0",
               }}
+              onClick={handleViewCart}
             >
               <ShoppingCartOutlined
                 style={{

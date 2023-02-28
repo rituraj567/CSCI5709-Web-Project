@@ -12,7 +12,12 @@ import AccountPage from "./pages/AccountPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UpdatePasswordPage from "./pages/UpdatePasswordPage";
 import OrderDetails from "./components/Account/OrderDetails";
+import ListItemForm from "./components/productManagement/ListItemForm";
+import UpdateItems from "./components/productManagement/UpdateItems"
+
 function App() {
+
+  
   return (
     
     <BrowserRouter>
@@ -32,6 +37,10 @@ function App() {
            <Route path="/cart" element={<Cart />}/> 
            <Route path="/updatepassword" element={<UpdatePasswordPage/>}/>
            <Route path="/orderdetails" element={<OrderDetails/>}/>
+           <Route path="/additem" element={<ListItemForm preFilled="false"/>}/>
+           <Route path="/updateitem" element={<UpdateItems/>}/>
+           <Route path="/updateitemform" element={<ListItemForm preFilled="true"/>}/>
+
           </>
         ) : (
           <Route path="/" element={<Main />} />

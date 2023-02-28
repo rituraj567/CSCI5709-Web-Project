@@ -13,12 +13,22 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+
 
 const Header = () => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";
   const handleSearch = () => {};
+  const navigate=useNavigate();
+
+  const logout=()=>{
+    const isUserLoggedIn=localStorage.getItem("isUserLoggedIn");
+    if(isUserLoggedIn){
+      localStorage.setItem("isUserLoggedIn",false);
+      navigate("/");
+    }
+  }
   return (
     <Box
       sx={{
@@ -244,6 +254,7 @@ const Header = () => {
               sx={{
                 padding: "0",
               }}
+              onClick={logout}
             >
               <LogoutOutlined
                 style={{

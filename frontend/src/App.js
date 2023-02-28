@@ -28,32 +28,24 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/otp" element={<ResetPage />} />
         <Route path="/reset" element={<Reset />} />
-        {localStorage.getItem("isUserLoggedIn") ? (
-          <>
-            <Route path="/account" element={<AccountPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/header" element={<Header />} />
-            <Route path="/sellerdashboard" element={<SellerDashboard />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/product" element={<ProductPageDetails />} />
-            <Route path="/updatepassword" element={<UpdatePasswordPage />} />
-            <Route path="/orderdetails" element={<OrderDetails />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
-            <Route path="/checkout/success" element={<Success />} />
-            <Route
-              path="/additem"
-              element={<ListItemForm preFilled="false" />}
-            />
-            <Route path="/updateitem" element={<UpdateItems />} />
-            <Route
-              path="/updateitemform"
-              element={<ListItemForm preFilled="true" />}
-            />
-          </>
-        ) : (
-          <Route path="/" element={<Main />} />
-        )}
-        <Route path="*" element={<ErrorPage />} />
+        <Route path="/account" element={<AccountPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/header" element={<Header />} />
+        <Route path="/sellerdashboard" element={<SellerDashboard />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/product" element={<ProductPageDetails />} />
+        <Route path="/updatepassword" element={<UpdatePasswordPage />} />
+        <Route path="/orderdetails" element={<OrderDetails />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/checkout/success" element={<Success />} />
+        <Route path="/additem" element={<ListItemForm preFilled="false" />} />
+        <Route path="/updateitem" element={<UpdateItems />} />
+        <Route
+          path="/updateitemform"
+          element={<ListItemForm preFilled="true" />}
+        />
+
+        <Route path="/" element={<Main />} />
       </Routes>
     </BrowserRouter>
   );

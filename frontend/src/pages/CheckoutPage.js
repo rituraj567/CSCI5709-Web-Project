@@ -1,12 +1,19 @@
-import React from 'react'
-import Payment from '../components/paymentGateway/Payment'
-
-
+import React from "react";
+import Payment from "../components/paymentGateway/Payment";
+import ErrorPage from "../components/ErrorPage";
 
 function CheckoutPage() {
   return (
-    <div><Payment /> </div>
-  )
+    <div>
+      {localStorage.getItem("isUserLoggedIn") ? (
+        <div>
+          <Payment />
+        </div>
+      ) : (
+        <ErrorPage />
+      )}
+    </div>
+  );
 }
 
-export default CheckoutPage
+export default CheckoutPage;

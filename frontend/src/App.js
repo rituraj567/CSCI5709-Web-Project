@@ -15,6 +15,8 @@ import OrderDetails from "./components/Account/OrderDetails";
 import ListItemForm from "./components/productManagement/ListItemForm";
 import UpdateItems from "./components/productManagement/UpdateItems";
 import ProductPageDetails from "./pages/ProductDetailsPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import Success from "./components/paymentGateway/Success";
 
 function App() {
   return (
@@ -35,6 +37,8 @@ function App() {
             <Route path="/product" element={<ProductPageDetails />} />
             <Route path="/updatepassword" element={<UpdatePasswordPage />} />
             <Route path="/orderdetails" element={<OrderDetails />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/checkout/success" element={<Success />} />
             <Route
               path="/additem"
               element={<ListItemForm preFilled="false" />}

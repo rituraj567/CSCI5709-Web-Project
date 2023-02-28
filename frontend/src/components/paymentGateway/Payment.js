@@ -165,7 +165,7 @@ function Payment() {
               >
                 Pay
               </Button>
-              {/* <button type="submit" onClick={() => navigate('success')}>Pay</button> */}
+              
             </div>
           )}
 
@@ -253,7 +253,7 @@ function Payment() {
               >
                 Pay
               </Button>
-              {/* <button type="submit" onClick={() => navigate('success')}>Pay</button> */}
+              
             </div>
           )}
 

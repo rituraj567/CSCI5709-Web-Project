@@ -13,9 +13,8 @@ function ErrorPage() {
         minHeight: "100vh",
       }}
     >
-      <Typography variant="h1">404</Typography>
-      <Typography variant="h6">
-        The page you’re looking for doesn’t exist.
+      <Typography variant="h3" color="initial">
+        Error Page
       </Typography>
       <Link to="/">Back to MainPage</Link>
     </Box>

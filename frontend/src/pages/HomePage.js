@@ -8,7 +8,7 @@ import Header from "../components/Header";
 const HomePage = () => {
   return (
     <Box>
-      <Header/>
+      <Header />
       <Divider />
       <Category />
       <Sort />

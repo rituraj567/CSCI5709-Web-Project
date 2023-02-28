@@ -91,7 +91,10 @@ const Header = () => {
             height: "100%",
           }}
         >
-          <a href="/" aria-label="Company logo">
+          <a
+            href={localStorage.getItem("isUserLoggedIn") ? "/home" : "/"}
+            aria-label="Company logo"
+          >
             <img
               style={{ height: "15rem", width: "15rem" }}
               src={Logo}

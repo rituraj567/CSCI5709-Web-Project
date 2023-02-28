@@ -3,10 +3,18 @@ import React from "react";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Link, useNavigate } from "react-router-dom";
 
 const Product = (props) => {
+  const primaryColor = "#2B2D42";
+  const selectedColor = "#EF233C";
+  const navigate = useNavigate();
   const { id, title, image, price, description, category, rating } =
     props.productData;
+
+  const handleProductClick = () => {
+    navigate("/product");
+  };
   return (
     <Box
       sx={{
@@ -43,19 +51,28 @@ const Product = (props) => {
               maxWidth: "100%",
               width: "100%",
             }}
+            onClick={handleProductClick}
           />
         </Box>
       </Box>
-      <Typography sx={{ fontWeight: "bold" }}>
+      <Typography
+        component={Link}
+        to={"/product"}
+        sx={{
+          fontWeight: "bold",
+          textDecoration: "none",
+          color: primaryColor,
+          "&:hover": { color: selectedColor },
+        }}
+      >
         {title.length < 80 ? title : title.substr(0, 80) + "..."}
       </Typography>
       <Box
         sx={{
           display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
           overflow: "hidden",
+          flexDirection: "column",
+          alignItems: "flex-start",
         }}
       >
         <Box
@@ -63,23 +80,28 @@ const Product = (props) => {
             display: "flex",
             justifySelf: "flex-start",
             width: "100%",
-            flex: "2",
+
+            alignItems: "center",
           }}
         >
           <Typography>{rating.rate}</Typography>
-          <Stack sx={{ paddingRight: "6px" }} spacing={1}>
+          <Stack sx={{ paddingRight: "0.2rem" }} spacing={1}>
             <Rating
               name="half-rating-read"
               value={rating.rate}
               precision={0.5}
               readOnly
+              size="small"
             />
           </Stack>
           <Typography>({rating.count})</Typography>
         </Box>
-        <Box>
-          <IconButton aria-label="wishlist button">
-            <FavoriteBorderIcon sx={{ fontSize: "2rem" }} />
+        <Box sx={{ display: "flex", justifySelf: "flex-start" }}>
+          <IconButton
+            aria-label="wishlist button"
+            sx={{ width: "2px", paddingLeft: "1rem" }}
+          >
+            <FavoriteBorderIcon sx={{ fontSize: "1.6rem" }} />
           </IconButton>
         </Box>
       </Box>

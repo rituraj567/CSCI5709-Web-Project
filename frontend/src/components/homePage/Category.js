@@ -27,7 +27,7 @@ const Category = () => {
   const handle = () => {};
   const [value, setValue] = useState(0);
 
-  const handleChange = (newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
 
@@ -137,17 +137,17 @@ const Category = () => {
     <Box>
       <Box
         sx={{
-          display: "flex",
           justifyContent: "center",
+          alignItems: "flex-start",
         }}
       >
         <Box>
           <StyledTabs
             value={value}
             onChange={handleChange}
-            variant="scrollable"
             scrollButtons
             aria-label="Category Items"
+            variant="scrollable"
           >
             {categories.map((category, index) => {
               return (

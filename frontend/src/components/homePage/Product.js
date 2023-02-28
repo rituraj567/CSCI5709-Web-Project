@@ -4,6 +4,7 @@ import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Link, useNavigate } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const Product = (props) => {
   const primaryColor = "#2B2D42";
@@ -43,15 +44,13 @@ const Product = (props) => {
             alignItems: "center",
           }}
         >
-          <img
-            alt={title}
-            src={image}
-            style={{
-              height: "100%",
-              maxWidth: "100%",
-              width: "100%",
-            }}
+          <LazyLoadImage
             onClick={handleProductClick}
+            src={image}
+            width={"100%"}
+            style={{ maxWidth: "100%", cursor: "pointer" }}
+            height={"100%"}
+            alt={title}
           />
         </Box>
       </Box>

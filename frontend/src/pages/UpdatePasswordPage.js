@@ -1,12 +1,16 @@
 import UpdatePassword from "../components/Account/updatepassword";
-function UpdatePasswordPage()
-{
-
-return (
-<div>
-    <UpdatePassword/>
-</div>
-);
-
+import ErrorPage from "../components/ErrorPage";
+function UpdatePasswordPage() {
+  return (
+    <div>
+      {localStorage.getItem("isUserLoggedIn") ? (
+        <div>
+          <UpdatePassword />
+        </div>
+      ) : (
+        <ErrorPage />
+      )}
+    </div>
+  );
 }
 export default UpdatePasswordPage;

@@ -1,12 +1,17 @@
 import Account from "../components/Account/account";
+import ErrorPage from "../components/ErrorPage";
 
-function AccoutPage(){
- return(
+function AccoutPage() {
+  return (
     <div>
-        <Account/>
+      {localStorage.getItem("isUserLoggedIn") ? (
+        <div>
+          <Account />
+        </div>
+      ) : (
+        <ErrorPage />
+      )}
     </div>
- )
-
-
+  );
 }
 export default AccoutPage;

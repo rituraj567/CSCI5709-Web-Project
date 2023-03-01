@@ -5,7 +5,6 @@
 - _Last Modification Date_: 28 February 2023
 - _Deployed application URL on Netifly_: https://csci-5709-group10-proposal.netlify.app/
 - _GitLab URL of GROUP 10_: https://git.cs.dal.ca/kadamati/group10.git
-- _GitLab Branch Url_: https://git.cs.dal.ca/kadamati/group10/-/tree/develop
 
 # Group 10
 
@@ -43,7 +42,7 @@ node-v
 ### Run steps using cmd in local
 
 ```
-    git clone https://git.cs.dal.ca/kadamati/group10.git -b develop
+    git clone https://git.cs.dal.ca/kadamati/group10.git
 ```
 
 ```
@@ -142,6 +141,8 @@ Used the following components from React Router library for navigation across pa
 3. Link - Used Link component for smooth navigation of pages without resulting in reloading the page
 
 Used images and product data from [FakeStoreAPI](https://fakestoreapi.com)
+
+## - Nishith Vithaldas Gadhiya nishith.gadhiya@dal.ca
 
 ### - frontend/src/components/Header.js
 
@@ -457,6 +458,8 @@ _mycode:_
   ` I needed to display my category items when it is overflowing it should give button to scroll`
 - <!---How---> [MaterialUI](https://mui.com/material-ui/react-tabs/)'s Code was modified by...
   ` used styled component, added icon and label, with data it will create new tabs as needed`
+
+## - Tushar Arora ts953716@dal.ca  
 
 ### -File: frontend/src/components/Login.js
 
@@ -790,6 +793,8 @@ _My Code_
 - <!---How---> ("https://blog.logrocket.com/react-table-complete-guide/")'s Code was modified by...
   ```by creating own order object and adding the selector option of view the selected row from the table`
 
+## - Rituraj Kadamati rituraj.kadamati@dal.ca
+
 ### - File: frontend/src/components/product/CardComponent.js
 
 _Lines 9 - 39_
@@ -874,6 +879,8 @@ _mycode:_
 
 Similarly for all other Bootstrap components mentioned above the changes are made in a similar way.
 
+## - Shobhit Arora sh931365@dal.ca
+
 ### - File: frontend/src/components/paymentGateway/Payment.js
 
 _Lines 18 - 28_
@@ -928,6 +935,9 @@ _mycode:_
   ` I wanted a to use Formik library for form handeling.`
 - <!---How---> [thapatechnical](https://github.com/thapatechnical/reactValidation/blob/main/src/Registration.jsx)'s Code was modified by...
   ` I took the Formik function and used its inbuilt function in my HTML tags.`
+
+
+## - Yogesh Kumar yg727492@dal.ca
 
 ### - File: frontend/src/pages/SellerDashboard.js
 

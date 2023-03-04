@@ -58,7 +58,7 @@ const Header = () => {
   const logout = () => {
     const isUserLoggedIn = localStorage.getItem("isUserLoggedIn");
     if (isUserLoggedIn) {
-      localStorage.setItem("isUserLoggedIn", false);
+      localStorage.removeItem("isUserLoggedIn");
       navigate("/");
     }
   };
@@ -91,13 +91,16 @@ const Header = () => {
             height: "100%",
           }}
         >
-          <a href="/" aria-label="Company logo">
-            <img
-              style={{ height: "15rem", width: "15rem" }}
-              src={Logo}
-              alt="logo"
-            />
-          </a>
+          <Link to="/home">
+            <div>
+              <img
+                style={{ height: "15rem", width: "15rem" }}
+                src={Logo}
+                alt="logo"
+              />
+            </div>
+          </Link>
+
           {/* <p style={{ fontFamily: "Lato", color: { primaryColor } }}>Logo</p> */}
         </Box>
       </Box>

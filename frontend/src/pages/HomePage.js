@@ -5,14 +5,21 @@ import Category from "../components/homePage/Category";
 import ProductsPage from "../components/homePage/ProductsPage";
 import Sort from "../components/homePage/Sort";
 import Header from "../components/Header";
+import ErrorPage from "../components/ErrorPage";
 const HomePage = () => {
   return (
     <Box>
-      <Header />
-      <Divider />
-      <Category />
-      <Sort />
-      <ProductsPage />
+      {localStorage.getItem("isUserLoggedIn") ? (
+        <Box>
+          <Header />
+          <Divider />
+          <Category />
+          <Sort />
+          <ProductsPage />
+        </Box>
+      ) : (
+        <ErrorPage />
+      )}
     </Box>
   );
 };

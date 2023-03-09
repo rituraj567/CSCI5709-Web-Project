@@ -61,7 +61,7 @@ exports.userLogin=async (UserReq)=>{
         
         let passwordcheck=await bcrypt.compare(UserReq.password, userdb.password); 
 
-        if(!userdb || !passwordcheck){
+        if(!userdb && !passwordcheck){
 
            return  response={
                 responseStatus:false,

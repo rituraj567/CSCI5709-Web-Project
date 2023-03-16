@@ -110,5 +110,50 @@ exports.sellerLogin=async (SellerReq)=>{
 
 }
 
+exports.recoverpasswordforSeller=async(SellerReq)=>{
+   
+    let response={}
+    try {
+
+        let sellerdb=await Seller.findOne({
+            email:SellerReq.email});
+        console.log("sellerdb"+sellerdb)
+        console.log("SellerReq"+JSON.stringify(SellerReq));
+      
+        if(sellerdb){
+            const bcryptPassword =await encryptPassword(SellerReq.password);
+            const seller = await Seller.findByIdAndUpdate(sellerdb.id, { password:bcryptPassword }, { new: true })
+   
+            response={
+                responseStatus:true,
+                responseMessage:"Password is successfully changed!",
+                responseData:seller
+
+            }
+
+        }
+        else{
+            response={
+                responseStatus:false,
+                responseMessage:"Seller does not exists!"
+
+            }
+
+        }
+        
+    } catch (error) {
+        console.log(error);
+        response={
+            responseStatus:false,
+            responseMessage:"Something went wrong!",
+         
+        }
+        
+    }
+
+    return response;
+
+}
+
 
 

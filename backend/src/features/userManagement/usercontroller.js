@@ -3,6 +3,9 @@ const { getAuthenticationToken } = require("../../utils/authentication");
 const encryptPassword = require("../../utils/passwordEncryptDecrypt");
 const User=require("./User");
 const bcrypt = require('bcryptjs');
+const nodemailer=require("nodemailer");
+const Seller = require("./Seller");
+require("dotenv").config();
 
 exports.userRegistration=async (UserReq)=>{
 
@@ -107,6 +110,112 @@ exports.userLogin=async (UserReq)=>{
 
 
 }
+
+
+exports.sendOTP=async(req)=>{
+
+    let response={}
+    try {
+        var minm = 100000;
+        var maxm = 999999;
+        var otp= Math.floor(Math.random() * (maxm - minm + 1)) + minm;
+
+        const transport=nodemailer.createTransport({
+            service:"hotmail",
+            auth:{
+                user:process.env.USEREMAIL,
+                pass:process.env.USERPASSWORD
+            }
+           
+        });
+        // console.log(process.env.USEREMAIL)
+        // console.log(process.env.USERPASSWORD)
+
+
+        const maildetails={
+            from:process.env.USEREMAIL,
+            to:req.email,
+            subject:"Forget Password",
+            text:"Your one time password to recover your account is "+otp
+        }
+        console.log(maildetails);
+        transport.sendMail(maildetails,function(err,info){
+            if(err){
+                console.log(err)
+            }
+            console.log(info.response);
+        })
+
+
+        response={
+            responseStatus:true,
+            responseMessage:"Successfully send the otp",
+            responseOTP:otp
+        }
+
+        
+    } catch (error) {
+        console.log(error);
+        response={
+            responseStatus:false,
+            responseMessage:"Something went wrong!",
+         
+        }
+
+        
+    }
+
+    return response;
+
+}
+
+exports.recoverpasswordforUser=async(UserReq)=>{
+   
+    let response={}
+    try {
+
+        let userdb=await User.findOne({
+            email:UserReq.email});
+        console.log("userdb"+userdb)
+        console.log("userreq"+JSON.stringify(UserReq));
+      
+        if(userdb){
+            const bcryptPassword =await encryptPassword(UserReq.password);
+            const user = await User.findByIdAndUpdate(userdb.id, { password:bcryptPassword }, { new: true })
+   
+            response={
+                responseStatus:true,
+                responseMessage:"Password is successfully changed!",
+                responseData:user
+
+            }
+
+        }
+        else{
+            response={
+                responseStatus:false,
+                responseMessage:"User does not exists!"
+
+            }
+
+        }
+        
+    } catch (error) {
+        console.log(error);
+        response={
+            responseStatus:false,
+            responseMessage:"Something went wrong!",
+         
+        }
+        
+    }
+
+    return response;
+
+}
+
+
+
 
 
 

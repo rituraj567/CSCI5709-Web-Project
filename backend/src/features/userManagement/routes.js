@@ -1,10 +1,10 @@
 //import functions from controller
 
 const express = require("express");
-const { sellerRegistration, sellerLogin } = require("./sellercontroller");
+const { sellerRegistration, sellerLogin, recoverpasswordforSeller } = require("./sellercontroller");
 const router = express.Router();
 const User=require("./User");
-const { userRegistration, userLogin } = require("./usercontroller");
+const { userRegistration, userLogin, sendOTP, recoverpasswordforUser } = require("./usercontroller");
 
 router.post("/register",async(req,res)=>{
 
@@ -73,5 +73,61 @@ router.post("/login", async (req, res) => {
     });
   }
 });
+
+router.post("/otp",async(req,res)=>{
+  try {
+      console.log(req.body);
+      const data=req.body;
+      const userType=req.body.usertype;
+      var response=await sendOTP(data);
+     
+      res.status(200).json({
+        status: response.responseStatus,
+        message: response.responseMessage,
+        otp:response.responseOTP,
+        userType:userType
+       });
+  } catch (err) {
+    res.json({
+      status: "FAILED",
+      message: err.message,
+    });
+  }
+
+})
+
+
+router.post("/reset",async(req,res)=>{
+  try {
+      console.log(req.body);
+      const data=req.body;
+      const userType=req.body.usertype;
+
+      if(userType.toLowerCase()==="seller")
+      {
+          response=await recoverpasswordforSeller(data);
+      }
+      else if(userType.toLowerCase()==="buyer")
+      {
+          response =await recoverpasswordforUser(data);
+      }
+     
+      res.status(200).json({
+        status: response.responseStatus,
+        message: response.responseMessage,
+        userType:userType
+      });
+      
+    } catch (err) {
+      res.json({
+         status: "FAILED",
+        message: err.message,
+      });
+    }
+
+})
+
+
+
 
 module.exports = router;

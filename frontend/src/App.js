@@ -18,12 +18,14 @@ import ProductPageDetails from "./pages/ProductDetailsPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Success from "./components/paymentGateway/Success";
 import ErrorPage from "./components/ErrorPage";
+import Counter from "./components/Counter";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route index element={<Main />} />
+        <Route path="/counter" element={<Counter />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/otp" element={<ResetPage />} />

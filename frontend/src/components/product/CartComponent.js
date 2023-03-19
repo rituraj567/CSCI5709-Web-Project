@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
+import Button from '@mui/material/Button';
+import { Row } from "react-bootstrap";
 import Products from "./Products.json";
 import { CardComponent } from "./CardComponent";
+
 export default function CartComponent() {
   const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -15,11 +16,9 @@ export default function CartComponent() {
   }, [cartItems]);
 
   const handleAddProductsToCart = (item) => {
-    console.log(item);
     const existingCartItem = cartItems.find(
       (cartItem) => cartItem.id === item.id
     );
-    console.log("existing", existingCartItem);
     if (existingCartItem) {
       setCartItems((prevCartItems) =>
         prevCartItems.map((cartItem) =>
@@ -40,7 +39,6 @@ export default function CartComponent() {
     const existingCartItem = cartItems.find(
       (cartItem) => cartItem.id === cartItemToRemove.id
     );
-
     if (existingCartItem) {
       if (existingCartItem.quantity === 1) {
         setCartItems((prevCartItems) =>
@@ -70,10 +68,7 @@ export default function CartComponent() {
 
     setTotalCartCost(sum);
     setTotalCartItems(items);
-    console.log(totalCartCost);
   };
-
-  console.log(cartItems);
 
   return (
     <div>
@@ -81,9 +76,9 @@ export default function CartComponent() {
         <Row>
           <div className="d-grid">
             <Button
-              variant="dark"
-              size="lg"
-              className="mb-3"
+              variant="contained"
+              size="large"
+              sx={{ mb: 3,minWidth:'100%' }}
               onClick={() => {
                 handleAddProductsToCart(products[0]);
                 handleTotalCostOfCart();
@@ -95,9 +90,11 @@ export default function CartComponent() {
 
             {cartVisible ? (
               <Button
-                variant="danger"
-                size="lg"
-                className="mt-3"
+                variant="contained"
+                color="error"
+                size="large"
+                
+                sx={{ mt: 3,minWidth:'100%' }}
                 onClick={() => {
                   handleRemoveProductsFromCart(products[0]);
                   handleTotalCostOfCart();

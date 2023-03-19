@@ -1,34 +1,34 @@
 import React from "react";
-import Card from "react-bootstrap/Card";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-
-import { HandThumbsDownFill, HandThumbsUpFill } from "react-bootstrap-icons";
-
+import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material";
+import { ThumbUpAltOutlined, ThumbDownAltOutlined } from "@mui/icons-material";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 export function QuestionAnswers() {
   return (
-    <div>
-      {" "}
-      <Card className="card-style">
-        <Card.Body>
-          <div className="center">
-            <Card.Title>Question & Answers</Card.Title>
-          </div>
-          <span>Q:</span>
-          <p> </p>
-          <span>A:</span>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-            fermentum fringilla ante, nec gravida urna elementum ut. Nulla
-            porttitor sit amet nisl vitae tincidunt. Pellentesque ut enim
-            interdum, scelerisque turpis gravida, fringilla nibh.{" "}
-          </p>
+    <Accordion sx={{marginTop:'2rem'}}>
+      <AccordionSummary    expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header">
+        <Typography>Question & Answers</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <div>
+          <Typography>
+            <strong>Q:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fermentum fringilla ante,
+            nec gravida urna elementum ut. Nulla porttitor sit amet nisl vitae tincidunt. Pellentesque ut enim interdum,
+            scelerisque turpis gravida, fringilla nibh.
+          </Typography>
+          <Typography>
+            <strong>A:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras fermentum fringilla ante,
+            nec gravida urna elementum ut. Nulla porttitor sit amet nisl vitae tincidunt. Pellentesque ut enim interdum,
+            scelerisque turpis gravida, fringilla nibh.
+          </Typography>
           <div className="like-dislike">
-            <HandThumbsUpFill color="grey" className="icon-thumbs" />
-            <HandThumbsDownFill color="grey" className="icon-thumbs" />
+            <ThumbUpAltOutlined color="grey" className="icon-thumbs" />
+            <ThumbDownAltOutlined color="grey" className="icon-thumbs" />
           </div>
-        </Card.Body>
-      </Card>
-    </div>
+        </div>
+      </AccordionDetails>
+    </Accordion>
   );
 }

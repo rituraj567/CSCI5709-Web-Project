@@ -1,6 +1,10 @@
 .App {
     text-align: center;
   }
+
+  p {
+    color: #282c34!important
+  }
   
   .App-logo {
     height: 40vmin;
@@ -40,6 +44,12 @@
   .navbar {
     background-color: #d90429 !important;
   }
+
+  .button, .button:hover {
+    background-color: #d90429 !important;
+  }
+
+
   
   .btn-dark {
     background-color: #2b2d42 !important;

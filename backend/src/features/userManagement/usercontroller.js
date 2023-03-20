@@ -149,7 +149,7 @@ exports.sendOTP=async(req)=>{
 
         response={
             responseStatus:true,
-            responseMessage:"Successfully send the otp",
+            responseMessage:"Successfully send the otp to your email id",
             responseOTP:otp
         }
 

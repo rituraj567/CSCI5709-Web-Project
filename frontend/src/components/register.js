@@ -3,6 +3,7 @@ import '../Main.css';
 import {Link, useNavigate} from 'react-router-dom';
 import { Button, Grid, InputLabel, Radio, TextField } from '@mui/material';
 import { sizeWidth } from '@mui/system';
+import axios from 'axios';
 
 function Registration(){
 
@@ -30,6 +31,7 @@ function Registration(){
     const [errorMessageforPassword, setErrorMessageforPassword] = useState();
     const [errorMessageforConfirmPassword, setErrorMessageforConfirmPassword] = useState();
     const [submitted,setSubmitted]=useState(true);
+    const [message,setResponseMessage]=useState();
     const primaryColor = "#2B2D42";
     const selectedColor = "#EF233C";
    
@@ -134,9 +136,36 @@ function Registration(){
  
     const submit=(e)=>{
         e.preventDefault();
-       
-        navigate("/login")
-      
+        const data={
+            email:email,
+            password:password,
+            firstname:firstName,
+            lastname:lastName,
+            usertype:userType
+        }
+
+        axios.post(process.env.REACT_APP_BACKEND_SERVER+"/user/register", data)
+        .then(response =>{
+            const output=response.data;
+            const token=output.token
+            if(output.status)
+            {
+                setResponseMessage(output.message);
+                navigate("/login")
+                
+            }
+            else{
+                setResponseMessage(output.message);
+            }
+            
+        }).catch(
+            response=>{
+                console.log("response"+response);
+                setResponseMessage("Unable to register!");
+               
+            }
+        )
+
 
     }
 
@@ -193,6 +222,9 @@ function Registration(){
                     "&:hover": {
                       backgroundColor: selectedColor,} 
                       }}disabled={submitted || (errorMessageforConfirmPassword || errorMessageforEmail || errorMessageforLastName || errorMessageforFirstName)} className="button" onClick={submit}>Submit</Button>
+        <p style={{color:"Red",textAlign:"center"}}>
+            {message}
+        </p>
         <Grid container>
               <Grid item xs>
                 <Link to="/login" variant="body2">

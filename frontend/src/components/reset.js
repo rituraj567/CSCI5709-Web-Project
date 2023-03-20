@@ -1,8 +1,9 @@
 import { useState } from "react";
-import {Link, useNavigate} from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import '../Main.css';
 import { Button, Checkbox, FormControlLabel, Grid, InputLabel, Radio } from "@mui/material";
+import axios from "axios";
 
 function Reset(){
 
@@ -11,7 +12,15 @@ function Reset(){
     const[confirmPassword,setConfirmPassword]=useState('');
     const[errorMessageforPassword,setErrorMessageforPassword]=useState('');
     const[errorMessageforConfirmPassword,setErrorMessageforConfirmPassword]=useState('');
+    const[message,setResponseMessage]=useState()
+
     const[submitted,setSubmitted]=useState(true);
+
+    const location=useLocation();
+    console.log(location);
+    const email=location.state.email;
+    const userType=location.state.userType;
+
 
 
 
@@ -77,9 +86,37 @@ function Reset(){
  
     const submit=(e)=>{
         e.preventDefault();
+        const data={
+            usertype:userType,
+            email:email,
+            password:password,
+            confirmpassword:confirmPassword
+        }
+        console.log(data)
+        axios.post(process.env.REACT_APP_BACKEND_SERVER+"/user/reset", data)
+        .then(response =>{
+            const output=response.data;
+            console.log(response);
+            if(output.status)
+            {
+                setResponseMessage(output.message);
+                
+                navigate("/login");
+                
+            }
+            else{
+                setResponseMessage(output.message);
+            }
+            
+        }).catch(
+            response=>{
+                console.log("response"+response);
+                setResponseMessage("something went wrong!");
+               
+            }
+        )
         
-        alert("Password is succesfully changed!")
-        navigate("/login")
+        
     
     }
 
@@ -103,7 +140,9 @@ function Reset(){
                     "&:hover": {
                       backgroundColor: selectedColor,}
                       }}disabled={submitted || (errorMessageforPassword || errorMessageforConfirmPassword )} className="button" onClick={submit}>Submit</Button>
-       
+       <p style={{color:"Red",textAlign:"center" }}>
+        {message}
+       </p>
     </div>
 
        

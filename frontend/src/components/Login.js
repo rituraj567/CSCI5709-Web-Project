@@ -3,6 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import '../Main.css';
 import { Button, Checkbox, FormControlLabel, Grid, InputLabel, Radio } from "@mui/material";
+import axios from "axios";
 
 function Login(){
     
@@ -13,8 +14,8 @@ function Login(){
     const[errorMessageforPassword,setErrorMessageforPassword]=useState('');
     const[submitted,setSubmitted]=useState(true);
     const [userType,setUserType]=useState('Buyer');
-    const[isUserLoggedIn,setIsUserLoggedIn]=useState(localStorage.getItem(localStorage.getItem("isUserLoggedIn") || false))
-
+    const[message,setResponseMessage]=useState();
+    
     const EMPTY_FIELD = "Field cannot be empty!";
     const EMAIL_REGEX=/^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$/;
     const PASSWORD_REGEX=/^[A-Za-z0-9\d@$!%*#?&]{8,}$/;
@@ -78,23 +79,45 @@ function Login(){
     }
  
     const submit=(e)=>{
+
         e.preventDefault();
-    
-        setIsUserLoggedIn(true);
-        localStorage.setItem("isUserLoggedIn",true);
-        console.log(localStorage.getItem("isUserLoggedIn"));
-        if(userType=="Buyer"){
-            navigate("/home");
+        const data= {
+            usertype:userType,
+            email: email,
+            password: password
         }
-        else{
-            navigate("/sellerdashboard");
-        }
-
-        
-       
- 
       
+            axios.post(process.env.REACT_APP_BACKEND_SERVER+"/user/login", data)
+            .then(response =>{
+                const output=response.data;
+                const token=output.token
 
+                
+
+                if(output.status)
+                {
+                    localStorage.setItem("Token",token);
+                    setResponseMessage(output.message);
+                    if(output.userType=='Buyer'){
+                        navigate("/home");
+                    }
+                    else{
+                        navigate("/sellerdashboard");
+                    }
+                    
+                }
+                else{
+                    setResponseMessage(output.message);
+                }
+                
+            }).catch(
+                response=>{
+                    console.log("response"+response);
+                    setResponseMessage("Incorrect password or Email!");
+                   
+                }
+            )
+               
     }
 
 
@@ -135,6 +158,9 @@ function Login(){
                       backgroundColor: selectedColor,
                     }
  }} disabled={submitted || (errorMessageforPassword || errorMessageforEmail )} className="button" onClick={submit}>Submit</Button>
+        <p style={{color:"Red",textAlign:"center"}}>
+            {message}
+        </p>
         <Grid container>
               <Grid item xs>
                 <Link to="/otp" variant="body2">

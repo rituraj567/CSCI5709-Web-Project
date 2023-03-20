@@ -7,6 +7,7 @@ import { textAlign } from "@mui/system";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { grey } from "@mui/material/colors";
 import Header from "../Header";
+import axios from "axios";
 
 function Account(){
 
@@ -16,6 +17,7 @@ function Account(){
     const[city,setCity]=useState('');
     const[province,setProvince]=useState('');
     const[postalcode,setPostalCode]=useState('');
+
 
     const [lastName, setLastName] = useState('');
     const [errorMessageforFirstName, setErrorMessageForFirstName] = useState();
@@ -30,7 +32,7 @@ function Account(){
     const [expanded, setExpanded] = useState(false);
     const EMPTY_FIELD = "Field cannot be empty!";
     const ALPHABET_ONLY = "Field can contain only alphabets!";
-    const POSTAL_CODE="POSTAL CODE should  be in any of these formats [XXX-XXX, XXX XXX,XXXXXX]";
+    const POSTAL_CODE="POSTAL CODE should  be in any of these formats [ANA-NAN, ANA NAN,ANANAN]  'A' stands for Alphabets and 'N' stands for Numeric Value";
     const ALPHABET_REGEX = /^[a-zA-Z ]+$/;
     const NO_ERROR=""
     const POSTAL_CODE_REGEX=/^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d$/i;
@@ -42,15 +44,50 @@ function Account(){
 
     useEffect(() => {
         //code
-        setFirstName("Tushar"); 
-        setLastName("Arora");
-        setAddress1(2233);
-        setAddress2("Windsor Street");
-        setCity("Halifax");
-        setProvince("Nova Scotia");
-        setPostalCode("B4J 7C8");
-    
-       
+        const token=localStorage.getItem("Token");
+        console.log("token"+token);
+
+        const headers = {
+            "Authorization": token
+        };
+
+        axios.get(process.env.REACT_APP_BACKEND_SERVER+"/account/getuserfirstandlastName", {
+            headers: headers
+        }).then(response =>{
+            const output=response.data;
+          
+            if(output.responseStatus)
+            {
+                setFirstName(output.responseData.firstname); 
+                setLastName(output.responseData.lastname);   
+            }    
+        }).catch(
+            response=>{
+                console.log("response"+response);
+               
+            }
+        )
+
+        axios.get(process.env.REACT_APP_BACKEND_SERVER+"/account/getuseraddress", {
+            headers: headers
+        }).then(response =>{
+            const output=response.data;
+          
+            if(output.responseStatus)
+            {
+                setAddress1(output.responseData.address1);
+                setAddress2(output.responseData.address2);
+                setCity(output.responseData.city);
+                setProvince(output.responseData.province);
+                setPostalCode(output.responseData.pincode);
+            }    
+        }).catch(
+            response=>{
+                console.log("response"+response);
+               
+            }
+        )
+
     },[]);
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -174,8 +211,98 @@ function Account(){
 
     }
 
-    const submit=(e)=>{
+    const submituserAddress=(e)=>{
         e.preventDefault();
+        const token=localStorage.getItem("Token");
+     
+
+        const headers = {
+            "Authorization": token
+        };
+        
+        const data = {
+            address1:address1,
+            address2:address2,
+            city: city,
+            province:province,
+            pincode:postalcode
+        };
+       
+        
+        axios.post(process.env.REACT_APP_BACKEND_SERVER+"/account/updateuseraddress", data, {
+            headers: headers
+        }).then(response =>{
+            const output=response.data;
+        
+            if(output.responseStatus)
+            {
+               
+                setAddress1(output.responseData.address1);
+                setAddress2(output.responseData.address2);
+                setCity(output.responseData.city);
+                setProvince(output.responseData.province);
+                setPostalCode(output.responseData.pincode);
+
+                alert(output.responseMessage);
+                
+            }
+            else{
+                alert(output.responseMessage);
+            }
+            
+        }).catch(
+            response=>{
+                console.log("response"+response);
+             
+               
+            }
+        )
+       
+      
+
+    }
+
+    
+    const submitUserfirstNameandLastName=(e)=>{
+        e.preventDefault();
+        const token=localStorage.getItem("Token");
+       
+        const headers = {
+            "Authorization": token
+        };
+        
+        const data = {
+            firstname:firstName,
+            lastname:lastName
+          
+        };
+      
+        
+        axios.post(process.env.REACT_APP_BACKEND_SERVER+"/account/updateuserfirstandlastName", data, {
+            headers: headers
+        }).then(response =>{
+            const output=response.data;
+            
+            if(output.responseStatus)
+            {
+            
+                setFirstName(output.responseData.firstname);
+                setLastName(output.responseData.lastname);
+                alert(output.responseMessage);
+                
+            }
+            else{
+                alert(output.responseMessage);
+            }
+            
+        }).catch(
+            response=>{
+                console.log("response"+response);
+             
+               
+            }
+        )
+       
        
       
 
@@ -233,7 +360,7 @@ function Account(){
                             "&:hover": {
                               backgroundColor: selectedColor,
                             }
-                        }}className="btn-submit" disabled={submittedforPersonalDetails || (errorMessageforLastName || errorMessageforFirstName)} onClick={submit}>Submit</Button>
+                        }}className="btn-submit" disabled={submittedforPersonalDetails || (errorMessageforLastName || errorMessageforFirstName)} onClick={submitUserfirstNameandLastName}>Submit</Button>
                         
                         <Button  variant="contained" sx={{ml:5, background: primaryColor,
                         textTransform: "none",
@@ -242,7 +369,8 @@ function Account(){
                       backgroundColor: thirdcolor,
                     }
                         }} onClick={cancel}>Cancel</Button>
-          </Typography>
+                              
+          </Typography>          
         </AccordionDetails>
       </Accordion>
       <Accordion style={{marginLeft:"10%", width:"80%"}}>
@@ -282,7 +410,7 @@ function Account(){
                         "&:hover": {
                           backgroundColor: selectedColor,
                         }
-                        }} variant="contained" className="btn-submit" disabled={submittedforAddress || (errorMessageforAddress1|| errorMessageforCity || errorMessageforProvince || errorMessageforPostalCode)} onClick={submit}>Submit</Button>
+                        }} variant="contained" className="btn-submit" disabled={submittedforAddress || (errorMessageforAddress1|| errorMessageforCity || errorMessageforProvince || errorMessageforPostalCode)} onClick={submituserAddress}>Submit</Button>
                         <Button  variant="contained" sx={{ml:5, background: primaryColor,
                         textTransform: "none",
                         height: "2.5rem",

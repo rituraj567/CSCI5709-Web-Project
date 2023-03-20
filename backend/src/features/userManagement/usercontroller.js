@@ -173,7 +173,13 @@ exports.recoverpasswordforUser=async(UserReq)=>{
    
     let response={}
     try {
+        if(UserReq.password!=UserReq.confirmpassword){
+            return  response={
+                responseStatus:false,
+                responseMessage:"New password does not match with the confirm password!"
+            }
 
+        }
         let userdb=await User.findOne({
             email:UserReq.email});
         console.log("userdb"+userdb)

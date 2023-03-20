@@ -10,6 +10,13 @@ exports.UpdatePassword=async (UserReq,userId)=>{
 
     let response={}
     try {
+        if(UserReq.newpassword!=UserReq.confirmpassword){
+            return  response={
+                responseStatus:false,
+                responseMessage:"New password does not match with the confirm password!"
+            }
+
+        }
 
         let userdb=await User.findOne({
             _id:userId});
@@ -120,11 +127,15 @@ exports.updateUserFirstandLastName=async (UserReq,userId)=>{
                     firstname:UserReq.firstname,
                     lastname:UserReq.lastname }
             const user = await User.findByIdAndUpdate(userId,userfirstandlastname , { new: true })
+            const data={
+                firstname:user.firstname,
+                lastname:user.lastname
+            }
    
             response={
                 responseStatus:true,
                 responseMessage:"First or Last name are successfully changed!",
-                responseData:user
+                responseData:data
 
             }    
         }
@@ -212,11 +223,17 @@ exports.updateAddress=async(addressReq,userId)=>{
                     province:addressReq.province,
                     pincode:addressReq.pincode }
             const address = await Address.findByIdAndUpdate(addressdb.id,userAddress , { new: true })
-   
+            const addressdata={
+                address1: address.address1,
+                address2: address.address2,
+                city: address.city,
+                province: address.province,
+                pincode: address.pincode,
+            }
             response={
                 responseStatus:true,
                 responseMessage:"Address is successfully updated!",
-                responseData:address
+                responseData:addressdata
 
             }    
         }

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../Header";
 import '../../Main.css';
+import axios from "axios";
 
 function UpdatePassword(){
 
@@ -13,6 +14,7 @@ function UpdatePassword(){
     const[errorMessageforConfirmPassword,setErrorMessageforConfirmPassword]=useState('');
     const[errorMessageforCurrentPassword,setErrorMessageforCurrentPassword]=useState('');
     const[submitted,setSubmitted]=useState(true);
+    const[message,setResponseMessage]=useState();
 
 
 
@@ -100,10 +102,44 @@ function UpdatePassword(){
     }
  
     const submit=(e)=>{
-        e.preventDefault();
+
+        const token=localStorage.getItem("Token");
+  
+        const headers = {
+            "Authorization": token
+        };
         
-        alert("Password is succesfully changed!")
-        navigate("/login")
+        const data = {
+            password:currentpassword,
+            newpassword:newpassword,
+            confirmpassword:confirmPassword
+        };
+     
+        
+        axios.post(process.env.REACT_APP_BACKEND_SERVER+"/account/updatepassword", data, {
+            headers: headers
+        }).then(response =>{
+            const output=response.data;
+         
+            if(output.status)
+            {
+                setResponseMessage(output.message);
+                navigate("/login");
+                
+            }
+            else{
+                setResponseMessage(output.message);
+            }
+            
+        }).catch(
+            response=>{
+                console.log("response"+response);
+                setResponseMessage("something went wrong!");
+               
+            }
+        )
+
+        e.preventDefault();
     
     }
 
@@ -133,7 +169,9 @@ function UpdatePassword(){
                     "&:hover": {
                       backgroundColor: selectedColor,}
                       }}disabled={submitted || (errorMessageforCurrentPassword || errorMessageforConfirmPassword ||errorMessageforNewPassword)} className="button" onClick={submit}>Submit</Button>
-       
+       <p  style={{color:"Red",textAlign:"center" }}>
+            {message}
+       </p>
     </div>
     </div>
 

@@ -83,7 +83,9 @@ function OTP(){
  
     const submit=(e)=>{
         e.preventDefault();
-
+        console.log(email)
+        console.log(userType)
+        
         if(otp===otpfrombackend){
          navigate("/reset",{state:{
                     email:email,

@@ -114,7 +114,14 @@ exports.recoverpasswordforSeller=async(SellerReq)=>{
    
     let response={}
     try {
+        
+        if(SellerReq.password!=SellerReq.confirmpassword){
+            return  response={
+                responseStatus:false,
+                responseMessage:"New password does not match with the confirm password!"
+            }
 
+        }
         let sellerdb=await Seller.findOne({
             email:SellerReq.email});
         console.log("sellerdb"+sellerdb)

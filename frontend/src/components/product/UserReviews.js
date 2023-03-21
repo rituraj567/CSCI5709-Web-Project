@@ -1,27 +1,38 @@
 import React, { useState } from "react";
-import { StarFill } from "react-bootstrap-icons";
-import Card from "react-bootstrap/Card";
+import { Star } from "@mui/icons-material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 import Products from "./Products.json";
+
 export function UserReviews() {
   const [reviews, setReviews] = useState(Products[0].reviews);
+
   return (
     <div>
-      <Card style={{ width: "100%", marginTop: "1rem" }}>
-        <Card.Body>
+      <Card sx={{ width: "100%", marginTop: "1rem" }}>
+        <CardContent>
           {reviews.map((review) => (
             <div key={review.rating}>
-              <div className="icon-div">
-                <p className="icon-text">{review.rating}</p>
-                <StarFill className="icon-styles  margin-left" color="black" />
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Typography variant="body1" style={{ marginRight: "4px" }}>
+                  {review.rating}
+                </Typography>
+                <Star color="#2b2d42" />
               </div>
-              <p>{review.description} </p>
-              <div className="review-user">
-                <p className="username">{review.user}</p>
-                <p className="date">{review.date}</p>
+              <Typography variant="body2">{review.description}</Typography>
+              <div style={{ display: "flex" }}>
+                <Typography
+                  variant="body2"
+                  style={{ marginRight: "4px", fontWeight: "bold" }}
+                >
+                  {review.user}
+                </Typography>
+                <Typography variant="body2">{review.date}</Typography>
               </div>
             </div>
           ))}
-        </Card.Body>
+        </CardContent>
       </Card>
     </div>
   );

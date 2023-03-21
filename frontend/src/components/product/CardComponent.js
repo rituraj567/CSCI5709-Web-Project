@@ -18,8 +18,8 @@ export function CardComponent(props) {
             {props.totalItems} items added to cart
           </Typography>
           <div className="mt-4 center-buttons">
-            <Link to="/checkout">
-              <Button variant="contained" sx={{minWidth:'100%'}} size="large" className="mb-3">
+            <Link to="/checkout" className="link">
+              <Button variant="contained" sx={{minWidth:'100%'}} size="large" className="mb-3 button">
                Checkout
               </Button>
             </Link>
@@ -27,7 +27,8 @@ export function CardComponent(props) {
             <Button
               variant="outlined"
               size="large"
-              sx={{minWidth:'100%'}}
+              className="button-black"
+              sx={{minWidth:'100%', color: '#fff'}}
               onClick={() =>
                 navigate("/cart", {
                   replace: false,

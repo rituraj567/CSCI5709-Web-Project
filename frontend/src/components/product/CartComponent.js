@@ -78,7 +78,8 @@ export default function CartComponent() {
             <Button
               variant="contained"
               size="large"
-              sx={{ mb: 3,minWidth:'100%' }}
+              className="button"
+              sx={{ mb: 3,minWidth:'100%', backgroundColor: '#d90429' }}
               onClick={() => {
                 handleAddProductsToCart(products[0]);
                 handleTotalCostOfCart();
@@ -91,9 +92,9 @@ export default function CartComponent() {
             {cartVisible ? (
               <Button
                 variant="contained"
-                color="error"
+
                 size="large"
-                
+                className="button-black"
                 sx={{ mt: 3,minWidth:'100%' }}
                 onClick={() => {
                   handleRemoveProductsFromCart(products[0]);

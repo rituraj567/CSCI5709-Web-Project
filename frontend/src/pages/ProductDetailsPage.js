@@ -8,6 +8,7 @@ import { QuestionAnswers } from "../components/product/QuestionAnswers";
 import { Ratings } from "../components/product/Ratings";
 import { UserReviews } from "../components/product/UserReviews";
 import ErrorPage from "../components/ErrorPage";
+import '../components/cart/ViewCart.css'
 export default function ProductPageDetails() {
   const [products, setProducts] = useState(Products);
   return (

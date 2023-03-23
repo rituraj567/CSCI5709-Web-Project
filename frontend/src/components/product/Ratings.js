@@ -1,149 +1,63 @@
+import Button from '@mui/material/Button';
 import React from "react";
-import { StarFill } from "react-bootstrap-icons";
-import Card from "react-bootstrap/Card";
-import Col from "react-bootstrap/Col";
-import ProgressBar from "react-bootstrap/ProgressBar";
-import Row from "react-bootstrap/Row";
+import { Star } from "@mui/icons-material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import LinearProgress from "@mui/material/LinearProgress";
+import Typography from "@mui/material/Typography";
 import { RatingsModel } from "./RatingsModel";
+
 export function Ratings() {
   return (
     <div>
-      <Card style={{ width: "100%" }}>
-        <Card.Body>
-          <div className="center mb-3 flex-around">
-            <Card.Title>Reviews & Ratings</Card.Title>
-            <RatingsModel />
-          </div>
-          <Row>
-            <Col xs={12} md={6}>
-              <div className="icon-div">
-                <StarFill className="icon-styles" color="black" />
-                <p className="icon-text">4.4</p>
+      <Card sx={{ width: "100%" }}>
+        <CardContent>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={6}>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Typography variant="h5" component="div" sx={{ mr: 1 }}>
+                  Reviews & Ratings
+                </Typography>
+                <RatingsModel />
               </div>
-              <div>
-                <p className="rating-text">10,000 Rating & </p>
-                <p className="review-text">326 Reviews</p>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <Star color="#282c34" sx={{ fontSize: 30,marginRight:'5px' }} />
+                <Typography variant="h4" component="div" sx={{ mr: 1 }}>
+                  4.4
+                </Typography>
               </div>
-            </Col>
-            <Col xs={12} md={6}>
-              <Row>
-                <Col xs={4} md={4}>
-                  <div className="icon-div">
-                    <p className="icon-text">5</p>
-                    <StarFill
-                      className="icon-styles margin-left"
-                      color="black"
-                    />
-                  </div>
-                </Col>
-                <Col xs={88} md={8}>
-                  {" "}
-                  <ProgressBar
-                    now={80}
-                    variant="success"
-                    style={{
-                      height: "0.5rem",
-                      marginTop: "5px",
-                      marginLeft: "-10px",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={4} md={4}>
-                  <div className="icon-div">
-                    <p className="icon-text">4</p>
-                    <StarFill
-                      className="icon-styles margin-left"
-                      color="black"
-                    />
-                  </div>
-                </Col>
-                <Col xs={8} md={8}>
-                  {" "}
-                  <ProgressBar
-                    now={70}
-                    variant="success"
-                    style={{
-                      height: "0.5rem",
-                      marginTop: "5px",
-                      marginLeft: "-10px",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={4} md={4}>
-                  <div className="icon-div">
-                    <p className="icon-text">3</p>
-                    <StarFill
-                      className="icon-styles margin-left"
-                      color="black"
-                    />
-                  </div>
-                </Col>
-                <Col xs={8} md={8}>
-                  {" "}
-                  <ProgressBar
-                    now={50}
-                    variant="success"
-                    style={{
-                      height: "0.5rem",
-                      marginTop: "5px",
-                      marginLeft: "-10px",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={4} md={4}>
-                  <div className="icon-div">
-                    <p className="icon-text">2</p>
-                    <StarFill
-                      className="icon-styles margin-left"
-                      color="black"
-                    />
-                  </div>
-                </Col>
-                <Col xs={8} md={8}>
-                  {" "}
-                  <ProgressBar
-                    now={40}
-                    variant="warning"
-                    style={{
-                      height: "0.5rem",
-                      marginTop: "5px",
-                      marginLeft: "-10px",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col xs={4} md={4}>
-                  <div className="icon-div">
-                    <p className="icon-text">1</p>
-                    <StarFill
-                      className="icon-styles margin-left"
-                      color="black"
-                    />
-                  </div>
-                </Col>
-                <Col xs={8} md={8}>
-                  {" "}
-                  <ProgressBar
-                    now={10}
-                    variant="danger"
-                    style={{
-                      height: "0.5rem",
-                      marginTop: "5px",
-                      marginLeft: "-10px",
-                    }}
-                  />
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Card.Body>
+              <Typography variant="subtitle1" component="div">
+                10,000 Ratings
+              </Typography>
+              <Typography variant="subtitle1" component="div">
+                326 Reviews
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="subtitle1" component="div">
+                5 Stars
+              </Typography>
+              <LinearProgress variant="determinate" value={80} color="success" sx={{ mb: 1 }} />
+              <Typography variant="subtitle1" component="div">
+                4 Stars
+              </Typography>
+              <LinearProgress variant="determinate" value={70} color="success" sx={{ mb: 1 }} />
+              <Typography variant="subtitle1" component="div">
+                3 Stars
+              </Typography>
+              <LinearProgress variant="determinate" value={50} color="success" sx={{ mb: 1 }} />
+              <Typography variant="subtitle1" component="div">
+                2 Stars
+              </Typography>
+              <LinearProgress variant="determinate" value={40} color="warning" sx={{ mb: 1 }} />
+              <Typography variant="subtitle1" component="div">
+                1 Star
+              </Typography>
+              <LinearProgress variant="determinate" value={10} color="error" sx={{ mb: 1 }} />
+            </Grid>
+          </Grid>
+        </CardContent>
       </Card>
     </div>
   );

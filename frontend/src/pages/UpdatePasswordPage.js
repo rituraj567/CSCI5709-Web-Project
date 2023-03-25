@@ -3,7 +3,7 @@ import ErrorPage from "../components/ErrorPage";
 function UpdatePasswordPage() {
   return (
     <div>
-      {localStorage.getItem("isUserLoggedIn") ? (
+      {localStorage.getItem("Token") ? (
         <div>
           <UpdatePassword />
         </div>

@@ -209,9 +209,28 @@ exports.updateAddress=async(addressReq,userId)=>{
         console.log("address "+JSON.stringify(addressReq))
         if(!addressdb){
 
+            addressdb=await Address.create({
+                address1:addressReq.address1,
+                address2:addressReq.address2,
+                city:addressReq.city,
+                province:addressReq.province,
+                pincode:addressReq.pincode,
+                userid:userId
+    
+            })
+
+            const addressdata={
+                address1: addressdb.address1,
+                address2: addressdb.address2,
+                city: addressdb.city,
+                province: addressdb.province,
+                pincode: addressdb.pincode,
+            }
+
             return  response={
-                responseStatus:false,
-                responseMessage:"No address found!"
+                responseStatus:true,
+                responseMessage:"Address is successfully added!",
+                responseData:addressdata
             }
         }
         else{

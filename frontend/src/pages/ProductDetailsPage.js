@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import { NavBar } from "../components/product/NavBar";
 import Header from "../components/Header";
@@ -11,6 +11,15 @@ import ErrorPage from "../components/ErrorPage";
 import '../components/cart/ViewCart.css'
 export default function ProductPageDetails() {
   const [products, setProducts] = useState(Products);
+  
+  const fetchProducts = async() => {
+    const products = await axios.get("https://riturajkcsci5709group10productbackend.onrender.com/products/");
+    setProducts(products)
+
+  }
+  useEffect(()=>{
+    fetchProducts()
+  },[])
   return (
     <div>
       {localStorage.getItem("isUserLoggedIn") ? (

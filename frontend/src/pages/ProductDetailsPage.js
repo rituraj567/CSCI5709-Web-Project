@@ -9,17 +9,21 @@ import { Ratings } from "../components/product/Ratings";
 import { UserReviews } from "../components/product/UserReviews";
 import ErrorPage from "../components/ErrorPage";
 import '../components/cart/ViewCart.css'
+import axios from "axios"
+
 export default function ProductPageDetails() {
-  const [products, setProducts] = useState(Products);
-  
+  const [products, setProducts] = useState([]);
+
   const fetchProducts = async() => {
     const products = await axios.get("https://riturajkcsci5709group10productbackend.onrender.com/products/");
-    setProducts(products)
-
+    console.log(products.data)
+    setProducts(products.data);
   }
+
   useEffect(()=>{
-    fetchProducts()
-  },[])
+    fetchProducts();
+  },[]);
+
   return (
     <div>
       {localStorage.getItem("isUserLoggedIn") ? (

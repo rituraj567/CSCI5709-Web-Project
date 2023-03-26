@@ -10,18 +10,18 @@ function ProductInfo({ product }) {
       <Grid item xs={12} md={4}>
         <img
           className="responsive-product-image"
-          src={product.image}
-          alt={product.id}
+          src={product.imageThumbnailUrl}
+          alt={product.productId}
         />
       </Grid>
       <Grid item xs={12} md={4}>
         <div className="margin">
-          <p className="heading-1">{product.title}</p>
+          <p className="heading-1">{product.name}</p>
 
           <Grid container spacing={3}>
             <Grid item xs={6} md={4}>
               <div className="icon-div">
-              <Rating name="rating" value={product.rating.rate} precision={0.5} readOnly />
+              <Rating name="rating" value={product.averageRating} precision={0.5} readOnly />
           
               </div>
             </Grid>

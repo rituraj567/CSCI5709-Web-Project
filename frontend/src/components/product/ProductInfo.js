@@ -21,7 +21,7 @@ function ProductInfo({ product }) {
           <Grid container spacing={3}>
             <Grid item xs={6} md={4}>
               <div className="icon-div">
-              <Rating name="rating" value={product.averageRating} precision={0.5} readOnly />
+              <Rating name="rating" value={Math.round(product.averageRating)} precision={0.5} readOnly />
           
               </div>
             </Grid>
@@ -39,7 +39,7 @@ function ProductInfo({ product }) {
         </div>
       </Grid>
       <Grid item xs={12} md={4}>
-        <CartComponent />
+        <CartComponent product={product}/>
       </Grid>
     </Grid>
   );

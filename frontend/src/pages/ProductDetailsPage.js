@@ -15,8 +15,8 @@ export default function ProductPageDetails() {
   const [products, setProducts] = useState([]);
 
   const fetchProducts = async() => {
-    const products = await axios.get("https://riturajkcsci5709group10productbackend.onrender.com/products/");
-    console.log(products.data)
+    const products = await axios.get("http://localhost:5000/products/");
+    console.log("Products",products)
     setProducts(products.data);
   }
 
@@ -30,11 +30,11 @@ export default function ProductPageDetails() {
         <div>
           <Header />
           <Container className="margin-top">
-            <ProductInfo product={products[0]} />
+            <ProductInfo product={products.length>0 && products[0]} />
 
-            <Ratings />
-            <UserReviews />
-            <QuestionAnswers />
+            <Ratings product={products.length>0 && products[0]}/>
+            <UserReviews reviews={products.length>0 && products[0]?.ratingsData} />
+          
           </Container>
         </div>
       ) : (

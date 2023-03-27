@@ -35,7 +35,7 @@ export function ViewCart() {
             }}
           >
             <img
-              src={cartItem.image}
+              src={cartItem.imageThumbnailUrl}
               style={{ height: "10rem", width: "10rem" }}
               className="mb-4 mt-5"
               alt={cartItem.id}

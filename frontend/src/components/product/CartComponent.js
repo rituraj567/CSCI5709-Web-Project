@@ -4,10 +4,10 @@ import { Row } from "react-bootstrap";
 import Products from "./Products.json";
 import { CardComponent } from "./CardComponent";
 
-export default function CartComponent() {
+export default function CartComponent({product}) {
   const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [products, setProducts] = useState(Products);
+console.log(product)
   const [totalCartCost, setTotalCartCost] = useState(0);
   const [totalCartItems, setTotalCartItems] = useState(0);
 
@@ -81,7 +81,7 @@ export default function CartComponent() {
               className="button"
               sx={{ mb: 3,minWidth:'100%', backgroundColor: '#d90429' }}
               onClick={() => {
-                handleAddProductsToCart(products[0]);
+                handleAddProductsToCart(product);
                 handleTotalCostOfCart();
                 setCartVisible(true);
               }}
@@ -97,7 +97,7 @@ export default function CartComponent() {
                 className="button-black"
                 sx={{ mt: 3,minWidth:'100%' }}
                 onClick={() => {
-                  handleRemoveProductsFromCart(products[0]);
+                  handleRemoveProductsFromCart(product);
                   handleTotalCostOfCart();
                 }}
               >

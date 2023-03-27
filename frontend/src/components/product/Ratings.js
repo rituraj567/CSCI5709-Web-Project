@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Star } from "@mui/icons-material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -7,24 +7,28 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
 import { RatingsModel } from "./RatingsModel";
 
-export function Ratings({product}) {
+export function Ratings({ product, newRating }) {
   const { ratingsData, totalRating } = product;
-  const ratingsCount = {
+  const [ratingsCount, setRatingsCount] = useState({
     5: 0,
     4: 0,
     3: 0,
     2: 0,
     1: 0,
-  };
+  });
 
-  
+  useEffect(() => {
+    const newRatingsCount = { ...ratingsCount };
+    newRatingsCount[Math.round(newRating)] += 1;
+    setRatingsCount(newRatingsCount);
+  }, [newRating]);
+
   if (ratingsData) {
-    ratingsData.forEach(({ratingDesc}) => {
+    ratingsData.forEach(({ ratingDesc }) => {
       ratingsCount[Math.round(ratingDesc.ratings[0].rating)] += 1;
     });
   }
 
-  
   const ratingsPercentage = {
     5: Math.round((ratingsCount[5] / totalRating) * 100),
     4: Math.round((ratingsCount[4] / totalRating) * 100),
@@ -32,6 +36,7 @@ export function Ratings({product}) {
     2: Math.round((ratingsCount[2] / totalRating) * 100),
     1: Math.round((ratingsCount[1] / totalRating) * 100),
   };
+
 
   return (
     <div>
@@ -43,7 +48,7 @@ export function Ratings({product}) {
                 <Typography variant="h5" component="div" sx={{ mr: 1 }}>
                   Reviews & Ratings
                 </Typography>
-                <RatingsModel />
+                <RatingsModel product={product}/>
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Star color="#282c34" sx={{ fontSize: 30, marginRight: "5px" }} />
@@ -55,7 +60,7 @@ export function Ratings({product}) {
                 {product.totalRating} Ratings &
               </Typography>
               <Typography variant="subtitle1" component="div">
-                {ratingsData?.length} {ratingsData?.length === 1 ? "Review" : "Reviews"}
+                {ratingsData && ratingsData[0]?.ratingDesc.ratings.length} {ratingsData &&  ratingsData[0]?.ratingDesc.ratings.length === 1 ? "Review" : "Reviews"}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>

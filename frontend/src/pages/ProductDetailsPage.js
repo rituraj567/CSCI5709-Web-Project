@@ -33,7 +33,7 @@ export default function ProductPageDetails() {
             <ProductInfo product={products.length>0 && products[0]} />
 
             <Ratings product={products.length>0 && products[0]}/>
-            <UserReviews reviews={products.length>0 && products[0]?.ratingsData} />
+            <UserReviews reviews={products.length>0 && products[0]?.ratingsData[0]?.ratingDesc.ratings} />
           
           </Container>
         </div>

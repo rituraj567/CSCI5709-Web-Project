@@ -19,14 +19,14 @@ export function UserReviews({reviews}) {
                 </Typography>
          
           {reviews.length > 0 && reviews.map((review) => (
-            <div key={review.rating}>
+            <div key={review.rating} style={{marginBottom:'1rem'}}>
               <div style={{ display: "flex", alignItems: "center",marginBottom:'6px'  }}>
                 <Typography variant="body1" style={{ marginRight: "4px" }}>
-                  {review.ratingDesc?.ratings[0]?.rating}
+                  {Math.round(review.rating)}
                 </Typography>
                 <Star color="#2b2d42" />
               </div>
-              <Typography variant="body2" sx={{marginBottom:'6px' }}> {review.ratingDesc?.ratings[0]?.comment}</Typography>
+              <Typography variant="body2" sx={{marginBottom:'6px' }}> {review.comment}</Typography>
               <div style={{ display: "flex" }}>
                 <Typography
                   variant="body2"

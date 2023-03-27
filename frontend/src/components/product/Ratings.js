@@ -24,11 +24,6 @@ export function Ratings({ product }) {
       const response = await axios.get(`http://localhost:5000/products/${product.productId}/ratings`);
       console.log("ratings", response.data);
       setRatings(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-
-    if (reviews) {
       const count = {
         5: 0,
         4: 0,
@@ -36,17 +31,20 @@ export function Ratings({ product }) {
         2: 0,
         1: 0,
       };
-      reviews.forEach((review) => {
+      response.data.forEach((review) => {
         count[Math.round(review.rating)]+=1;
       });
       setRatingsCount(count);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
     fetchRatings();
- 
-  }, [ratingsData]);
+  }, []);
+
+
   return (
     <div>
       <Card sx={{ width: "100%" }}>

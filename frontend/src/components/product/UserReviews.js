@@ -1,12 +1,27 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Star } from "@mui/icons-material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Products from "./Products.json";
+import axios from 'axios'
+export function UserReviews({product}) {
+  const [reviews, setRatings] = useState();
+  const fetchRatings = async () => {
+    try {
+      console.log("id", product.productId);
+      const response = await axios.get(`http://localhost:5000/products/${product.productId}/ratings`);
+      console.log("ratings", response.data);
+      setRatings(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-export function UserReviews({reviews}) {
+  useEffect(() => {
+    fetchRatings();
  
+  }, []);
 
   return (
     <div>
@@ -18,7 +33,7 @@ export function UserReviews({reviews}) {
                   Reviews 
                 </Typography>
          
-          {reviews.length > 0 && reviews.map((review) => (
+          {reviews?.length > 0 && reviews.map((review) => (
             <div key={review.rating} style={{marginBottom:'1rem'}}>
               <div style={{ display: "flex", alignItems: "center",marginBottom:'6px'  }}>
                 <Typography variant="body1" style={{ marginRight: "4px" }}>

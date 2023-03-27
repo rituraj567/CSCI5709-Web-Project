@@ -161,6 +161,21 @@ exports.deleteRating = async (req, res) => {
   }
 }
 
+exports.getRatings = async (req, res) => {
+  const productId = req.params.id;
+  try {
+    const product = await Product.findOne({ productId });
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.json(product.ratingsData[0].ratingDesc.ratings);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+}
+
+
 function calculateAverageRating(ratings) {
   const totalRating = ratings.reduce((acc, curr) => acc + curr.rating, 0);
   const averageRating = totalRating / ratings.length;

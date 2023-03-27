@@ -30,10 +30,12 @@ export default function ProductPageDetails() {
         <div>
           <Header />
           <Container className="margin-top">
-            <ProductInfo product={products.length>0 && products[0]} />
+           
+{products.length > 0 ? ( <div><ProductInfo product={ products[0]} />
+ <Ratings product={products.length>0 && products[0]}/>
+ <UserReviews product={products[0]}  /></div>
+):null}
 
-            <Ratings product={products.length>0 && products[0]}/>
-            <UserReviews reviews={products.length>0 && products[0]?.ratingsData[0]?.ratingDesc.ratings} />
           
           </Container>
         </div>

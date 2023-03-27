@@ -18,6 +18,7 @@ router.put('/:id',productController.updateProduct);
 router.delete('/:id', productController.deleteProduct);
 
 
+router.get('/:id/ratings', productController.getRatings);
 router.post('/:id/rating', productController.addRating);
 
 

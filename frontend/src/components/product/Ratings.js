@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { Star } from "@mui/icons-material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -6,9 +5,11 @@ import Grid from "@mui/material/Grid";
 import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
 import { RatingsModel } from "./RatingsModel";
-
-export function Ratings({ product, newRating }) {
-  const { ratingsData, totalRating } = product;
+import axios from 'axios'
+import {useState,useEffect} from 'react'
+export function Ratings({ product }) {
+  const [reviews, setRatings] = useState();
+  const { ratingsData } = product;
   const [ratingsCount, setRatingsCount] = useState({
     5: 0,
     4: 0,
@@ -17,27 +18,35 @@ export function Ratings({ product, newRating }) {
     1: 0,
   });
 
-  useEffect(() => {
-    const newRatingsCount = { ...ratingsCount };
-    newRatingsCount[Math.round(newRating)] += 1;
-    setRatingsCount(newRatingsCount);
-  }, [newRating]);
+  const fetchRatings = async () => {
+    try {
+      console.log("id", product.productId);
+      const response = await axios.get(`http://localhost:5000/products/${product.productId}/ratings`);
+      console.log("ratings", response.data);
+      setRatings(response.data);
+    } catch (error) {
+      console.log(error);
+    }
 
-  if (ratingsData) {
-    ratingsData.forEach(({ ratingDesc }) => {
-      ratingsCount[Math.round(ratingDesc.ratings[0].rating)] += 1;
-    });
-  }
-
-  const ratingsPercentage = {
-    5: Math.round((ratingsCount[5] / totalRating) * 100),
-    4: Math.round((ratingsCount[4] / totalRating) * 100),
-    3: Math.round((ratingsCount[3] / totalRating) * 100),
-    2: Math.round((ratingsCount[2] / totalRating) * 100),
-    1: Math.round((ratingsCount[1] / totalRating) * 100),
+    if (reviews) {
+      const count = {
+        5: 0,
+        4: 0,
+        3: 0,
+        2: 0,
+        1: 0,
+      };
+      reviews.forEach((review) => {
+        count[Math.round(review.rating)]+=1;
+      });
+      setRatingsCount(count);
+    }
   };
 
-
+  useEffect(() => {
+    fetchRatings();
+ 
+  }, [ratingsData]);
   return (
     <div>
       <Card sx={{ width: "100%" }}>
@@ -67,27 +76,28 @@ export function Ratings({ product, newRating }) {
               <Typography variant="subtitle1" component="div">
                 5 Stars
               </Typography>
-              <LinearProgress variant="determinate" value={ratingsPercentage[5]} color="success" sx={{ mb: 1 }} />
+              <LinearProgress variant="determinate" value={ratingsCount[5]} color="success" sx={{ mb: 1 }} />
               <Typography variant="subtitle1" component="div">
                 4 Stars
               </Typography>
-              <LinearProgress variant="determinate" value={ratingsPercentage[4]} color="success" sx={{ mb: 1 }} />
+              <LinearProgress variant="determinate" value={ratingsCount[4]} color="success" sx={{ mb: 1 }} />
               <Typography variant="subtitle1" component="div">
                 3 Stars
               </Typography>
-              <LinearProgress variant="determinate" value={ratingsPercentage[3]} color="success" sx={{ mb: 1 }} />
+              <LinearProgress variant="determinate" value={ratingsCount[3]} color="success" sx={{ mb: 1 }} />
               <Typography variant="subtitle1" component="div">
                 2 Stars
               </Typography>
-              <LinearProgress variant="determinate" value={ratingsPercentage[2]} color="warning" sx={{ mb: 1 }} />
+              <LinearProgress variant="determinate" value={ratingsCount[2]} color="warning" sx={{ mb: 1 }} />
               <Typography variant="subtitle1" component="div">
                 1 Star
               </Typography>
-              <LinearProgress variant="determinate" value={ratingsPercentage[1]} color="error" sx={{ mb: 1 }} />
+              <LinearProgress variant="determinate" value={ratingsCount[1]} color="error" sx={{ mb: 1 }} />
             </Grid>
           </Grid>
         </CardContent>
       </Card>
     </div>
   );
-  }
+
+}

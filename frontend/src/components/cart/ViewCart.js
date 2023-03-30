@@ -82,7 +82,7 @@ export function ViewCart() {
             size="large"
             className="mb-3 button"
             sx={{minWidth: '40%'}}
-            onClick={() => navigate("/checkout")}
+            onClick={() => navigate("/checkout",)}
           >
             Proceed To Checkout
           </Button>

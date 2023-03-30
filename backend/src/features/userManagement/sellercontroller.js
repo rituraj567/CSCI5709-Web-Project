@@ -1,7 +1,7 @@
 // create functions to manipulate database
 const { getAuthenticationToken } = require("../../utils/authentication");
 const encryptPassword = require("../../utils/passwordEncryptDecrypt");
-const User=require("./Seller");
+
 const bcrypt = require('bcryptjs');
 const Seller = require("./Seller");
 

@@ -5,7 +5,7 @@ const Address=require("./address");
 const { json } = require("express");
 
 
-const cart={totalcost:234,cartitems:[{productid:},{}]}
+const cart={totalcost:234,cartitems:[{productid:1}]}
 
 exports.createAddress = async (data) => {
   const response={};

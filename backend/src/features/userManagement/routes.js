@@ -1,70 +1,63 @@
 //import functions from controller
 
 const express = require("express");
-const { sellerRegistration, sellerLogin, recoverpasswordforSeller } = require("./sellercontroller");
+const {
+  sellerRegistration,
+  sellerLogin,
+  recoverpasswordforSeller,
+} = require("./sellercontroller");
 const router = express.Router();
-const User=require("./User");
-const { userRegistration, userLogin, sendOTP, recoverpasswordforUser } = require("./usercontroller");
+const User = require("./User");
+const {
+  userRegistration,
+  userLogin,
+  sendOTP,
+  recoverpasswordforUser,
+} = require("./usercontroller");
 
-router.post("/register",async(req,res)=>{
-
+router.post("/register", async (req, res) => {
   try {
-
     console.log(req.body);
-    const data=req.body;
-    const userType=req.body.usertype;
+    const data = req.body;
+    const userType = req.body.usertype;
     var response;
-    if(userType.toLowerCase()==="seller")
-    {
-      response=await sellerRegistration(data);
+    if (userType.toLowerCase() === "seller") {
+      response = await sellerRegistration(data);
+    } else if (userType.toLowerCase() === "buyer") {
+      response = await userRegistration(data);
     }
-    else if(userType.toLowerCase()==="buyer")
-    {
-      response =await userRegistration(data);
-    }
- 
 
     res.status(200).json({
       status: response.responseStatus,
       message: response.responseMessage,
-      userType:userType
-  });
-    
+      userType: userType,
+    });
   } catch (error) {
     console.log(error);
     res.json({
       status: "FAILED",
       message: error.message,
     });
-    
   }
-
 });
-
-
-
 
 router.post("/login", async (req, res) => {
   try {
     console.log(req.body);
-    const data=req.body;
-    const userType=req.body.usertype;
+    const data = req.body;
+    const userType = req.body.usertype;
     var response;
-    if(userType.toLowerCase()==="seller")
-    {
-      response=await sellerLogin(data);
+    if (userType.toLowerCase() === "seller") {
+      response = await sellerLogin(data);
+    } else if (userType.toLowerCase() === "buyer") {
+      response = await userLogin(data);
     }
-    else if(userType.toLowerCase()==="buyer"){
-
-      response =await userLogin(data);
-    }
-    
 
     res.status(200).json({
       status: response.responseStatus,
       message: response.responseMessage,
-      token:response.responseToken,
-      userType:userType
+      token: response.responseToken,
+      userType: userType,
     });
   } catch (err) {
     res.json({
@@ -74,60 +67,50 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/otp",async(req,res)=>{
+router.post("/otp", async (req, res) => {
   try {
-      console.log(req.body);
-      const data=req.body;
-      const userType=req.body.usertype;
-      var response=await sendOTP(data);
-     
-      res.status(200).json({
-        status: response.responseStatus,
-        message: response.responseMessage,
-        otp:response.responseOTP,
-        userType:userType
-       });
+    console.log(req.body);
+    const data = req.body;
+    const userType = req.body.usertype;
+    var response = await sendOTP(data);
+
+    res.status(200).json({
+      status: response.responseStatus,
+      message: response.responseMessage,
+      otp: response.responseOTP,
+      userType: userType,
+    });
   } catch (err) {
     res.json({
       status: "FAILED",
       message: err.message,
     });
   }
+});
 
-})
-
-
-router.post("/reset",async(req,res)=>{
+router.post("/reset", async (req, res) => {
   try {
-      console.log(req.body);
-      const data=req.body;
-      const userType=req.body.usertype;
+    console.log(req.body);
+    const data = req.body;
+    const userType = req.body.usertype;
 
-      if(userType.toLowerCase()==="seller")
-      {
-          response=await recoverpasswordforSeller(data);
-      }
-      else if(userType.toLowerCase()==="buyer")
-      {
-          response =await recoverpasswordforUser(data);
-      }
-     
-      res.status(200).json({
-        status: response.responseStatus,
-        message: response.responseMessage,
-        userType:userType
-      });
-      
-    } catch (err) {
-      res.json({
-         status: "FAILED",
-        message: err.message,
-      });
+    if (userType.toLowerCase() === "seller") {
+      response = await recoverpasswordforSeller(data);
+    } else if (userType.toLowerCase() === "buyer") {
+      response = await recoverpasswordforUser(data);
     }
 
-})
-
-
-
+    res.status(200).json({
+      status: response.responseStatus,
+      message: response.responseMessage,
+      userType: userType,
+    });
+  } catch (err) {
+    res.json({
+      status: "FAILED",
+      message: err.message,
+    });
+  }
+});
 
 module.exports = router;

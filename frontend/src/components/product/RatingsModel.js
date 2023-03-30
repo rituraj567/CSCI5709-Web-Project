@@ -1,46 +1,63 @@
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
+import axios from "axios"; // import axios
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
-export function RatingsModel() {
+export function RatingsModel({product}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleSaveChanges = async () => {
+    const ratingInput = document.getElementById("rating-input").value;
+    const descriptionInput = document.getElementById("description-input").value;
+
+    try {
+      const response = await axios.post(`http://localhost:5000/products/${product.productId}/rating`, {
+        rating: ratingInput,
+        comment: descriptionInput
+      });
+
+      console.log(response.data); 
+      handleClose(); 
+    } catch (error) {
+      console.log(error); 
+    }
+  };
+
   return (
     <div>
-      {" "}
-      <Button variant="outline-secondary" onClick={handleShow}>
+      <Button
+        variant="contained"
+        className="button-black"
+        sx={{ mt: 3,minWidth:'100%' }}
+        onClick={handleShow}
+      >
         Add Rating
       </Button>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Review</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Enter rating (1-5)</Form.Label>
-              <Form.Control type="number" autoFocus />
-            </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
-            >
-              <Form.Label> Enter description </Form.Label>
-              <Form.Control as="textarea" rows={3} />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="dark" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="danger" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
+
+      <Modal open={show} onClose={handleClose}>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Add Review
+          </Typography>
+          <Box component="form" sx={{marginLeft:0}} noValidate>
+            <TextField fullWidth margin="normal" label="Enter rating (1-5)" type="number" autoFocus id="rating-input" />
+            <TextField fullWidth margin="normal" label="Enter description" multiline rows={3} id="description-input" />
+          </Box>
+          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
+            <Button variant="contained" color="error" onClick={handleClose} sx={{ mr: 1 }} className="button">
+              Close
+            </Button>
+            <Button variant="contained" onClick={handleSaveChanges} className="button-black">
+              Save Changes
+            </Button>
+          </Box>
+        </Box>
       </Modal>
     </div>
   );

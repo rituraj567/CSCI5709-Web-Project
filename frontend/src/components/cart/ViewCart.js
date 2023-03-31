@@ -1,8 +1,8 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
+import * as React from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./ViewCart.css";
 
@@ -81,8 +81,8 @@ export function ViewCart() {
             variant="contained"
             size="large"
             className="mb-3 button"
-            sx={{minWidth: '40%'}}
-            onClick={() => navigate("/checkout",)}
+            sx={{ minWidth: "40%" }}
+            onClick={() => navigate("/checkout")}
           >
             Proceed To Checkout
           </Button>

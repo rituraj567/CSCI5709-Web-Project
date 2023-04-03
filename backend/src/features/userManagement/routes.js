@@ -5,9 +5,9 @@ const {
   sellerRegistration,
   sellerLogin,
   recoverpasswordforSeller,
-} = require("./sellercontroller");
+} = require("../SellerManagement/sellercontroller");
 const router = express.Router();
-const User = require("./User");
+
 const {
   userRegistration,
   userLogin,

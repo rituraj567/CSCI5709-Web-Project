@@ -1,31 +1,31 @@
-const mangoose = require("mongoose");
-const Schema = mangoose.Schema;
+// const mangoose = require("mongoose");
+// const Schema = mangoose.Schema;
  
 
-const AddressSchema = new Schema({
+// const AddressSchema = new Schema({
 
-  address1: {
-    type: String,
-    required:true,
-    unique:true},
-  address2:{
-    type: String},
-  city:{
-      type: String,
-      required:true},
-  province: {
-    type: String,
-    required:true},
-  pincode:{
-    type:String,
-    required:true
-  },
-  userid:{
-    type:String
-  }  
+//   address1: {
+//     type: String,
+//     required:true,
+//     unique:true},
+//   address2:{
+//     type: String},
+//   city:{
+//       type: String,
+//       required:true},
+//   province: {
+//     type: String,
+//     required:true},
+//   pincode:{
+//     type:String,
+//     required:true
+//   },
+//   userid:{
+//     type:String
+//   }  
 
-});
+// });
 
 
-const User = mangoose.model("Address", AddressSchema);
-module.exports = User;
+// const User = mangoose.model("Address", AddressSchema);
+// module.exports = User;

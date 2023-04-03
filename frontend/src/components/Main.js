@@ -5,6 +5,8 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/Button";
 import Logo from "../images/logo.png";
 function Main() {
+  const primaryColor = "#2B2D42";
+  const selectedColor = "#EF233C";
   const navigate = useNavigate();
 
   const goTologin = () => {
@@ -17,17 +19,48 @@ function Main() {
   return (
     <div id="main">
       {/* <h3 style={{fontSize:'24px', textAlign:'center'}}>Logo</h3> */}
-      <img src={Logo} width="400" height="400" style={{ marginLeft: "5px" }} />
+      <img
+        src={Logo}
+        width="360"
+        height="400"
+        style={{ marginRight: "10px" }}
+      />
       <div className="buttons">
-        <div className="home-button">
-          <ButtonGroup
-            variant="text"
-            aria-label="text button group"
-            color="error"
+        <div>
+          <Button
+            variant="contained"
+            sx={{
+              ml: 9,
+              mr: 2,
+              mb: 4,
+              background: primaryColor,
+              textTransform: "none",
+              height: "2.5rem",
+              "&:hover": {
+                backgroundColor: selectedColor,
+              },
+            }}
+            onClick={goTologin}
           >
-            <Button onClick={goTologin}>Login</Button>
-            <Button onClick={goToRegistration}>Register</Button>
-          </ButtonGroup>
+            Login
+          </Button>
+          <Button
+            Button
+            variant="contained"
+            sx={{
+              ml: 1,
+              mb: 4,
+              background: primaryColor,
+              textTransform: "none",
+              height: "2.5rem",
+              "&:hover": {
+                backgroundColor: selectedColor,
+              },
+            }}
+            onClick={goToRegistration}
+          >
+            Register
+          </Button>
         </div>
       </div>
     </div>

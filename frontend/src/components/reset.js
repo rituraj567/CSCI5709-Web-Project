@@ -90,7 +90,7 @@ function Reset() {
         console.log(response);
         if (output.status) {
           setResponseMessage(output.message);
-
+          localStorage.setItem("isreset", false);
           navigate("/login");
         } else {
           setResponseMessage(output.message);
@@ -117,7 +117,7 @@ function Reset() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        {errorMessageforPassword}
+        <font color="red">{errorMessageforPassword}</font>
       </p>
       <TextField
         label="Confirm Password"
@@ -129,7 +129,7 @@ function Reset() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        {errorMessageforConfirmPassword}
+        <font color="red"> {errorMessageforConfirmPassword}</font>
       </p>
       <Button
         variant="contained"
@@ -146,7 +146,6 @@ function Reset() {
         disabled={
           submitted || errorMessageforPassword || errorMessageforConfirmPassword
         }
-        className="button"
         onClick={submit}
       >
         Submit

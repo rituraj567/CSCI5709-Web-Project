@@ -111,7 +111,7 @@ function Login() {
       <h2 style={{ textAlign: "center" }}>Login</h2>
 
       <Radio
-        sx={{ ml: 12, mb: 1 }}
+        sx={{ ml: 8, mb: 1 }}
         type="radio"
         name="userType"
         value="Buyer"
@@ -122,7 +122,7 @@ function Login() {
       <label htmlFor="Buyer">Buyer</label>
 
       <Radio
-        sx={{ ml: 3, mb: 1 }}
+        sx={{ ml: 2, mb: 1 }}
         type="radio"
         name="userType"
         value="Seller"
@@ -136,21 +136,21 @@ function Login() {
       {/* <InputLabel required sx={{ ml: 10  }} className="label"><b>Email</b></InputLabel> */}
       <TextField
         label="Email Address"
-        sx={{ ml: 11, mb: 1 }}
+        sx={{ ml: 9, mb: 1 }}
         margin="normal"
         type="text"
         name="email"
         value={email}
         onChange={changesInputValues}
       />
-      <p style={{ color: "Red", textAlign: "center" }}>
-        {errorMessageforEmail}
+      <p style={{ color: "red", textAlign: "center" }}>
+        <font color="red">{errorMessageforEmail}</font>
       </p>
 
       {/* <InputLabel  required sx={{ ml: 10  }} className="label"><b>Password</b></InputLabel> */}
       <TextField
         label="Password"
-        sx={{ ml: 11, mb: 1 }}
+        sx={{ ml: 9, mb: 1 }}
         margin="normal"
         type="password"
         name="password"
@@ -158,18 +158,13 @@ function Login() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        {errorMessageforPassword}
+        <font color="red"> {errorMessageforPassword} </font>
       </p>
-      <FormControlLabel
-        sx={{ ml: 10, mb: 2 }}
-        control={<Checkbox value="remember" color="primary" />}
-        label="Remember me"
-      />
 
       <Button
         variant="contained"
         sx={{
-          ml: 20,
+          ml: 16,
           mb: 2,
           mr: 20,
           background: primaryColor,
@@ -180,12 +175,14 @@ function Login() {
           },
         }}
         disabled={submitted || errorMessageforPassword || errorMessageforEmail}
-        className="button"
+        // className="button"
         onClick={submit}
       >
         Submit
       </Button>
-      <p style={{ color: "Red", textAlign: "center" }}>{message}</p>
+      <p style={{ color: "Red", textAlign: "center" }}>
+        <font color="red">{message}</font>
+      </p>
       <Grid container>
         <Grid item xs>
           <Link to="/otp" variant="body2">

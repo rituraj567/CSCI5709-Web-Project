@@ -143,7 +143,7 @@ function UpdatePassword() {
           onChange={changesInputValues}
         />
         <p style={{ color: "Red", textAlign: "center" }}>
-          <font color="red">{errorMessageforCurrentPassword}</font>
+          {errorMessageforCurrentPassword}
         </p>
         <TextField
           label="New Password"
@@ -155,7 +155,7 @@ function UpdatePassword() {
           onChange={changesInputValues}
         />
         <p style={{ color: "Red", textAlign: "center" }}>
-          <font color="red"> {errorMessageforNewPassword}</font>
+          {errorMessageforNewPassword}
         </p>
         <TextField
           label="Confirm Password"
@@ -167,7 +167,7 @@ function UpdatePassword() {
           onChange={changesInputValues}
         />
         <p style={{ color: "Red", textAlign: "center" }}>
-          <font color="red">{errorMessageforConfirmPassword}</font>
+          {errorMessageforConfirmPassword}
         </p>
         <Button
           variant="contained"
@@ -187,6 +187,7 @@ function UpdatePassword() {
             errorMessageforConfirmPassword ||
             errorMessageforNewPassword
           }
+          className="button"
           onClick={submit}
         >
           Submit

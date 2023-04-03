@@ -15,7 +15,7 @@ function Success() {
           </Grid>
           <Grid container padding={"20px 10px"}>
             <Typography variant="subtitle1">
-              Your order number is #2001539. We have emailed your order
+              Your order number is #1278. We have emailed your order
               confirmation, and will send you an update when your order has
               shipped.
             </Typography>

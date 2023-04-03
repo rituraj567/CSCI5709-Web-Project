@@ -78,8 +78,6 @@ function OTP() {
 
   const submit = (e) => {
     e.preventDefault();
-    console.log(email);
-    console.log(userType);
 
     if (otp === otpfrombackend) {
       localStorage.setItem("isreset", true);

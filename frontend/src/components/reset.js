@@ -82,7 +82,6 @@ function Reset() {
       password: password,
       confirmpassword: confirmPassword,
     };
-    console.log(data);
     axios
       .post(process.env.REACT_APP_BACKEND_SERVER + "/user/reset", data)
       .then((response) => {

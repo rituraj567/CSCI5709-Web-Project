@@ -7,7 +7,6 @@ import Main from "./pages/MainPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ResetPage from "./pages/ResetPage";
-import Reset from "./components/reset";
 import AccountPage from "./pages/AccountPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UpdatePasswordPage from "./pages/UpdatePasswordPage";
@@ -17,7 +16,6 @@ import UpdateItems from "./components/productManagement/UpdateItems";
 import ProductPageDetails from "./pages/ProductDetailsPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Success from "./components/paymentGateway/Success";
-import ErrorPage from "./components/ErrorPage";
 import Counter from "./components/Counter";
 import RestrictedResetPage from "./pages/RestrictedResetPage";
 

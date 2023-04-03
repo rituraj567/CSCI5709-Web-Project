@@ -1,119 +1,110 @@
 import React, { useEffect, useState } from "react";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 import { Row } from "react-bootstrap";
 import Products from "./Products.json";
 import { CardComponent } from "./CardComponent";
+import {
+  AddCircleOutlineOutlined,
+  RemoveCircleOutlined,
+} from "@mui/icons-material";
+import axios from "axios";
 
-export default function CartComponent({product}) {
+export default function CartComponent({ product, userId }) {
   const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-console.log(product)
+ 
   const [totalCartCost, setTotalCartCost] = useState(0);
   const [totalCartItems, setTotalCartItems] = useState(0);
-
+  const [removeError, setRemoveError] = useState();
   useEffect(() => {
-    handleTotalCostOfCart();
-  }, [cartItems]);
+    getCartItems();
+  }, []);
 
-  const handleAddProductsToCart = (item) => {
-    const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.id === item.id
+  const getCartItems = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_SERVER}/cart/${userId}`
     );
-    if (existingCartItem) {
-      setCartItems((prevCartItems) =>
-        prevCartItems.map((cartItem) =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        )
-      );
-    } else {
-      setCartItems((prevCartItems) => [
-        ...prevCartItems,
-        { ...item, quantity: 1 },
-      ]);
-    }
+  
+    setCartItems(response.data.cartItems);
+    setTotalCartCost(Number(response.data.totalCost).toFixed(2));
+    setTotalCartItems(Number(response.data.totalQuantity).toFixed(2));
   };
 
-  const handleRemoveProductsFromCart = (cartItemToRemove) => {
-    const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.id === cartItemToRemove.id
-    );
-    if (existingCartItem) {
-      if (existingCartItem.quantity === 1) {
-        setCartItems((prevCartItems) =>
-          prevCartItems.filter(
-            (cartItem) => cartItem.id !== cartItemToRemove.id
-          )
-        );
-      } else {
-        setCartItems((prevCartItems) =>
-          prevCartItems.map((cartItem) =>
-            cartItem.id === cartItemToRemove.id
-              ? { ...cartItem, quantity: cartItem.quantity - 1 }
-              : cartItem
-          )
-        );
+  const handleCartProcess = async () => {
+    const response = await axios.post(
+      `${process.env.REACT_APP_BACKEND_SERVER}/cart/`,
+      {
+        userId,
+        productId: product.productId,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        averageRating: product.averageRating,
+        totalRating: product.totalRating,
+        category: product.category,
+        quantity: 1,
+        imageThumbnailUrl: product.imageThumbnailUrl,
       }
-    }
+    );
+    const cartItems = response.data.cartItems;
+    setTotalCartCost(Number(response.data.totalCost).toFixed(2));
+    setTotalCartItems(response.data.totalQuantity);
+    setCartVisible(true);
+    setCartItems(cartItems);
+    setRemoveError("");
   };
 
-  const handleTotalCostOfCart = () => {
-    let sum = 0;
-    let items = 0;
-    cartItems.map((cartItem) => {
-      sum += cartItem.price * cartItem.quantity;
-      items += cartItem.quantity;
-    });
+  const handleRemoveCartProcess = async () => {
+    const itemExists = cartItems.find(
+      (item) => item.productId === product.productId
+    );
+    if (itemExists) {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_SERVER}/cart/${userId}/${product.productId}`
+      );
 
-    setTotalCartCost(sum);
-    setTotalCartItems(items);
+      const cartItems = response.data.cartItems;
+      setTotalCartCost(response.data.totalCost);
+      setTotalCartItems(response.data.totalQuantity);
+      setCartItems(cartItems);
+    } else {
+      setRemoveError("Item doesn't exist in the cart, cannot remove");
+    }
   };
 
   return (
     <div>
       <div className="add-cart">
         <Row>
-          <div className="d-grid">
-            <Button
-              variant="contained"
-              size="large"
-              className="button"
-              sx={{ mb: 3,minWidth:'100%', backgroundColor: '#d90429' }}
-              onClick={() => {
-                handleAddProductsToCart(product);
-                handleTotalCostOfCart();
-                setCartVisible(true);
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <AddCircleOutlineOutlined
+              sx={{
+                color: "#2ecc71",
+                marginTop: "-1rem",
+                cursor: "pointer",
+                marginRight: "1rem",
               }}
-            >
-              Add to Cart
-            </Button>
-
-            {cartVisible ? (
-              <Button
-                variant="contained"
-
-                size="large"
-                className="button-black"
-                sx={{ mt: 3,minWidth:'100%' }}
-                onClick={() => {
-                  handleRemoveProductsFromCart(product);
-                  handleTotalCostOfCart();
-                }}
-              >
-                Remove From Cart
-              </Button>
-            ) : null}
+              onClick={() => handleCartProcess()}
+            />
+            <RemoveCircleOutlined
+              sx={{
+                color: "#d90429",
+                marginTop: "-1rem",
+                cursor: "pointer",
+              }}
+              onClick={() => handleRemoveCartProcess()}
+            />
           </div>
         </Row>
         <Row className="mt-5">
-          {cartVisible ? (
+          <div>
+            <p style={{ marginBottom: "1rem" }}>{removeError}</p>
             <CardComponent
               totalCost={totalCartCost}
               totalItems={totalCartItems}
               cartItems={cartItems}
             />
-          ) : null}
+          </div>
         </Row>
       </div>
     </div>

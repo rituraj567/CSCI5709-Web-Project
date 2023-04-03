@@ -78,9 +78,10 @@ function OTP() {
 
   const submit = (e) => {
     e.preventDefault();
+    console.log(email);
+    console.log(userType);
 
     if (otp === otpfrombackend) {
-      localStorage.setItem("isreset", true);
       navigate("/reset", {
         state: {
           email: email,
@@ -135,7 +136,7 @@ function OTP() {
       <label htmlFor="Buyer">Buyer</label>
 
       <Radio
-        sx={{ ml: 1, mb: 1 }}
+        sx={{ ml: 3, mb: 1 }}
         type="radio"
         name="userType"
         value="Seller"
@@ -157,7 +158,7 @@ function OTP() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        <font color="red"> {errorMessageforEmail}</font>
+        {errorMessageforEmail}
       </p>
 
       {/* <InputLabel required sx={{ ml: 10  }} className="label"><b>Email</b></InputLabel> */}
@@ -170,16 +171,12 @@ function OTP() {
         value={otp}
         onChange={changesInputValues}
       />
-      <p style={{ color: "Red", textAlign: "center" }}>
-        <font color="red">{errorMessageforOTP}</font>
-      </p>
-      <p style={{ color: "Blue", textAlign: "center" }}>
-        <font color="red">{sendresponse}</font>
-      </p>
+      <p style={{ color: "Red", textAlign: "center" }}>{errorMessageforOTP}</p>
+      <p style={{ color: "Blue", textAlign: "center" }}>{sendresponse}</p>
       <Button
         variant="contained"
         sx={{
-          ml: 10,
+          ml: 11,
           mr: 2,
           background: primaryColor,
           textTransform: "none",
@@ -189,6 +186,7 @@ function OTP() {
           },
         }}
         disabled={submitted || errorMessageforOTP}
+        className="button"
         onClick={submit}
       >
         Verify
@@ -196,7 +194,6 @@ function OTP() {
       <Button
         variant="contained"
         sx={{
-          ml: 1,
           background: primaryColor,
           textTransform: "none",
           height: "2.5rem",
@@ -204,6 +201,7 @@ function OTP() {
             backgroundColor: selectedColor,
           },
         }}
+        className="button"
         onClick={send}
       >
         Send

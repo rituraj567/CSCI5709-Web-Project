@@ -82,6 +82,7 @@ function Reset() {
       password: password,
       confirmpassword: confirmPassword,
     };
+    console.log(data);
     axios
       .post(process.env.REACT_APP_BACKEND_SERVER + "/user/reset", data)
       .then((response) => {
@@ -89,7 +90,7 @@ function Reset() {
         console.log(response);
         if (output.status) {
           setResponseMessage(output.message);
-          localStorage.setItem("isreset", false);
+
           navigate("/login");
         } else {
           setResponseMessage(output.message);
@@ -116,7 +117,7 @@ function Reset() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        <font color="red">{errorMessageforPassword}</font>
+        {errorMessageforPassword}
       </p>
       <TextField
         label="Confirm Password"
@@ -128,7 +129,7 @@ function Reset() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        <font color="red"> {errorMessageforConfirmPassword}</font>
+        {errorMessageforConfirmPassword}
       </p>
       <Button
         variant="contained"
@@ -145,6 +146,7 @@ function Reset() {
         disabled={
           submitted || errorMessageforPassword || errorMessageforConfirmPassword
         }
+        className="button"
         onClick={submit}
       >
         Submit

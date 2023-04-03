@@ -324,7 +324,7 @@ function Account() {
               <br></br>
 
               <p style={{ color: "Red", textAlign: "center" }}>
-                <font color="red"> {errorMessageforFirstName}</font>
+                {errorMessageforFirstName}
               </p>
 
               <TextField
@@ -338,7 +338,7 @@ function Account() {
                 onChange={changesInputValuesforpersonal}
               />
               <p style={{ color: "Red", textAlign: "center" }}>
-                <font color="red">{errorMessageforLastName}</font>
+                {errorMessageforLastName}
               </p>
 
               <Button
@@ -404,7 +404,7 @@ function Account() {
               />
               <br></br>
               <p style={{ color: "Red", textAlign: "center" }}>
-                <font color="red">{errorMessageforAddress1}</font>
+                {errorMessageforAddress1}
               </p>
 
               <TextField
@@ -428,7 +428,7 @@ function Account() {
                 onChange={changeInputValuesforAddress}
               />
               <p style={{ color: "Red", textAlign: "center" }}>
-                <font color="red">{errorMessageforCity}</font>
+                {errorMessageforCity}
               </p>
               <TextField
                 required
@@ -441,7 +441,7 @@ function Account() {
                 onChange={changeInputValuesforAddress}
               />
               <p style={{ color: "Red", textAlign: "center" }}>
-                <font color="red">{errorMessageforProvince}</font>
+                {errorMessageforProvince}
               </p>
               <TextField
                 required
@@ -454,7 +454,7 @@ function Account() {
                 onChange={changeInputValuesforAddress}
               />
               <p style={{ color: "Red", textAlign: "center" }}>
-                <font color="red">{errorMessageforPostalCode}</font>
+                {errorMessageforPostalCode}
               </p>
               <Button
                 sx={{

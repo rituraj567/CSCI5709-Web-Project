@@ -11,9 +11,9 @@ function SellerNavbar() {
   const navigate=useNavigate();
 
   const logout=()=>{
-    const token=localStorage.getItem("Token");
-    if(token){
-      localStorage.removeItem("Token");
+    const isUserLoggedIn=localStorage.getItem("isUserLoggedIn");
+    if(isUserLoggedIn){
+      localStorage.setItem("isUserLoggedIn",false);
       navigate("/");
     }
   }

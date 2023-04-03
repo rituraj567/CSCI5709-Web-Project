@@ -9,7 +9,7 @@ import ErrorPage from "../components/ErrorPage";
 const HomePage = () => {
   return (
     <Box>
-      {localStorage.getItem("Token") ? (
+      {localStorage.getItem("isUserLoggedIn") ? (
         <Box>
           <Header />
           <Divider />

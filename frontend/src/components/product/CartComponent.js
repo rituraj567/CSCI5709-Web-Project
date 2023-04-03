@@ -3,108 +3,120 @@ import Button from "@mui/material/Button";
 import { Row } from "react-bootstrap";
 import Products from "./Products.json";
 import { CardComponent } from "./CardComponent";
-import {
-  AddCircleOutlineOutlined,
-  RemoveCircleOutlined,
-} from "@mui/icons-material";
-import axios from "axios";
 
-export default function CartComponent({ product, userId }) {
+export default function CartComponent({ product }) {
   const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
- 
+  console.log(product);
   const [totalCartCost, setTotalCartCost] = useState(0);
   const [totalCartItems, setTotalCartItems] = useState(0);
-  const [removeError, setRemoveError] = useState();
+
   useEffect(() => {
-    getCartItems();
-  }, []);
+    handleTotalCostOfCart();
+  }, [cartItems]);
 
-  const getCartItems = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER}/cart/${userId}`
+  const handleAddProductsToCart = (item) => {
+    const existingCartItem = cartItems.find(
+      (cartItem) => cartItem.id === item.id
     );
-  
-    setCartItems(response.data.cartItems);
-    setTotalCartCost(Number(response.data.totalCost).toFixed(2));
-    setTotalCartItems(Number(response.data.totalQuantity).toFixed(2));
-  };
-
-  const handleCartProcess = async () => {
-    const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_SERVER}/cart/`,
-      {
-        userId,
-        productId: product.productId,
-        name: product.name,
-        description: product.description,
-        price: product.price,
-        averageRating: product.averageRating,
-        totalRating: product.totalRating,
-        category: product.category,
-        quantity: 1,
-        imageThumbnailUrl: product.imageThumbnailUrl,
-      }
-    );
-    const cartItems = response.data.cartItems;
-    setTotalCartCost(Number(response.data.totalCost).toFixed(2));
-    setTotalCartItems(response.data.totalQuantity);
-    setCartVisible(true);
-    setCartItems(cartItems);
-    setRemoveError("");
-  };
-
-  const handleRemoveCartProcess = async () => {
-    const itemExists = cartItems.find(
-      (item) => item.productId === product.productId
-    );
-    if (itemExists) {
-      const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_SERVER}/cart/${userId}/${product.productId}`
+    if (existingCartItem) {
+      setCartItems((prevCartItems) =>
+        prevCartItems.map((cartItem) =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        )
       );
-
-      const cartItems = response.data.cartItems;
-      setTotalCartCost(response.data.totalCost);
-      setTotalCartItems(response.data.totalQuantity);
-      setCartItems(cartItems);
     } else {
-      setRemoveError("Item doesn't exist in the cart, cannot remove");
+      setCartItems((prevCartItems) => [
+        ...prevCartItems,
+        { ...item, quantity: 1 },
+      ]);
     }
+  };
+
+  const handleRemoveProductsFromCart = (cartItemToRemove) => {
+    const existingCartItem = cartItems.find(
+      (cartItem) => cartItem.id === cartItemToRemove.id
+    );
+    if (existingCartItem) {
+      if (existingCartItem.quantity === 1) {
+        setCartItems((prevCartItems) =>
+          prevCartItems.filter(
+            (cartItem) => cartItem.id !== cartItemToRemove.id
+          )
+        );
+      } else {
+        setCartItems((prevCartItems) =>
+          prevCartItems.map((cartItem) =>
+            cartItem.id === cartItemToRemove.id
+              ? { ...cartItem, quantity: cartItem.quantity - 1 }
+              : cartItem
+          )
+        );
+      }
+    }
+  };
+
+  const handleTotalCostOfCart = () => {
+    let sum = 0;
+    let items = 0;
+    cartItems.map((cartItem) => {
+      sum += cartItem.price * cartItem.quantity;
+      items += cartItem.quantity;
+    });
+
+    setTotalCartCost(sum);
+    setTotalCartItems(items);
+  };
+
+  const handleCartProcess = () => {
+    handleAddProductsToCart(product);
+    handleTotalCostOfCart();
+    setCartVisible(true);
+  };
+
+  const handleRemoveCartProcess = () => {
+    handleRemoveProductsFromCart(product);
+    handleTotalCostOfCart();
   };
 
   return (
     <div>
       <div className="add-cart">
         <Row>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <AddCircleOutlineOutlined
-              sx={{
-                color: "#2ecc71",
-                marginTop: "-1rem",
-                cursor: "pointer",
-                marginRight: "1rem",
-              }}
-              onClick={() => handleCartProcess()}
-            />
-            <RemoveCircleOutlined
-              sx={{
-                color: "#d90429",
-                marginTop: "-1rem",
-                cursor: "pointer",
-              }}
-              onClick={() => handleRemoveCartProcess()}
-            />
+          <div className="d-grid">
+            <Button
+              variant="contained"
+              size="large"
+              className="button"
+              sx={{ mb: 3, minWidth: "100%", backgroundColor: "#d90429" }}
+              onClick={handleCartProcess}
+            >
+              Add to Cart
+            </Button>
+
+            {cartVisible ? (
+              <Button
+                variant="contained"
+                size="large"
+                className="button-black"
+                sx={{ mt: 3, minWidth: "100%" }}
+                onClick={handleRemoveCartProcess}
+              >
+                Remove From Cart
+              </Button>
+            ) : null}
           </div>
         </Row>
         <Row className="mt-5">
-          <div>
-            <p style={{ marginBottom: "1rem" }}>{removeError}</p>
+          {cartVisible ? (
             <CardComponent
               totalCost={totalCartCost}
               totalItems={totalCartItems}
               cartItems={cartItems}
             />
-          </div>
+          ) : null}
         </Row>
       </div>
     </div>

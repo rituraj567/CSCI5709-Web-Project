@@ -4,7 +4,7 @@ const encryptPassword = require("../../utils/passwordEncryptDecrypt");
 const User = require("./User");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
-const Seller = require("./Seller");
+const Seller = require("../SellerManagement/Seller");
 require("dotenv").config();
 
 exports.userRegistration = async (UserReq) => {

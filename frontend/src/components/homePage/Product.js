@@ -10,29 +10,14 @@ const Product = (props) => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";
   const navigate = useNavigate();
-  const {
-    _id,
-    name,
-    imageThumbnailUrl,
-    price,
-    description,
-    category,
-    totalRating,
-    averageRating,
-    quantity,
-  } = props.productData;
+  const { id, title, image, price, description, category, rating } =
+    props.productData;
 
   const handleProductClick = () => {
-    navigate("/product", {
-      replace: false,
-      state: {
-        product: props.productData,
-      },
-    });
+    navigate("/product");
   };
   return (
     <Box
-      onClick={handleProductClick}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -61,16 +46,17 @@ const Product = (props) => {
         >
           <LazyLoadImage
             onClick={handleProductClick}
-            src={imageThumbnailUrl}
+            src={image}
             width={"100%"}
             style={{ maxWidth: "100%", cursor: "pointer" }}
             height={"100%"}
-            alt={name}
+            alt={title}
           />
         </Box>
       </Box>
       <Typography
         component={Link}
+        to={"/product"}
         sx={{
           fontWeight: "bold",
           textDecoration: "none",
@@ -78,7 +64,7 @@ const Product = (props) => {
           "&:hover": { color: selectedColor },
         }}
       >
-        {name.length < 80 ? name : name.substr(0, 80) + "..."}
+        {title.length < 80 ? title : title.substr(0, 80) + "..."}
       </Typography>
       <Box
         sx={{
@@ -97,17 +83,17 @@ const Product = (props) => {
             alignItems: "center",
           }}
         >
-          <Typography>{averageRating}</Typography>
+          <Typography>{rating.rate}</Typography>
           <Stack sx={{ paddingRight: "0.2rem" }} spacing={1}>
             <Rating
               name="half-rating-read"
-              value={averageRating}
+              value={rating.rate}
               precision={0.5}
               readOnly
               size="small"
             />
           </Stack>
-          <Typography>({totalRating})</Typography>
+          <Typography>({rating.count})</Typography>
         </Box>
         <Box sx={{ display: "flex", justifySelf: "flex-start" }}>
           <IconButton

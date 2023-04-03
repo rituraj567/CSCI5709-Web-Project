@@ -9,7 +9,7 @@ import ErrorPage from "../components/ErrorPage";
 function SellerDashboard() {
   return (
     <div>
-      {localStorage.getItem("Token") ? (
+      {localStorage.getItem("isUserLoggedIn") ? (
         <div>
           <SellerNavbar />
           <div className="dashboard">

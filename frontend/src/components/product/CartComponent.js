@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Button from "@mui/material/Button";
+import Button from '@mui/material/Button';
 import { Row } from "react-bootstrap";
 import Products from "./Products.json";
 import { CardComponent } from "./CardComponent";
 
-export default function CartComponent({ product }) {
+export default function CartComponent({product}) {
   const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  console.log(product);
+console.log(product)
   const [totalCartCost, setTotalCartCost] = useState(0);
   const [totalCartItems, setTotalCartItems] = useState(0);
 
@@ -70,17 +70,6 @@ export default function CartComponent({ product }) {
     setTotalCartItems(items);
   };
 
-  const handleCartProcess = () => {
-    handleAddProductsToCart(product);
-    handleTotalCostOfCart();
-    setCartVisible(true);
-  };
-
-  const handleRemoveCartProcess = () => {
-    handleRemoveProductsFromCart(product);
-    handleTotalCostOfCart();
-  };
-
   return (
     <div>
       <div className="add-cart">
@@ -90,8 +79,12 @@ export default function CartComponent({ product }) {
               variant="contained"
               size="large"
               className="button"
-              sx={{ mb: 3, minWidth: "100%", backgroundColor: "#d90429" }}
-              onClick={handleCartProcess}
+              sx={{ mb: 3,minWidth:'100%', backgroundColor: '#d90429' }}
+              onClick={() => {
+                handleAddProductsToCart(product);
+                handleTotalCostOfCart();
+                setCartVisible(true);
+              }}
             >
               Add to Cart
             </Button>
@@ -99,10 +92,14 @@ export default function CartComponent({ product }) {
             {cartVisible ? (
               <Button
                 variant="contained"
+
                 size="large"
                 className="button-black"
-                sx={{ mt: 3, minWidth: "100%" }}
-                onClick={handleRemoveCartProcess}
+                sx={{ mt: 3,minWidth:'100%' }}
+                onClick={() => {
+                  handleRemoveProductsFromCart(product);
+                  handleTotalCostOfCart();
+                }}
               >
                 Remove From Cart
               </Button>

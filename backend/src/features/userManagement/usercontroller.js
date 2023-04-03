@@ -71,6 +71,7 @@ exports.userLogin = async (UserReq) => {
           responseStatus: true,
           responseMessage: "User is successfully logged in!",
           responseToken: token,
+          userId: userdb.id,
         };
       } else {
         return (response = {

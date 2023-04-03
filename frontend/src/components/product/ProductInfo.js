@@ -5,6 +5,7 @@ import CartComponent from "./CartComponent";
 import { Rating } from "@mui/material";
 import { AttachMoney } from "@mui/icons-material";
 function ProductInfo({ product }) {
+  const userId = localStorage.getItem("UserId");
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={4}>
@@ -21,14 +22,22 @@ function ProductInfo({ product }) {
           <Grid container spacing={3}>
             <Grid item xs={6} md={4}>
               <div className="icon-div">
-              <Rating name="rating" value={Math.round(product?.averageRating)} precision={0.5} readOnly />
-          
+                <Rating
+                  name="rating"
+                  value={Math.round(product?.averageRating)}
+                  precision={0.5}
+                  readOnly
+                />
               </div>
             </Grid>
             <Grid item xs={6} md={8}>
               <div className="icon-div">
-              <AttachMoney className="icon-styles" color="green" sx={{marginLeft:'30px'}}/> 
-                <p sx={{marginTop: '5px'}}>{product?.price}</p>
+                <AttachMoney
+                  className="icon-styles"
+                  color="green"
+                  sx={{ marginLeft: "30px" }}
+                />
+                <p sx={{ marginTop: "5px" }}>{product?.price}</p>
               </div>
             </Grid>
           </Grid>
@@ -39,11 +48,10 @@ function ProductInfo({ product }) {
         </div>
       </Grid>
       <Grid item xs={12} md={4}>
-        <CartComponent product={product}/>
+        <CartComponent product={product} userId={userId} />
       </Grid>
     </Grid>
   );
 }
 
 export default ProductInfo;
-

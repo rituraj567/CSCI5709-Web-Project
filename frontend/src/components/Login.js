@@ -84,10 +84,12 @@ function Login() {
       .post(process.env.REACT_APP_BACKEND_SERVER + "/user/login", data)
       .then((response) => {
         const output = response.data;
+        console.log("output", output);
         const token = output.token;
 
         if (output.status) {
           localStorage.setItem("Token", token);
+          localStorage.setItem("UserId", output.userId);
           setResponseMessage(output.message);
           if (output.userType == "Buyer") {
             navigate("/home");

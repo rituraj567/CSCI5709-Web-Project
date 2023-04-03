@@ -1,28 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Container from "react-bootstrap/Container";
-import { NavBar } from "../components/product/NavBar";
-import Header from "../components/Header";
-import Products from "../components/product/Products.json";
-import ProductInfo from "../components/product/ProductInfo";
-import { QuestionAnswers } from "../components/product/QuestionAnswers";
-import { Ratings } from "../components/product/Ratings";
-import { UserReviews } from "../components/product/UserReviews";
+import { useLocation } from "react-router-dom";
+import "../components/cart/ViewCart.css";
 import ErrorPage from "../components/ErrorPage";
-import '../components/cart/ViewCart.css'
-import axios from "axios"
+import Header from "../components/Header";
+import ProductInfo from "../components/product/ProductInfo";
+import { Ratings } from "../components/product/Ratings";
 
 export default function ProductPageDetails() {
-  const [products, setProducts] = useState([]);
+  const { state } = useLocation();
 
-  const fetchProducts = async() => {
-    const products = await axios.get("http://localhost:5000/products/");
-    console.log("Products",products)
-    setProducts(products.data);
-  }
-
-  useEffect(()=>{
-    fetchProducts();
-  },[]);
+  const product = state.product;
 
   return (
     <div>
@@ -30,13 +18,12 @@ export default function ProductPageDetails() {
         <div>
           <Header />
           <Container className="margin-top">
-           
-{products.length > 0 ? ( <div><ProductInfo product={ products[0]} />
- <Ratings product={products.length>0 && products[0]}/>
- <UserReviews product={products[0]}  /></div>
-):null}
-
-          
+            {product ? (
+              <div>
+                <ProductInfo product={product} />
+                <Ratings product={product} />
+              </div>
+            ) : null}
           </Container>
         </div>
       ) : (

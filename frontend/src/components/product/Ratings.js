@@ -13,6 +13,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 export function Ratings({ product }) {
   const [reviews, setRatings] = useState();
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
   const { ratingsData } = product;
   const [ratingsCount, setRatingsCount] = useState({
     5: 0,
@@ -40,7 +42,6 @@ export function Ratings({ product }) {
         }
       );
 
-      console.log(response.data);
       handleClose();
     } catch (error) {
       console.log(error);
@@ -50,11 +51,10 @@ export function Ratings({ product }) {
 
   const fetchRatings = async () => {
     try {
-      console.log("id", product.productId);
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_SERVER}/products/${product.productId}/ratings`
       );
-      console.log("ratings", response.data);
+
       setRatings(response.data);
       const count = {
         5: 0,
@@ -74,6 +74,31 @@ export function Ratings({ product }) {
 
   useEffect(() => {
     fetchRatings();
+    const token = localStorage.getItem("Token");
+
+    const headers = {
+      Authorization: token,
+    };
+
+    axios
+      .get(
+        process.env.REACT_APP_BACKEND_SERVER +
+          "/account/getuserfirstandlastName",
+        {
+          headers: headers,
+        }
+      )
+      .then((response) => {
+        const output = response.data;
+
+        if (output.responseStatus) {
+          setFirstName(output.responseData.firstname);
+          setLastName(output.responseData.lastname);
+        }
+      })
+      .catch((response) => {
+        console.log("response" + response);
+      });
   }, []);
 
   return (
@@ -90,7 +115,7 @@ export function Ratings({ product }) {
                   <Button
                     variant="contained"
                     className="button-black"
-                    sx={{ mt: 3, minWidth: "100%" }}
+                    sx={{ mt: 3, width: "100%" }}
                     onClick={handleShow}
                   >
                     Add Rating
@@ -239,7 +264,7 @@ export function Ratings({ product }) {
 
           {reviews?.length > 0 &&
             reviews.map((review) => (
-              <div key={review.id } style={{ marginBottom: "1rem" }}>
+              <div key={review.id} style={{ marginBottom: "1rem" }}>
                 <div
                   style={{
                     display: "flex",
@@ -257,12 +282,6 @@ export function Ratings({ product }) {
                   {review.comment}
                 </Typography>
                 <div style={{ display: "flex" }}>
-                  <Typography
-                    variant="body2"
-                    style={{ marginRight: "4px", fontWeight: "bold" }}
-                  >
-                    {"Raj"}
-                  </Typography>
                   <Typography variant="body2"></Typography>
                 </div>
               </div>

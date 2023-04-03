@@ -9,12 +9,10 @@ export function UserReviews({ product }) {
   const [reviews, setRatings] = useState();
   const fetchRatings = async () => {
     try {
-      console.log("id", product.productId);
-      console.log("env", process.env.REACT_APP_BACKEND_SERVER);
       const response = await axios.get(
         `${process.env.REACT_APP_BACKEND_SERVER}/products/${product.productId}/ratings`
       );
-      console.log("ratings", response.data);
+
       setRatings(response.data);
     } catch (error) {
       console.log(error);

@@ -30,7 +30,14 @@ export function CardComponent(props) {
               className="button-black"
               sx={{minWidth:'100%', color: '#fff'}}
               onClick={() =>
-                navigate("/cart")
+                navigate("/cart", {
+                  replace: false,
+                  state: {
+                    cartItems: props.cartItems,
+                    totalCost: props.totalCost,
+                    totalItems: props.totalItems,
+                  },
+                })
               }
             >
               View Cart

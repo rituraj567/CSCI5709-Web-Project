@@ -56,9 +56,9 @@ const Header = () => {
   const totalItems = 1;
 
   const logout = () => {
-    const token = localStorage.getItem("Token");
-    if (token) {
-      localStorage.removeItem("Token");
+    const isUserLoggedIn = localStorage.getItem("isUserLoggedIn");
+    if (isUserLoggedIn) {
+      localStorage.removeItem("isUserLoggedIn");
       navigate("/");
     }
   };

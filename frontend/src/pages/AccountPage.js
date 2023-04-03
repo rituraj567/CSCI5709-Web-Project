@@ -4,7 +4,7 @@ import ErrorPage from "../components/ErrorPage";
 function AccoutPage() {
   return (
     <div>
-      {localStorage.getItem("Token") ? (
+      {localStorage.getItem("isUserLoggedIn") ? (
         <div>
           <Account />
         </div>

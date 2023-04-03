@@ -153,7 +153,7 @@ function Registration() {
       <h2 style={{ textAlign: "center" }}>Register User</h2>
 
       <Radio
-        sx={{ ml: 13, mb: 1 }}
+        sx={{ ml: 9, mb: 1 }}
         type="radio"
         name="userType"
         value="Buyer"
@@ -164,7 +164,7 @@ function Registration() {
       <label htmlFor="Buyer">Buyer</label>
 
       <Radio
-        sx={{ ml: 3, mb: 1 }}
+        sx={{ ml: 1, mb: 1 }}
         type="radio"
         name="userType"
         value="Seller"
@@ -179,7 +179,7 @@ function Registration() {
       <TextField
         required
         label="First Name"
-        sx={{ ml: 12 }}
+        sx={{ ml: 9 }}
         size="small"
         type="text"
         name="firstName"
@@ -188,14 +188,15 @@ function Registration() {
       />
       <br></br>
       <p style={{ color: "Red", textAlign: "center" }}>
-        {errorMessageforFirstName}
+        {" "}
+        <font color="red">{errorMessageforFirstName}</font>
       </p>
 
       {/* <InputLabel required sx={{ ml: 10  }} className="label"><b>Last Name</b></InputLabel> */}
       <TextField
         required
         label="Last Name"
-        sx={{ ml: 12 }}
+        sx={{ ml: 9 }}
         size="small"
         type="text"
         name="lastName"
@@ -203,14 +204,14 @@ function Registration() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        {errorMessageforLastName}
+        <font color="red">{errorMessageforLastName}</font>
       </p>
 
       {/* <InputLabel  required sx={{ ml: 10  }} className="label"><b>Email</b></InputLabel> */}
       <TextField
         required
         label="Email Address"
-        sx={{ ml: 12 }}
+        sx={{ ml: 9 }}
         size="small"
         type="text"
         name="email"
@@ -218,14 +219,14 @@ function Registration() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        {errorMessageforEmail}
+        <font color="red">{errorMessageforEmail}</font>
       </p>
 
       {/* <InputLabel  required sx={{ ml: 10  }} className="label"><b>Password</b></InputLabel> */}
       <TextField
         required
         label="Password"
-        sx={{ ml: 12 }}
+        sx={{ ml: 9 }}
         size="small"
         type="password"
         name="password"
@@ -233,14 +234,14 @@ function Registration() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        {errorMessageforPassword}
+        <font color="red">{errorMessageforPassword}</font>
       </p>
 
       {/* <InputLabel  required sx={{ ml: 10  }} className="label"><b>Confirm Password</b></InputLabel> */}
       <TextField
         required
         label="Confirm Password"
-        sx={{ ml: 12 }}
+        sx={{ ml: 9 }}
         size="small"
         type="password"
         name="confirmpassword"
@@ -248,13 +249,13 @@ function Registration() {
         onChange={changesInputValues}
       />
       <p style={{ color: "Red", textAlign: "center" }}>
-        {errorMessageforConfirmPassword}
+        <font color="red">{errorMessageforConfirmPassword}</font>
       </p>
 
       <Button
         variant="contained"
         sx={{
-          ml: 20,
+          ml: 16,
           mb: 2,
           mr: 20,
           background: primaryColor,
@@ -271,7 +272,6 @@ function Registration() {
           errorMessageforLastName ||
           errorMessageforFirstName
         }
-        className="button"
         onClick={submit}
       >
         Submit

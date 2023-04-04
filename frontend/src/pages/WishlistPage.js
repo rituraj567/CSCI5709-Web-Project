@@ -1,19 +1,17 @@
 import { Box } from "@mui/material";
 import React from "react";
 import Divider from "@mui/material/Divider";
-import Category from "../components/homePage/Category";
-import ProductsPage from "../components/homePage/ProductsPage";
+import Wishlist from "../components/wishlist/Wishlist";
 import Header from "../components/Header";
 import ErrorPage from "../components/ErrorPage";
-const HomePage = () => {
+const WishlistPage = () => {
   return (
     <Box>
-      {localStorage.getItem("Token") ? (
+      {localStorage.getItem("isUserLoggedIn") ? (
         <Box>
           <Header />
           <Divider />
-          <Category />
-          <ProductsPage />
+          <Wishlist />
         </Box>
       ) : (
         <ErrorPage />
@@ -22,4 +20,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default WishlistPage;

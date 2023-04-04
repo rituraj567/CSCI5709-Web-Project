@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { useTable } from "react-table";
+import axios from "axios";
 import {
   Button,
   Dialog,
@@ -19,7 +20,7 @@ const OrderDetails = () => {
   const [open, setOpen] = useState(false);
   const [orderName, setOrderName] = useState();
   const [orderNumber, setOrderNumber] = useState();
-  const [deliveryDate, setDeliveryDate] = useState();
+  const [orderDate, setOrderDate] = useState();
   const [amount, setAmount] = useState();
   const [address1, setAddress1] = useState();
   const [address2, setAddress2] = useState();
@@ -33,9 +34,14 @@ const OrderDetails = () => {
   const viewOrderDetails = (row) => {
     setPhoto(row.photo);
     setAmount(row.Amount);
-    setDeliveryDate(row.deliveryDate);
+    setOrderDate(row.orderDate);
     setOrderName(row.orderName);
     setOrderNumber(row.orderNumber);
+    setAddress1(row.address1);
+    setAddress2(row.address2);
+    setCity(row.city);
+    setPostalCode(row.pincode);
+    setProvince(row.province);
 
     setOpen(true);
   };
@@ -44,49 +50,32 @@ const OrderDetails = () => {
     setOpen(false);
   };
 
-  const getAddress = () => {
-    try {
-      const response = {
-        data: {
-          address1: "2230",
-          address2: "Windsor Street",
-          city: "Halifax",
-          province: "Nova Scotia",
-          postalcode: "BJ7 4G9",
-        },
-      };
-      setAddress1(response.data.address1);
-      setAddress2(response.data.address2);
-      setCity(response.data.city);
-      setPostalCode(response.data.postalcode);
-      setProvince(response.data.province);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const getOrderDetails = () => {
     try {
-      // const response=await axios.get("url");
-      const response = {
-        data: [
-          {
-            photo: iphone,
-            orderNumber: "5637321",
-            orderName: "Iphone 14 Pro",
-            deliveryDate: "12 Feb 2023",
-            Amount: "1778.67",
-          },
-          {
-            photo: sony,
-            orderNumber: "6231232",
-            orderName: "Sony WH-CH710N",
-            deliveryDate: "12 Jan 2023",
-            Amount: "285.67",
-          },
-        ],
+      const token = localStorage.getItem("Token");
+      console.log("token" + token);
+
+      const headers = {
+        Authorization: token,
       };
-      setOrders(response.data);
+
+      axios
+        .get(
+          process.env.REACT_APP_BACKEND_SERVER + "/account/getOrderDetails",
+          {
+            headers: headers,
+          }
+        )
+        .then((response) => {
+          const output = response.data;
+
+          if (output.responseStatus) {
+            setOrders(output.responseData);
+          }
+        })
+        .catch((response) => {
+          console.log("response" + response);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -106,8 +95,8 @@ const OrderDetails = () => {
       selector: (row) => row.orderNumber,
     },
     {
-      name: "Delivery Date",
-      selector: (row) => row.deliveryDate,
+      name: "Order Date",
+      selector: (row) => row.orderDate,
     },
     {
       name: "Amount",
@@ -136,7 +125,6 @@ const OrderDetails = () => {
 
   useEffect(() => {
     getOrderDetails();
-    getAddress();
   }, []);
 
   return (
@@ -162,7 +150,7 @@ const OrderDetails = () => {
               <b>Order Number:</b> {orderNumber}
             </InputLabel>
             <InputLabel>
-              <b>Delivery Date:</b> {deliveryDate}
+              <b>Delivery Date:</b> {orderDate}
             </InputLabel>
             <InputLabel>
               <b>Amount:</b> {amount}

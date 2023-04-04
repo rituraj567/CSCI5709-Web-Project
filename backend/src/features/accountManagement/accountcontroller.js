@@ -2,6 +2,8 @@ const encryptPassword = require("../../utils/passwordEncryptDecrypt");
 const bcrypt = require("bcryptjs");
 const User = require("../userManagement/User");
 const Address = require("./Address");
+const Order = require("../payment/Order");
+const Product = require("../product/model");
 
 const { json } = require("express");
 
@@ -234,5 +236,47 @@ exports.updateAddress = async (addressReq, userId) => {
     };
   }
 
+  return response;
+};
+
+exports.getOrderDetails = async (userId) => {
+  ListofOrder = [];
+  let response = {};
+  try {
+    let orderList = await Order.find({ userid: userId });
+
+    for (var order of orderList) {
+      const product = await Product.findOne({ _id: order.productid });
+
+      const orderdetails = {
+        photo: product.images[0].imageUrl,
+        orderNumber: order.id,
+        orderName: product.name,
+        orderDate: order.date,
+        Amount: order.amount,
+      };
+
+      for (var address of order.address) {
+        orderdetails.address1 = address.address1;
+        orderdetails.address2 = address.address2;
+        orderdetails.city = address.city;
+        orderdetails.province = address.province;
+        orderdetails.pincode = address.pincode;
+        ListofOrder.push(orderdetails);
+      }
+    }
+    console.log(ListofOrder);
+    response = {
+      responseStatus: true,
+      responseMessage: "order is successfully fetched!",
+      responseData: ListofOrder,
+    };
+  } catch (error) {
+    console.log(error);
+    response = {
+      responseStatus: false,
+      responseMessage: "Something went wrong!",
+    };
+  }
   return response;
 };

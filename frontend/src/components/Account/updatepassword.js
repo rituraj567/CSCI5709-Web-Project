@@ -99,7 +99,7 @@ function UpdatePassword() {
       newpassword: newpassword,
       confirmpassword: confirmPassword,
     };
-
+    // post call to update the password
     axios
       .post(
         process.env.REACT_APP_BACKEND_SERVER + "/account/updatepassword",

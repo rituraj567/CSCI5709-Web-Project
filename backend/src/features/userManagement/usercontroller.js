@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer");
 const Seller = require("../SellerManagement/Seller");
 require("dotenv").config();
 
+//  user registration
 exports.userRegistration = async (UserReq) => {
   let response = {};
   try {
@@ -22,10 +23,8 @@ exports.userRegistration = async (UserReq) => {
           "User is already exists please try with other email Id!",
       });
     }
-    console.log("userdb" + userdb);
 
     const bcryptPassword = await encryptPassword(UserReq.password);
-    console.log("bcrypt:" + bcryptPassword);
 
     userdb = await User.create({
       email: UserReq.email,
@@ -49,6 +48,7 @@ exports.userRegistration = async (UserReq) => {
 
   return response;
 };
+// user login
 exports.userLogin = async (UserReq) => {
   let response = {};
   try {
@@ -61,12 +61,11 @@ exports.userLogin = async (UserReq) => {
         userdb.password
       );
       if (passwordcheck) {
-        console.log(userdb._id);
         const user = {
           id: userdb.id,
         };
         const token = getAuthenticationToken(user);
-        console.log(token);
+
         response = {
           responseStatus: true,
           responseMessage: "User is successfully logged in!",
@@ -94,7 +93,7 @@ exports.userLogin = async (UserReq) => {
 
   return response;
 };
-
+// get otp code to reset the password
 exports.sendOTP = async (req) => {
   let response = {};
   try {
@@ -109,8 +108,6 @@ exports.sendOTP = async (req) => {
         pass: process.env.USERPASSWORD,
       },
     });
-    // console.log(process.env.USEREMAIL)
-    // console.log(process.env.USERPASSWORD)
 
     const maildetails = {
       from: process.env.USEREMAIL,
@@ -118,7 +115,7 @@ exports.sendOTP = async (req) => {
       subject: "Forget Password",
       text: "Your one time password to recover your account is " + otp,
     };
-    console.log(maildetails);
+
     transport.sendMail(maildetails, function (err, info) {
       if (err) {
         console.log(err);
@@ -141,7 +138,7 @@ exports.sendOTP = async (req) => {
 
   return response;
 };
-
+// password recovery code
 exports.recoverpasswordforUser = async (UserReq) => {
   let response = {};
   try {
@@ -155,8 +152,6 @@ exports.recoverpasswordforUser = async (UserReq) => {
     let userdb = await User.findOne({
       email: UserReq.email,
     });
-    console.log("userdb" + userdb);
-    console.log("userreq" + JSON.stringify(UserReq));
 
     if (userdb) {
       const bcryptPassword = await encryptPassword(UserReq.password);

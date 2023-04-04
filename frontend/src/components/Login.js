@@ -79,7 +79,7 @@ function Login() {
       email: email,
       password: password,
     };
-
+    //post api call to login the user
     axios
       .post(process.env.REACT_APP_BACKEND_SERVER + "/user/login", data)
       .then((response) => {

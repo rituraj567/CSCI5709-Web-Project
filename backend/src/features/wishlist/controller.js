@@ -33,12 +33,18 @@ exports.addToWishlist = async (req, res) => {
     console.log(req.user.id);
     const id = req.user.id;
     const product = req.body.product;
-    const wishlist = await Wishlist.updateOne(
-      { userId: id },
-      { $push: { products: product } },
-      { new: true }
-    );
-    res.json(wishlist);
+    const userExists = await Wishlist.find({ userId: id });
+    if (userExists.length > 0) {
+      const wishlist = await Wishlist.findOneAndUpdate(
+        { userId: id },
+        { $push: { products: product } },
+        { new: true }
+      );
+      res.json(wishlist);
+    } else {
+      const wishlist = await Wishlist.create({ userId: id, products: product });
+      res.json(wishlist);
+    }
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");

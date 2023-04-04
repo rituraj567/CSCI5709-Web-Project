@@ -100,7 +100,7 @@ function OTP() {
       usertype: userType,
       email: email,
     };
-
+    // post call to get the otp
     axios
       .post(process.env.REACT_APP_BACKEND_SERVER + "/user/otp", data)
       .then((response) => {

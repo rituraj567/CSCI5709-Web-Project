@@ -53,12 +53,12 @@ const OrderDetails = () => {
   const getOrderDetails = () => {
     try {
       const token = localStorage.getItem("Token");
-      console.log("token" + token);
 
       const headers = {
         Authorization: token,
       };
 
+      //  get order history of the user
       axios
         .get(
           process.env.REACT_APP_BACKEND_SERVER + "/account/getOrderDetails",

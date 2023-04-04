@@ -17,7 +17,6 @@ const {
 
 router.post("/register", async (req, res) => {
   try {
-    console.log(req.body);
     const data = req.body;
     const userType = req.body.usertype;
     var response;
@@ -43,7 +42,6 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   try {
-    console.log(req.body);
     const data = req.body;
     const userType = req.body.usertype;
     var response;
@@ -69,7 +67,6 @@ router.post("/login", async (req, res) => {
 
 router.post("/otp", async (req, res) => {
   try {
-    console.log(req.body);
     const data = req.body;
     const userType = req.body.usertype;
     var response = await sendOTP(data);
@@ -90,7 +87,6 @@ router.post("/otp", async (req, res) => {
 
 router.post("/reset", async (req, res) => {
   try {
-    console.log(req.body);
     const data = req.body;
     const userType = req.body.usertype;
 

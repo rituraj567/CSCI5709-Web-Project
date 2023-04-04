@@ -6,7 +6,7 @@ const Order = require("../payment/Order");
 const Product = require("../product/model");
 
 const { json } = require("express");
-
+// to update the password of logged in user
 exports.UpdatePassword = async (UserReq, userId) => {
   let response = {};
   try {
@@ -21,10 +21,9 @@ exports.UpdatePassword = async (UserReq, userId) => {
     let userdb = await User.findOne({
       _id: userId,
     });
-    console.log("userdb" + userdb);
-    console.log("userreq" + JSON.stringify(UserReq));
+
     let passwordcheck = await bcrypt.compare(UserReq.password, userdb.password);
-    console.log(passwordcheck);
+
     if (!userdb || !passwordcheck) {
       return (response = {
         responseStatus: false,
@@ -56,7 +55,7 @@ exports.UpdatePassword = async (UserReq, userId) => {
 
   return response;
 };
-
+//fetch user first name and last name
 exports.getUserFirstandLastName = async (userId) => {
   let response = {};
   try {
@@ -91,13 +90,13 @@ exports.getUserFirstandLastName = async (userId) => {
   return response;
 };
 
+// update the user first and last name
 exports.updateUserFirstandLastName = async (UserReq, userId) => {
   let response = {};
   try {
     let userdb = await User.findOne({
       _id: userId,
     });
-    console.log(userdb);
     if (!userdb) {
       return (response = {
         responseStatus: false,
@@ -134,6 +133,7 @@ exports.updateUserFirstandLastName = async (UserReq, userId) => {
   return response;
 };
 
+// get user address  details
 exports.getUserAddress = async (userId) => {
   let response = {};
   try {
@@ -170,14 +170,14 @@ exports.getUserAddress = async (userId) => {
 
   return response;
 };
-
+// udate user addresss
 exports.updateAddress = async (addressReq, userId) => {
   let response = {};
   try {
     let addressdb = await Address.findOne({
       userid: userId,
     });
-    console.log("address " + JSON.stringify(addressReq));
+
     if (!addressdb) {
       addressdb = await Address.create({
         address1: addressReq.address1,
@@ -239,6 +239,7 @@ exports.updateAddress = async (addressReq, userId) => {
   return response;
 };
 
+// get the order history of the users
 exports.getOrderDetails = async (userId) => {
   ListofOrder = [];
   let response = {};
@@ -265,7 +266,7 @@ exports.getOrderDetails = async (userId) => {
         ListofOrder.push(orderdetails);
       }
     }
-    console.log(ListofOrder);
+
     response = {
       responseStatus: true,
       responseMessage: "order is successfully fetched!",

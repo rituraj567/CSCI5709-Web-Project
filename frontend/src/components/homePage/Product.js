@@ -61,7 +61,7 @@ const Product = (props) => {
     e.preventDefault();
     navigate(`/product`, {
       state: {
-        id: _id,
+        product: props.productData
       },
     });
   };

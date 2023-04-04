@@ -8,30 +8,34 @@ const cart = {
   totalcost: 234,
   cartitems: [
     {
-      productid: 1,
+      productid: "641f6e395ea9fc44419925fc",
       description:
         "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
     },
     {
-      productid: 3,
+      productid: "642ada738f7eec46837a32c4",
       description:
         "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
     },
   ],
 };
 
-exports.createAddress = async (data,userId) => {
+// method to create address
+exports.createAddress = async (data, userId) => {
   let response = {};
   try {
-    console.log(data.address1);
-    let addressdb = await Address.create({
-      address1: data.address1,
-      address2: data.address2,
-      city: data.city,
-      province: data.province,
-      pincode: data.pincode,
-      userid: userId
-    });
+    // console.log(data.address1);
+    let addressdb = await Address.find({ userid: userId });
+    if (!addressdb) {
+      addressdb = await Address.create({
+        address1: data.address1,
+        address2: data.address2,
+        city: data.city,
+        province: data.province,
+        pincode: data.pincode,
+        userid: userId,
+      });
+    }
 
     const address = {
       address1: addressdb.address1,
@@ -39,7 +43,7 @@ exports.createAddress = async (data,userId) => {
       city: addressdb.city,
       province: addressdb.province,
       pincode: addressdb.pincode,
-      userid: addressdb.userid
+      userid: addressdb.userid,
     };
 
     response = {
@@ -58,12 +62,12 @@ exports.createAddress = async (data,userId) => {
   return response;
 };
 
-exports.validatePayment = async (data,userId) => {
+exports.validatePayment = async (data, userId) => {
   let response = {};
   try {
-    console.log(data.source)
+    console.log(data.source);
     if (data.source === "Credit" || "Debit") {
-      let cardDb = await Card.find({ number: data.number });
+      let cardDb = await Card.find({ card: data.card });
       // console.log(cardDb);
       if (cardDb) {
         let transactionDb = await Transaction.create({
@@ -71,24 +75,25 @@ exports.validatePayment = async (data,userId) => {
           date: new Date(),
           type: "Debit",
           source: data.source,
-          userid: userId
+          userid: userId,
         });
         response = {
           responseStatus: true,
           responseMessage: "Transaction was success",
-          responseData: transactionDb
+          responseData: transactionDb,
+        };
+      } else {
+        response = {
+          responseStatus: false,
+          responseMessage: "Transaction failed",
         };
       }
-      response = {
-        responseStatus: false,
-        responseMessage: "Transaction failed",
-      };
     } else if (data.source == "Wallet") {
       let walletDb = await Wallet.find({ userId: userId });
       if (walletDb.balance == cart.totalcost) {
         response = {
           responseStatus: true,
-          responseMessage: "Transaction was success"
+          responseMessage: "Transaction was success",
         };
       }
     }
@@ -103,13 +108,13 @@ exports.validatePayment = async (data,userId) => {
   return response;
 };
 
-exports.createOrder = async (data) => {
+exports.createOrder = async (data, userId) => {
   let response = {};
   let orders = [];
   try {
-    let address = await Address.findOne({ userid: "6409093ba5740635248b516a"});
+    let address = await Address.findOne({ userid: userId });
     console.log(address);
-    console.log("Product id"+cart.cartitems[0].productid)
+    console.log("Product id" + cart.cartitems[0].productid);
     for (let i = 0; i < cart.cartitems.length; i++) {
       let order = await Order.create({
         productid: cart.cartitems[i].productid,
@@ -117,7 +122,7 @@ exports.createOrder = async (data) => {
         // sellerId: cart.cartitems.sellerId,
         amount: cart.totalcost,
         date: new Date(),
-        userid: "64095f7b1ad81d64ff9d4336",
+        userid: userId,
         address: [
           {
             address1: address.address1,

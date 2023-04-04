@@ -25,8 +25,9 @@ router.post("/transaction", authenticateUser, async(req,res)=>{
         const userId = req.user.id;
         console.log(userId)
         const paymentResponse= await validatePayment(data,userId)
+        console.log(paymentResponse)
         if(paymentResponse.responseStatus){
-            const response= await createOrder(data)
+            const response= await createOrder(data,userId)
             res.send(response)
         }
     } catch (error) {

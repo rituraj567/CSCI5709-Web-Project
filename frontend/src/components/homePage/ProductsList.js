@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Product from "./Product";
-import Grid from "@mui/material/Grid";
-
 // let productsList = [
 //   {
 //     id: 2,
@@ -194,7 +194,27 @@ import Grid from "@mui/material/Grid";
 //   },
 // ];
 
-const ProductsList = ({ productsList }) => {
+const ProductsList = () => {
+  const [productsList, setProducts] = useState();
+
+  const fetchProducts = async () => {
+    const token = localStorage.getItem("Token");
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_SERVER}/products`,
+      {
+        headers: { Authorization: token },
+      }
+    );
+    const products = response.data.products;
+  
+  
+    console.log("products", products);
+    setProducts(products);
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
   return (
     <Box
       sx={{
@@ -203,13 +223,14 @@ const ProductsList = ({ productsList }) => {
       }}
     >
       <Grid container spacing={3}>
-        {productsList.map((productData) => {
-          return (
-            <Grid key={productData._id} item xs={3}>
-              <Product key={productData._id} productData={productData} />
-            </Grid>
-          );
-        })}
+        {productsList?.length > 0 &&
+          productsList?.map((productData) => {
+            return (
+              <Grid key={productData._id} item xs={3}>
+                <Product key={productData._id} productData={productData} />
+              </Grid>
+            );
+          })}
       </Grid>
     </Box>
   );

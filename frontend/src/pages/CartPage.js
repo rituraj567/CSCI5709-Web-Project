@@ -1,12 +1,12 @@
 import React from "react";
 import { ViewCart } from "../components/cart/ViewCart";
-import Header from "../components/Header";
 import ErrorPage from "../components/ErrorPage";
+import Header from "../components/Header";
 
 const CartPage = () => {
   return (
     <div>
-      {localStorage.getItem("isUserLoggedIn") ? (
+      {localStorage.getItem("Token") ? (
         <div>
           <Header />
           <ViewCart />

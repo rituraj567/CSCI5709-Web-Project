@@ -48,7 +48,6 @@ const Product = (props) => {
     await axios.post(
       `${process.env.REACT_APP_BACKEND_SERVER}/wishlist/delete`,
       {
-        userId: "6425ce9f52dbd67186ef71ab",
         productId: _id,
       },
       {

@@ -1,20 +1,69 @@
 import { Box, Typography, IconButton, useMediaQuery } from "@mui/material";
-import React from "react";
+import React, { useContext, useState } from "react";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import axios from "axios";
+import { SearchContext } from "../../SearchContext";
 
 const Product = (props) => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";
+  const token = localStorage.getItem("Token");
+  const { utilState, setUtilState } = useContext(SearchContext);
   const navigate = useNavigate();
-  const { id, title, image, price, description, category, rating } =
-    props.productData;
+  const {
+    _id,
+    name,
+    imageThumbnailUrl,
+    price,
+    description,
+    category,
+    averageRating,
+    totalRating,
+    wishlisted,
+  } = props.productData;
 
-  const handleProductClick = () => {
-    navigate("/product");
+  const handleAddToWishlist = async () => {
+    await axios.post(
+      `${process.env.REACT_APP_BACKEND_SERVER}/wishlist/add`,
+      {
+        product: {
+          productId: _id,
+          name: name,
+          imageThumbnailUrl: imageThumbnailUrl,
+        },
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+    setUtilState({ ...utilState, clicked: !utilState.clicked });
+  };
+
+  const deleteFromWishlist = async () => {
+    await axios.post(
+      `${process.env.REACT_APP_BACKEND_SERVER}/wishlist/delete`,
+      {
+        productId: _id,
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+    setUtilState({ ...utilState, clicked: !utilState.clicked });
+  };
+
+  const handleProductClick = (e) => {
+    e.preventDefault();
+    navigate(`/product`, {
+      state: {
+        id: _id,
+      },
+    });
   };
   return (
     <Box
@@ -46,17 +95,17 @@ const Product = (props) => {
         >
           <LazyLoadImage
             onClick={handleProductClick}
-            src={image}
+            src={imageThumbnailUrl}
             width={"100%"}
             style={{ maxWidth: "100%", cursor: "pointer" }}
             height={"100%"}
-            alt={title}
+            alt={name}
           />
         </Box>
       </Box>
       <Typography
         component={Link}
-        to={"/product"}
+        onClick={handleProductClick}
         sx={{
           fontWeight: "bold",
           textDecoration: "none",
@@ -64,7 +113,7 @@ const Product = (props) => {
           "&:hover": { color: selectedColor },
         }}
       >
-        {title.length < 80 ? title : title.substr(0, 80) + "..."}
+        {name.length < 80 ? name : name.substr(0, 80) + "..."}
       </Typography>
       <Box
         sx={{
@@ -83,24 +132,29 @@ const Product = (props) => {
             alignItems: "center",
           }}
         >
-          <Typography>{rating.rate}</Typography>
+          <Typography>{averageRating}</Typography>
           <Stack sx={{ paddingRight: "0.2rem" }} spacing={1}>
             <Rating
               name="half-rating-read"
-              value={rating.rate}
+              value={averageRating}
               precision={0.5}
               readOnly
               size="small"
             />
           </Stack>
-          <Typography>({rating.count})</Typography>
+          <Typography>({totalRating})</Typography>
         </Box>
         <Box sx={{ display: "flex", justifySelf: "flex-start" }}>
           <IconButton
+            onClick={wishlisted ? deleteFromWishlist : handleAddToWishlist}
             aria-label="wishlist button"
             sx={{ width: "2px", paddingLeft: "1rem" }}
           >
-            <FavoriteBorderIcon sx={{ fontSize: "1.6rem" }} />
+            {wishlisted ? (
+              <FavoriteIcon sx={{ fontSize: "1.6rem" }} />
+            ) : (
+              <FavoriteBorderIcon sx={{ fontSize: "1.6rem" }} />
+            )}
           </IconButton>
         </Box>
       </Box>

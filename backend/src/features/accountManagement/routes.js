@@ -6,6 +6,7 @@ const {
   updateUserFirstandLastName,
   getUserAddress,
   updateAddress,
+  getOrderDetails,
 } = require("./accountcontroller");
 const router = express.Router();
 
@@ -84,6 +85,23 @@ router.post("/updateuseraddress", authenticateUser, async (req, res) => {
     const data = req.body;
     console.log("userId" + userId);
     const response = await updateAddress(data, userId);
+    res.send(response);
+  } catch (error) {
+    console.log(error);
+    res.json({
+      status: "FAILED",
+      message: error.message,
+    });
+  }
+});
+
+router.get("/getOrderDetails", authenticateUser, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    console.log("userId" + userId);
+
+    const response = await getOrderDetails(userId);
     res.send(response);
   } catch (error) {
     console.log(error);

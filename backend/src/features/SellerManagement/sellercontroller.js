@@ -5,6 +5,7 @@ const encryptPassword = require("../../utils/passwordEncryptDecrypt");
 const bcrypt = require("bcryptjs");
 const Seller = require("./Seller");
 
+// seller registration code
 exports.sellerRegistration = async (SellerReq) => {
   let response = {};
   try {
@@ -20,10 +21,8 @@ exports.sellerRegistration = async (SellerReq) => {
           "Seller is already exists please try with other email Id!",
       });
     }
-    console.log("sellerdb" + sellerdb);
 
     const bcryptPassword = await encryptPassword(SellerReq.password);
-    console.log("bcrypt:" + bcryptPassword);
 
     sellerdb = await Seller.create({
       email: SellerReq.email,
@@ -47,6 +46,7 @@ exports.sellerRegistration = async (SellerReq) => {
 
   return response;
 };
+// seller login code
 exports.sellerLogin = async (SellerReq) => {
   let response = {};
   try {
@@ -65,7 +65,6 @@ exports.sellerLogin = async (SellerReq) => {
           id: sellerdb.id,
         };
         const token = getAuthenticationToken(seller);
-        console.log(token);
 
         response = {
           responseStatus: true,
@@ -95,6 +94,7 @@ exports.sellerLogin = async (SellerReq) => {
   return response;
 };
 
+// recovery password
 exports.recoverpasswordforSeller = async (SellerReq) => {
   let response = {};
   try {
@@ -108,8 +108,6 @@ exports.recoverpasswordforSeller = async (SellerReq) => {
     let sellerdb = await Seller.findOne({
       email: SellerReq.email,
     });
-    console.log("sellerdb" + sellerdb);
-    console.log("SellerReq" + JSON.stringify(SellerReq));
 
     if (sellerdb) {
       const bcryptPassword = await encryptPassword(SellerReq.password);

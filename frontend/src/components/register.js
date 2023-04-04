@@ -129,7 +129,7 @@ function Registration() {
       lastname: lastName,
       usertype: userType,
     };
-
+    // post call to  register the user
     axios
       .post(process.env.REACT_APP_BACKEND_SERVER + "/user/register", data)
       .then((response) => {

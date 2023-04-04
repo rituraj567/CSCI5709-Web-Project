@@ -28,15 +28,18 @@ const ProductsPage = () => {
         headers: { Authorization: token },
       }
     );
-    const wishlistIds = tempWishlist.data[0].products.map(
-      (product) => product.productId
-    );
-    const result = products.data.products.map((item) => ({
-      ...item,
-      wishlisted: wishlistIds.includes(item._id) ? true : false,
-    }));
-
-    return result;
+    if (tempWishlist.data.length > 0) {
+      const wishlistIds = tempWishlist.data[0].products.map(
+        (product) => product.productId
+      );
+      const result = products.data.products.map((item) => ({
+        ...item,
+        wishlisted: wishlistIds.includes(item._id) ? true : false,
+      }));
+      return result;
+    } else {
+      return products.data.products;
+    }
   };
 
   const fetchSearchedProductsList = async () => {

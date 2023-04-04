@@ -80,6 +80,10 @@ const Header = () => {
     navigate("/wishlist");
   };
 
+  const handleWallett = () => {
+    navigate("/wallet");
+  };
+
   const handleViewCart = () => {
     navigate("/cart", {
       replace: false,
@@ -271,6 +275,7 @@ const Header = () => {
             <IconButton
               type="button"
               aria-label="Wallet"
+              onClick={handleWallett}
               sx={{
                 padding: "0",
               }}

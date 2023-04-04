@@ -22,7 +22,7 @@ function Payment() {
       validationSchema: card,
       onSubmit: (values, action) => {
         // values.preventDefault();
-        console.log(values);
+        
         const token = localStorage.getItem("Token");
 
         const headers = {
@@ -47,7 +47,7 @@ function Payment() {
           )
           .then((response) => {
             const output = response.data;
-            console.log(output)
+            
             if (output.responseStatus) {
               navigate("/checkout/success");
             }
@@ -58,7 +58,7 @@ function Payment() {
         
       },
     });
-  console.log("errors", errors);
+  // console.log("errors", errors);
 
   let title = "Payment";
   const primaryColor = "#2B2D42";

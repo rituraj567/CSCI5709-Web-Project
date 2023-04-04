@@ -17,6 +17,7 @@ import ProductPageDetails from "./pages/ProductDetailsPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Success from "./components/paymentGateway/Success";
 import Counter from "./components/Counter";
+import WalletPage from './pages/WalletPage';
 import WishlistPage from "./pages/WishlistPage";
 import { SearchContext } from "./SearchContext";
 import { useState } from "react";
@@ -43,6 +44,7 @@ function App() {
           <Route path="/updatepassword" element={<UpdatePasswordPage />} />
           <Route path="/orderdetails" element={<OrderDetails />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/wallet" element={<WalletPage />} />
           <Route path="/checkout/success" element={<Success />} />
           <Route path="/address" element={<AddressPage />} />
           <Route path="/additem" element={<ListItemForm preFilled="false" />} />

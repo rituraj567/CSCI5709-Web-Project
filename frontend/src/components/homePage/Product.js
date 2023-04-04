@@ -1,12 +1,12 @@
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Typography, IconButton, useMediaQuery } from "@mui/material";
+import React, { useContext, useState } from "react";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
-import axios from "axios";
-import React, { useContext } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link, useNavigate } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import axios from "axios";
 import { SearchContext } from "../../SearchContext";
 
 const Product = (props) => {
@@ -60,7 +60,6 @@ const Product = (props) => {
   const handleProductClick = (e) => {
     e.preventDefault();
     navigate(`/product`, {
-      replace: false,
       state: {
         product: props.productData
       },
@@ -76,7 +75,6 @@ const Product = (props) => {
         borderRadius: "10px",
         boxShadow: 6,
       }}
-      onClick={handleProductClick}
     >
       <Box
         sx={{

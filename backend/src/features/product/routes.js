@@ -4,22 +4,22 @@ const router = express.Router();
 
 const productController = require("./controller");
 
-router.get("/",authenticateUser, productController.getProducts);
+router.get("/", productController.getProducts);
 
-router.get("/:id",authenticateUser, productController.getProductById);
+router.get("/:id", productController.getProductById);
 
-router.post("/", authenticateUser,productController.createProduct);
+router.post("/", productController.createProduct);
 
-router.put("/:id",authenticateUser, productController.updateProduct);
+router.put("/:id", productController.updateProduct);
 
-router.delete("/:id",authenticateUser, productController.deleteProduct);
+router.delete("/:id", productController.deleteProduct);
 
-router.get("/:id/ratings",authenticateUser, productController.getRatings);
-router.post("/:id/rating", authenticateUser,productController.addRating);
+router.get("/:id/ratings", productController.getRatings);
+router.post("/:id/rating", productController.addRating);
 
-router.put("/:id/rating/:ratingId", authenticateUser,productController.updateRating);
+router.put("/:id/rating/:ratingId", productController.updateRating);
 
-router.delete("/:id/rating/:ratingId",authenticateUser, productController.deleteRating);
+router.delete("/:id/rating/:ratingId", productController.deleteRating);
 
 router.post("/filter", authenticateUser, productController.filterProducts);
 

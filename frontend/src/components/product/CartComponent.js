@@ -1,6 +1,6 @@
 import {
   AddCircleOutlineOutlined,
-  RemoveCircleOutlined
+  RemoveCircleOutlined,
 } from "@mui/icons-material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -14,19 +14,24 @@ export default function CartComponent({ product, userId }) {
   const [totalCartCost, setTotalCartCost] = useState(0);
   const [totalCartItems, setTotalCartItems] = useState(0);
   const [removeError, setRemoveError] = useState();
+  const [quantity, setQuantity] = useState(0);
   useEffect(() => {
     getCartItems();
   }, []);
 
   const getCartItems = async () => {
     const response = await axios.get(
-      `${process.env.REACT_APP_BACKEND_SERVER}/cart/`, 
+      `${process.env.REACT_APP_BACKEND_SERVER}/cart/`,
       {
         headers: { Authorization: token },
       }
     );
-  
+
     setCartItems(response.data.cartItems);
+    const item = response.data.cartItems.find(
+      (p) => p.productId === product.productId
+    );
+    setQuantity(item?.quantity ? item?.quantity : 0);
     setTotalCartCost(Number(response.data.totalCost).toFixed(2));
     setTotalCartItems(Number(response.data.totalQuantity).toFixed(2));
   };
@@ -50,10 +55,12 @@ export default function CartComponent({ product, userId }) {
       }
     );
     const cartItems = response.data.cartItems;
+    const item = cartItems.find((p) => p.productId === product.productId);
     setTotalCartCost(Number(response.data.totalCost).toFixed(2));
     setTotalCartItems(response.data.totalQuantity);
     setCartVisible(true);
     setCartItems(cartItems);
+    setQuantity(item?.quantity ? item?.quantity : 0);
     setRemoveError("");
   };
 
@@ -69,9 +76,12 @@ export default function CartComponent({ product, userId }) {
         }
       );
 
-      const cartItems = response.data.cartItems;
+      const item = response.data.cartItems.find(
+        (p) => p.productId === product.productId
+      );
       setTotalCartCost(response.data.totalCost);
       setTotalCartItems(response.data.totalQuantity);
+      setQuantity(item?.quantity ? item?.quantity : 0);
       setCartItems(cartItems);
     } else {
       setRemoveError("Item doesn't exist in the cart, cannot remove");
@@ -83,6 +93,15 @@ export default function CartComponent({ product, userId }) {
       <div className="add-cart">
         <Row>
           <div style={{ display: "flex", justifyContent: "center" }}>
+            <span
+              style={{
+                marginTop: "-1rem",
+
+                marginRight: "1rem",
+              }}
+            >
+              Add Items:
+            </span>
             <AddCircleOutlineOutlined
               sx={{
                 color: "#2ecc71",
@@ -92,6 +111,15 @@ export default function CartComponent({ product, userId }) {
               }}
               onClick={() => handleCartProcess()}
             />
+            <span
+              style={{
+                marginTop: "-1rem",
+
+                marginRight: "1rem",
+              }}
+            >
+              Remove Items:
+            </span>
             <RemoveCircleOutlined
               sx={{
                 color: "#d90429",
@@ -109,6 +137,7 @@ export default function CartComponent({ product, userId }) {
               totalCost={totalCartCost}
               totalItems={totalCartItems}
               cartItems={cartItems}
+              quantity={quantity}
             />
           </div>
         </Row>

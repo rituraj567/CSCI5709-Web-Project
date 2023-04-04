@@ -1,8 +1,8 @@
-import React from "react";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export function CardComponent(props) {
@@ -15,12 +15,20 @@ export function CardComponent(props) {
             Card Total: ${props.totalCost}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {props.totalItems} items added to cart
+         Quantity of this product: {Number(props.quantity).toFixed()}  
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+          Total {Number(props.totalItems).toFixed()} items added to cart
           </Typography>
           <div className="mt-4 center-buttons">
             <Link to="/checkout" className="link">
-              <Button variant="contained" sx={{minWidth:'100%'}} size="large" className="mb-3 button">
-               Checkout
+              <Button
+                variant="contained"
+                sx={{ minWidth: "100%" }}
+                size="large"
+                className="mb-3 button"
+              >
+                Checkout
               </Button>
             </Link>
 
@@ -28,10 +36,8 @@ export function CardComponent(props) {
               variant="outlined"
               size="large"
               className="button-black"
-              sx={{minWidth:'100%', color: '#fff'}}
-              onClick={() =>
-                navigate("/cart")
-              }
+              sx={{ minWidth: "100%", color: "#fff" }}
+              onClick={() => navigate("/cart")}
             >
               View Cart
             </Button>

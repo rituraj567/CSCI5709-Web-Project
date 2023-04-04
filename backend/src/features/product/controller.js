@@ -3,9 +3,7 @@ const Product = require("./model");
 exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find();
-    const userId = req.user.id;
-    console.log("userId" + userId);
-    res.json({ products, userId });
+    res.json(products);
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");

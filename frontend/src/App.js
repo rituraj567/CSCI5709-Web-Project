@@ -21,6 +21,7 @@ import WishlistPage from "./pages/WishlistPage";
 import { SearchContext } from "./SearchContext";
 import { useState } from "react";
 import RestrictedResetPage from "./pages/RestrictedResetPage";
+import AddressPage from "./pages/AddressPage";
 
 function App() {
   const [utilState, setUtilState] = useState({});
@@ -43,6 +44,7 @@ function App() {
           <Route path="/orderdetails" element={<OrderDetails />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/checkout/success" element={<Success />} />
+          <Route path="/address" element={<AddressPage />} />
           <Route path="/additem" element={<ListItemForm preFilled="false" />} />
           <Route path="/updateitem" element={<UpdateItems />} />
           <Route path="/wishlist" element={<WishlistPage />} />

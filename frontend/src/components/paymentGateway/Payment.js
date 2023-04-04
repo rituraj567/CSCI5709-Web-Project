@@ -4,13 +4,15 @@ import { card } from "./PaymentValidation";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Header from "../Header";
+import axios from "axios";
 
 const initialValues = {
   name: "",
   card: "",
   expiry: "",
   cvv: "",
-  radiobuttons: "a",
+  radiobuttons:"Credit"
+  
 };
 function Payment() {
   const navigate = useNavigate();
@@ -19,8 +21,41 @@ function Payment() {
       initialValues,
       validationSchema: card,
       onSubmit: (values, action) => {
-        action.resetForm();
-      
+        // values.preventDefault();
+        console.log(values);
+        const token = localStorage.getItem("Token");
+
+        const headers = {
+          Authorization: token,
+        };
+
+        const data = {
+          name: values.name,
+          card: values.card,
+          expiry: values.expiry,
+          cvv: values.cvv,
+          source: values.radiobuttons,
+        };
+
+        axios
+          .post(
+            process.env.REACT_APP_BACKEND_SERVER + "/payment/transaction",
+            data,
+            {
+              headers: headers,
+            }
+          )
+          .then((response) => {
+            const output = response.data;
+            console.log(output)
+            if (output.responseStatus) {
+              navigate("/checkout/success");
+            }
+          })
+          .catch((response) => {
+            console.log("Response" + response);
+          });
+        
       },
     });
   console.log("errors", errors);
@@ -43,25 +78,25 @@ function Payment() {
           <div className="mode">
             <input
               type="radio"
-              checked={values.radiobuttons === "a"}
+              checked={values.radiobuttons === "Credit"}
               onChange={handleChange}
-              value="a"
+              value="Credit"
               name="radiobuttons"
               id="option-1"
             />
             <input
               type="radio"
-              checked={values.radiobuttons === "b"}
+              checked={values.radiobuttons === "Debit"}
               onChange={handleChange}
-              value="b"
+              value="Debit"
               name="radiobuttons"
               id="option-2"
             />
             <input
               type="radio"
-              checked={values.radiobuttons === "c"}
+              checked={values.radiobuttons === "Wallet"}
               onChange={handleChange}
-              value="c"
+              value="Wallet"
               name="radiobuttons"
               id="option-3"
             />
@@ -81,7 +116,7 @@ function Payment() {
             </label>
           </div>
 
-          {values.radiobuttons === "a" && (
+          {values.radiobuttons === "Credit" && (
             <div className="form">
               <div>
                 <input
@@ -118,15 +153,101 @@ function Payment() {
 
               <div>
                 <input
-                  type="month"
+                  type="text"
                   style={{ width: 500, padding: 12, margin: 8 }}
                   id="formfield"
                   value={values.expiry}
                   onBlur={handleBlur}
                   name="expiry"
-                  placeholder="Expiry"
+                  placeholder="Expiry MMYY"
                   onChange={handleChange}
-                  min={2023}
+                  
+                  required
+                />
+                {errors.expiry && touched.expiry ? (
+                  <p className="form-error">{errors.expiry}</p>
+                ) : null}
+              </div>
+
+              <div>
+                <input
+                  type="number"
+                  style={{ width: 500, padding: 12, margin: 8 }}
+                  placeholder="CVV"
+                  value={values.cvv}
+                  onBlur={handleBlur}
+                  name="cvv"
+                  onChange={handleChange}
+                  required
+                />
+                {errors.cvv && touched.cvv ? (
+                  <p className="form-error">{errors.cvv}</p>
+                ) : null}
+              </div>
+              <Button
+                aria-label="Submit"
+                sx={{
+                  background: primaryColor,
+                  textTransform: "none",
+                  height: "2.5rem",
+                  "&:hover": {
+                    backgroundColor: selectedColor,
+                  },
+                }}
+                type="submit"
+                variant="contained"
+              >
+                Pay
+              </Button>
+            </div>
+          )}
+
+          {values.radiobuttons === "Debit" && (
+            <div className="form">
+              <div>
+                <input
+                  type="text"
+                  style={{ width: 500, padding: 12, margin: 8 }}
+                  id="formfield"
+                  value={values.name}
+                  onBlur={handleBlur}
+                  name="name"
+                  onChange={handleChange}
+                  placeholder="Enter name on card"
+                  required
+                />
+                {errors.name && touched.name ? (
+                  <p className="form-error">{errors.name}</p>
+                ) : null}
+              </div>
+
+              <div>
+                <input
+                  type="number"
+                  style={{ width: 500, padding: 12, margin: 8 }}
+                  name="card"
+                  value={values.card}
+                  onBlur={handleBlur}
+                  placeholder="Enter credit card number"
+                  onChange={handleChange}
+                  required
+                />
+                {errors.card && touched.card ? (
+                  <p className="form-error">{errors.card}</p>
+                ) : null}
+              </div>
+
+              <div>
+                <input
+                  type="text"
+                  style={{ width: 500, padding: 12, margin: 8 }}
+                  id="formfield"
+                  value={values.expiry}
+                  onBlur={handleBlur}
+                  name="expiry"
+                  placeholder="Expiry MMYY"
+                  onChange={handleChange}
+                  
                   required
                 />
                 {errors.expiry && touched.expiry ? (
@@ -165,99 +286,10 @@ function Payment() {
               >
                 Pay
               </Button>
-              
             </div>
           )}
 
-          {values.radiobuttons === "b" && (
-            <div className="form">
-              <div>
-                <input
-                  type="text"
-                  style={{ width: 500, padding: 12, margin: 8 }}
-                  id="formfield"
-                  value={values.name}
-                  onBlur={handleBlur}
-                  name="name"
-                  onChange={handleChange}
-                  placeholder="Enter name on card"
-                  required
-                />
-                {errors.name && touched.name ? (
-                  <p className="form-error">{errors.name}</p>
-                ) : null}
-              </div>
-
-              <div>
-                <input
-                  type="number"
-                  style={{ width: 500, padding: 12, margin: 8 }}
-                  name="card"
-                  value={values.card}
-                  onBlur={handleBlur}
-                  placeholder="Enter credit card number"
-                  onChange={handleChange}
-                  required
-                />
-                {errors.card && touched.card ? (
-                  <p className="form-error">{errors.card}</p>
-                ) : null}
-              </div>
-
-              <div>
-                <input
-                  type="month"
-                  style={{ width: 500, padding: 12, margin: 8 }}
-                  id="formfield"
-                  value={values.expiry}
-                  onBlur={handleBlur}
-                  name="expiry"
-                  placeholder="Expiry"
-                  onChange={handleChange}
-                  min={2023}
-                  required
-                />
-                {errors.expiry && touched.expiry ? (
-                  <p className="form-error">{errors.expiry}</p>
-                ) : null}
-              </div>
-
-              <div>
-                <input
-                  type="number"
-                  style={{ width: 500, padding: 12, margin: 8 }}
-                  placeholder="CVV"
-                  value={values.cvv}
-                  onBlur={handleBlur}
-                  name="cvv"
-                  onChange={handleChange}
-                  required
-                />
-                {errors.cvv && touched.cvv ? (
-                  <p className="form-error">{errors.cvv}</p>
-                ) : null}
-              </div>
-              <Button
-                aria-label="Submit"
-                sx={{
-                  background: primaryColor,
-                  textTransform: "none",
-                  height: "2.5rem",
-                  "&:hover": {
-                    backgroundColor: selectedColor,
-                  },
-                }}
-                type="submit"
-                variant="contained"
-                onClick={() => navigate("success")}
-              >
-                Pay
-              </Button>
-              
-            </div>
-          )}
-
-          {values.radiobuttons === "c" && (
+          {values.radiobuttons === "Wallet" && (
             <div className="form">
               <h3>Shobhit Arora</h3>
               <h3>Available Balance: $20</h3>

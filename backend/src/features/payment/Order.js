@@ -25,8 +25,7 @@ const OrderSchema = new Schema({
   address: [{
     address1: {
         type: String,
-        required:true,
-        unique:true},
+        required:true},
       address2:{
         type: String},
       city:{

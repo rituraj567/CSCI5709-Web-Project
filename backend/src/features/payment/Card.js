@@ -2,7 +2,7 @@ const mangoose = require("mongoose");
 const Schema = mangoose.Schema;
 
 const CardScheme = new Schema({
-  number: {
+  card: {
     type: Number,
     required: true,
     unique: true

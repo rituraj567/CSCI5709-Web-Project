@@ -8,18 +8,19 @@ const cart = {
   totalcost: 234,
   cartitems: [
     {
-      productid: 1,
+      productid: "641f6e395ea9fc44419925fc",
       description:
         "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
     },
     {
-      productid: 3,
+      productid: "642ada738f7eec46837a32c4",
       description:
         "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
     },
   ],
 };
 
+//
 exports.createAddress = async (data,userId) => {
   let response = {};
   try {
@@ -63,7 +64,7 @@ exports.validatePayment = async (data,userId) => {
   try {
     console.log(data.source)
     if (data.source === "Credit" || "Debit") {
-      let cardDb = await Card.find({ number: data.number });
+      let cardDb = await Card.find({ card: data.card });
       // console.log(cardDb);
       if (cardDb) {
         let transactionDb = await Transaction.create({
@@ -79,11 +80,14 @@ exports.validatePayment = async (data,userId) => {
           responseData: transactionDb
         };
       }
+      else{
       response = {
         responseStatus: false,
         responseMessage: "Transaction failed",
       };
-    } else if (data.source == "Wallet") {
+    }
+    } 
+    else if (data.source == "Wallet") {
       let walletDb = await Wallet.find({ userId: userId });
       if (walletDb.balance == cart.totalcost) {
         response = {
@@ -103,11 +107,11 @@ exports.validatePayment = async (data,userId) => {
   return response;
 };
 
-exports.createOrder = async (data) => {
+exports.createOrder = async (data,userId) => {
   let response = {};
   let orders = [];
   try {
-    let address = await Address.findOne({ userid: "6409093ba5740635248b516a"});
+    let address = await Address.findOne({ userid: userId});
     console.log(address);
     console.log("Product id"+cart.cartitems[0].productid)
     for (let i = 0; i < cart.cartitems.length; i++) {
@@ -117,7 +121,7 @@ exports.createOrder = async (data) => {
         // sellerId: cart.cartitems.sellerId,
         amount: cart.totalcost,
         date: new Date(),
-        userid: "64095f7b1ad81d64ff9d4336",
+        userid: userId,
         address: [
           {
             address1: address.address1,

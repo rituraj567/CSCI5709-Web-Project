@@ -1,14 +1,16 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { styled } from "@mui/material/styles";
+import axios from "axios";
+import { SearchContext } from "../../SearchContext";
 
 const Sort = () => {
-  const [sortCategory, setSortCategory] = React.useState("");
-
+  const [initial, setInitial] = useState(true);
+  const { utilState, setUtilState } = useContext(SearchContext);
   const WhiteBorderTextField = styled(Select)({
     "&.Mui-focused": {
       borderColor: "red",
@@ -18,9 +20,10 @@ const Sort = () => {
     },
   });
 
-  const handleChange = (event) => {
-    setSortCategory(event.target.value);
+  const handleChange = (e) => {
+    setUtilState({ ...utilState, sortCategory: e.target.value, page: 1 });
   };
+
   return (
     <Box
       sx={{ display: "flex", justifyContent: "flex-end", paddingTop: "1rem" }}
@@ -30,14 +33,13 @@ const Sort = () => {
         <WhiteBorderTextField
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={sortCategory}
+          value={utilState.sortCategory ? utilState.sortCategory : ""}
           label="Sort by"
           onChange={handleChange}
         >
           <MenuItem value={"priceLow"}>Price: Low to High</MenuItem>
           <MenuItem value={"priceHigh"}>Price: High to Low</MenuItem>
           <MenuItem value={"highestReview"}>Highest Reviews</MenuItem>
-          <MenuItem value={"newest"}>Newest Arrival</MenuItem>
         </WhiteBorderTextField>
       </FormControl>
     </Box>

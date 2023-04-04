@@ -17,38 +17,43 @@ import ProductPageDetails from "./pages/ProductDetailsPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Success from "./components/paymentGateway/Success";
 import Counter from "./components/Counter";
+import WishlistPage from "./pages/WishlistPage";
+import { SearchContext } from "./SearchContext";
+import { useState } from "react";
 import RestrictedResetPage from "./pages/RestrictedResetPage";
 
 function App() {
+  const [utilState, setUtilState] = useState({});
   return (
     <BrowserRouter>
-      <Routes>
-        <Route index element={<Main />} />
-        <Route path="/counter" element={<Counter />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/otp" element={<ResetPage />} />
+      <SearchContext.Provider value={{ utilState, setUtilState }}>
+        <Routes>
+          <Route index element={<Main />} />
+          <Route path="/counter" element={<Counter />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/otp" element={<ResetPage />} />
+          <Route path="/reset" element={<RestrictedResetPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/sellerdashboard" element={<SellerDashboard />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/product" element={<ProductPageDetails />} />
+          <Route path="/updatepassword" element={<UpdatePasswordPage />} />
+          <Route path="/orderdetails" element={<OrderDetails />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/checkout/success" element={<Success />} />
+          <Route path="/additem" element={<ListItemForm preFilled="false" />} />
+          <Route path="/updateitem" element={<UpdateItems />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
+          <Route
+            path="/updateitemform"
+            element={<ListItemForm preFilled="true" />}
+          />
 
-        <Route path="/reset" element={<RestrictedResetPage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/header" element={<Header />} />
-        <Route path="/sellerdashboard" element={<SellerDashboard />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/product" element={<ProductPageDetails />} />
-        <Route path="/updatepassword" element={<UpdatePasswordPage />} />
-        <Route path="/orderdetails" element={<OrderDetails />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/checkout/success" element={<Success />} />
-        <Route path="/additem" element={<ListItemForm preFilled="false" />} />
-        <Route path="/updateitem" element={<UpdateItems />} />
-        <Route
-          path="/updateitemform"
-          element={<ListItemForm preFilled="true" />}
-        />
-
-        <Route path="/" element={<Main />} />
-      </Routes>
+          <Route path="/" element={<Main />} />
+        </Routes>
+      </SearchContext.Provider>
     </BrowserRouter>
   );
 }

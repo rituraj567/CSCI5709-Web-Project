@@ -4,7 +4,7 @@ const encryptPassword = require("../../utils/passwordEncryptDecrypt");
 const User = require("./User");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
-const Seller = require("./Seller");
+const Seller = require("../SellerManagement/Seller");
 require("dotenv").config();
 
 exports.userRegistration = async (UserReq) => {
@@ -71,7 +71,6 @@ exports.userLogin = async (UserReq) => {
           responseStatus: true,
           responseMessage: "User is successfully logged in!",
           responseToken: token,
-          userId: userdb.id,
         };
       } else {
         return (response = {

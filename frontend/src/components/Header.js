@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Logo from "../images/logo.png";
 import { TextField, IconButton } from "@mui/material";
@@ -14,12 +14,14 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { SearchContext } from "../SearchContext";
 
 const Header = () => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";
-  const handleSearch = () => {};
   const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
+  const { utilState, setUtilState } = useContext(SearchContext);
   const cartItems = [
     {
       id: 9,
@@ -62,6 +64,21 @@ const Header = () => {
       navigate("/");
     }
   };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleSearch = () => {
+    console.log(searchValue);
+    setUtilState({ ...utilState, search: searchValue });
+    navigate("/home");
+  };
+
+  const handleWishlist = () => {
+    navigate("/wishlist");
+  };
 
   const handleViewCart = () => {
     navigate("/cart", {
@@ -100,8 +117,6 @@ const Header = () => {
               />
             </div>
           </Link>
-
-          {/* <p style={{ fontFamily: "Lato", color: { primaryColor } }}>Logo</p> */}
         </Box>
       </Box>
       <Box
@@ -130,6 +145,8 @@ const Header = () => {
                 border: "1px solid #8098ab",
               },
             }}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={handleKeyDown}
             id="outlined-basic"
             label="search"
             variant="outlined"
@@ -138,7 +155,7 @@ const Header = () => {
           />
           <IconButton
             type="button"
-            onClick={{ handleSearch }}
+            onClick={handleSearch}
             aria-label="Start searching"
           >
             <SearchOutlined
@@ -229,6 +246,7 @@ const Header = () => {
               sx={{
                 padding: "0",
               }}
+              onClick={handleWishlist}
             >
               <FavoriteBorderOutlined
                 style={{

@@ -1,14 +1,19 @@
 import { Box, Typography, IconButton, useMediaQuery } from "@mui/material";
-import React from "react";
+import React, { useContext, useState } from "react";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Link, useNavigate } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import axios from "axios";
+import { SearchContext } from "../../SearchContext";
 
 const Product = (props) => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";
+  const token = localStorage.getItem("Token");
+  const { utilState, setUtilState } = useContext(SearchContext);
   const navigate = useNavigate();
   const {
     _id,
@@ -17,22 +22,52 @@ const Product = (props) => {
     price,
     description,
     category,
-    totalRating,
     averageRating,
-    quantity,
+    totalRating,
+    wishlisted,
   } = props.productData;
 
-  const handleProductClick = () => {
-    navigate("/product", {
-      replace: false,
+  const handleAddToWishlist = async () => {
+    await axios.post(
+      `${process.env.REACT_APP_BACKEND_SERVER}/wishlist/add`,
+      {
+        product: {
+          productId: _id,
+          name: name,
+          imageThumbnailUrl: imageThumbnailUrl,
+        },
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+    setUtilState({ ...utilState, clicked: !utilState.clicked });
+  };
+
+  const deleteFromWishlist = async () => {
+    await axios.post(
+      `${process.env.REACT_APP_BACKEND_SERVER}/wishlist/delete`,
+      {
+        userId: "6425ce9f52dbd67186ef71ab",
+        productId: _id,
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+    setUtilState({ ...utilState, clicked: !utilState.clicked });
+  };
+
+  const handleProductClick = (e) => {
+    e.preventDefault();
+    navigate(`/product`, {
       state: {
-        product: props.productData,
+        id: _id,
       },
     });
   };
   return (
     <Box
-      onClick={handleProductClick}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -71,6 +106,7 @@ const Product = (props) => {
       </Box>
       <Typography
         component={Link}
+        onClick={handleProductClick}
         sx={{
           fontWeight: "bold",
           textDecoration: "none",
@@ -111,10 +147,15 @@ const Product = (props) => {
         </Box>
         <Box sx={{ display: "flex", justifySelf: "flex-start" }}>
           <IconButton
+            onClick={wishlisted ? deleteFromWishlist : handleAddToWishlist}
             aria-label="wishlist button"
             sx={{ width: "2px", paddingLeft: "1rem" }}
           >
-            <FavoriteBorderIcon sx={{ fontSize: "1.6rem" }} />
+            {wishlisted ? (
+              <FavoriteIcon sx={{ fontSize: "1.6rem" }} />
+            ) : (
+              <FavoriteBorderIcon sx={{ fontSize: "1.6rem" }} />
+            )}
           </IconButton>
         </Box>
       </Box>

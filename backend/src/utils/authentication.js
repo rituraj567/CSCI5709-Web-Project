@@ -1,10 +1,7 @@
 var jwt = require("jsonwebtoken");
 
 exports.getAuthenticationToken = (user) => {
-  console.log(process.env.JWT_SECRET)
-  console.log(user)
   const authtoken = jwt.sign(user, process.env.JWT_SECRET);
-  
   return authtoken;
 };
 

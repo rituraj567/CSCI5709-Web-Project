@@ -5,9 +5,9 @@ const {
   sellerRegistration,
   sellerLogin,
   recoverpasswordforSeller,
-} = require("./sellercontroller");
+} = require("../SellerManagement/sellercontroller");
 const router = express.Router();
-const User = require("./User");
+
 const {
   userRegistration,
   userLogin,
@@ -58,7 +58,6 @@ router.post("/login", async (req, res) => {
       message: response.responseMessage,
       token: response.responseToken,
       userType: userType,
-      userId: response.userId,
     });
   } catch (err) {
     res.json({

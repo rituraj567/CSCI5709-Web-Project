@@ -14,7 +14,7 @@ router.post("/updatepassword", authenticateUser, async (req, res) => {
   try {
     const data = req.body;
     const userId = req.user.id;
-    console.log("userId" + userId);
+
     const response = await UpdatePassword(data, userId);
     res.json({
       status: response.responseStatus,
@@ -32,7 +32,7 @@ router.post("/updatepassword", authenticateUser, async (req, res) => {
 router.get("/getuserfirstandlastName", authenticateUser, async (req, res) => {
   try {
     const userId = req.user.id;
-    console.log("userId" + userId);
+
     const response = await getUserFirstandLastName(userId);
     res.send(response);
   } catch (error) {
@@ -51,7 +51,7 @@ router.post(
     try {
       const userId = req.user.id;
       const data = req.body;
-      console.log("userId" + userId);
+
       const response = await updateUserFirstandLastName(data, userId);
       res.send(response);
     } catch (error) {
@@ -67,7 +67,7 @@ router.post(
 router.get("/getuseraddress", authenticateUser, async (req, res) => {
   try {
     const userId = req.user.id;
-    console.log("userId" + userId);
+
     const response = await getUserAddress(userId);
     res.send(response);
   } catch (error) {
@@ -83,7 +83,7 @@ router.post("/updateuseraddress", authenticateUser, async (req, res) => {
   try {
     const userId = req.user.id;
     const data = req.body;
-    console.log("userId" + userId);
+
     const response = await updateAddress(data, userId);
     res.send(response);
   } catch (error) {
@@ -98,8 +98,6 @@ router.post("/updateuseraddress", authenticateUser, async (req, res) => {
 router.get("/getOrderDetails", authenticateUser, async (req, res) => {
   try {
     const userId = req.user.id;
-
-    console.log("userId" + userId);
 
     const response = await getOrderDetails(userId);
     res.send(response);

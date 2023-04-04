@@ -56,12 +56,11 @@ function Account() {
   useEffect(() => {
     //code
     const token = localStorage.getItem("Token");
-    console.log("token" + token);
 
     const headers = {
       Authorization: token,
     };
-
+    // get API call to get the user first name and last name
     axios
       .get(
         process.env.REACT_APP_BACKEND_SERVER +
@@ -82,6 +81,7 @@ function Account() {
         console.log("response" + response);
       });
 
+    // get call to get the user address details
     axios
       .get(process.env.REACT_APP_BACKEND_SERVER + "/account/getuseraddress", {
         headers: headers,
@@ -217,7 +217,7 @@ function Account() {
       province: province,
       pincode: postalcode,
     };
-
+    // post API call to update the user address
     axios
       .post(
         process.env.REACT_APP_BACKEND_SERVER + "/account/updateuseraddress",
@@ -259,6 +259,7 @@ function Account() {
       lastname: lastName,
     };
 
+    //post API call to update the first and last name
     axios
       .post(
         process.env.REACT_APP_BACKEND_SERVER +

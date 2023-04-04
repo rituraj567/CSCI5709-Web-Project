@@ -3,22 +3,8 @@ import Box from "@mui/material/Box";
 import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Divider from "@mui/material/Divider";
+import { categories } from "../jsonObject/categoryJson";
 import { styled } from "@mui/material/styles";
-import {
-  SoupKitchen,
-  LaptopTwoTone,
-  Construction,
-  AcUnit,
-  CheckroomTwoTone,
-  MedicationLiquidTwoTone,
-  DesignServicesTwoTone,
-  ChairTwoTone,
-  CelebrationTwoTone,
-  CardGiftcardTwoTone,
-  BreakfastDiningTwoTone,
-  ToysTwoTone,
-} from "@mui/icons-material";
-import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { IconButton } from "@mui/material";
 import { SearchContext } from "../../SearchContext";
 
@@ -77,74 +63,6 @@ const Category = () => {
     fontSize: theme.typography.pxToRem(15),
     marginRight: theme.spacing(1),
   }));
-
-  const categories = [
-    {
-      id: 0,
-      title: "All",
-      icon: ShoppingBagOutlinedIcon,
-    },
-    {
-      id: 1,
-      title: "Electronics",
-      icon: LaptopTwoTone,
-    },
-    {
-      id: 2,
-      title: "Kitchen",
-      icon: SoupKitchen,
-    },
-    {
-      id: 3,
-      title: "Hardware & Tools",
-      icon: Construction,
-    },
-    {
-      id: 4,
-      title: "Seasonal",
-      icon: AcUnit,
-    },
-    {
-      id: 5,
-      title: "Clothes & Accessories",
-      icon: CheckroomTwoTone,
-    },
-    {
-      id: 6,
-      title: "Health & Beauty",
-      icon: MedicationLiquidTwoTone,
-    },
-    {
-      id: 7,
-      title: "Stationary & Craft",
-      icon: DesignServicesTwoTone,
-    },
-    {
-      id: 8,
-      title: "Home Decor",
-      icon: ChairTwoTone,
-    },
-    {
-      id: 9,
-      title: "Celebration",
-      icon: CelebrationTwoTone,
-    },
-    {
-      id: 10,
-      title: "Cards",
-      icon: CardGiftcardTwoTone,
-    },
-    {
-      id: 11,
-      title: "Food",
-      icon: BreakfastDiningTwoTone,
-    },
-    {
-      id: 12,
-      title: "Toys",
-      icon: ToysTwoTone,
-    },
-  ];
 
   return (
     <Box>

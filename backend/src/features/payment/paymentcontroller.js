@@ -102,9 +102,10 @@ exports.validatePayment = async (data, userId) => {
     } else if (data.source === "Wallet") {
       console.log("inside wallet");
       let walletDb = await Wallet.findOne({ userid: userId });
-      let balance = walletDb.accountbalance;
-      if (parseInt(balance) >= parseInt(cart.totalCost)) {
-        balance = balance - cart.totalCost;
+      let balance = parseInt(walletDb.accountbalance);
+      let totalCost= parseInt(cart.totalCost);
+      if (balance >= totalCost) {
+        balance = balance - totalCost;
         let updateWalletData = {
           accountbalance: balance,
         };
@@ -147,7 +148,7 @@ exports.validatePayment = async (data, userId) => {
       responseMessage: "Something went wrong in transaction",
     };
   }
-
+  console.log("inside response",response)
   return response;
 };
 

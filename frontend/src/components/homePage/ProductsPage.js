@@ -8,7 +8,6 @@ import { SearchContext } from "../../SearchContext";
 
 const ProductsPage = () => {
   const [productsList, setProductsList] = useState([]);
-  // const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const token = localStorage.getItem("Token");
   const primaryColor = "#2B2D42";

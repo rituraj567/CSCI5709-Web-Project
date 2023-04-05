@@ -17,9 +17,8 @@ exports.addToCart = async (req, res) => {
     } = req.body;
 
     let cart = await Cart.findOne({ userId });
-    console.log("1=>", cart);
 
-    console.log(cart);
+    console.log("cart ", cart);
     if (!cart) {
       cart = new Cart({
         cartId: Date.now(),
@@ -86,7 +85,7 @@ exports.removeFromCart = async (req, res) => {
     }
 
     const item = cart.cartItems.find((item) => {
-      return item.productId === parseInt(productId);
+      return item.productId === productId;
     });
 
     if (!item) {
@@ -104,7 +103,7 @@ exports.removeFromCart = async (req, res) => {
 
     if (item.quantity === 0) {
       const items = cart.cartItems.filter(
-        (item) => item.productId !== parseInt(productId)
+        (item) => item.productId !== productId
       );
       cart.cartItems = items;
     }

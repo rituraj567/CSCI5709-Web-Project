@@ -12,13 +12,13 @@ export function CardComponent(props) {
       <Card sx={{ maxWidth: 345 }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            Card Total: ${props.totalCost}
+            Cart Total: ${props.totalCost}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-         Quantity of this product: {Number(props.quantity).toFixed()}  
+            Quantity of this product: {Number(props.quantity).toFixed()}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-          Total {Number(props.totalItems).toFixed()} items added to cart
+            Total {Number(props.totalItems).toFixed()} items added to cart
           </Typography>
           <div className="mt-4 center-buttons">
             <Link to="/checkout" className="link">

@@ -28,6 +28,7 @@ const WishlistSchema = new mongoose.Schema(
 
 const Wishlist = mongoose.model("Wishlist", WishlistSchema);
 
+//sample data
 const product2 = new Wishlist({
   userId: "6425ce9f52dbd67186ef71ab",
   products: [

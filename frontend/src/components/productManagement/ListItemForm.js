@@ -35,6 +35,8 @@ const ListItemForm = (props) => {
 
   const [preFilled, setPreFilled] = useState(false);
 
+  const [imageURLSProduct, setimageURLSProduct] = useState([]);
+
   useEffect(() => {
     if (props.preFilled == "false") {
       return;
@@ -62,6 +64,36 @@ const ListItemForm = (props) => {
     }
   }, []);
 
+  const getDataFromPictures = async (dataFromPictures) => {
+    setimageURLSProduct(await generateImageURLS(dataFromPictures));
+  };
+
+  async function generateImageURLS(imageRawData) {
+    const cloudName = "dihkowyae";
+    const cloudinaryURL = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+    const formData = new FormData();
+    const imageURLS = [];
+    for (let i = 0; i < imageRawData.length; i++) {
+      formData.append("file", imageRawData[i]);
+      formData.append("upload_preset", "canadabuys813a");
+      formData.append("cloud_name", "dihkowyae");
+
+      fetch(cloudinaryURL, {
+        method: "post",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data["url"]);
+          imageURLS.push(data["url"]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    return imageURLS;
+  }
+
   function fillForm(data) {
     setProductName(data["name"]);
     setPrice(data["price"]);
@@ -70,7 +102,7 @@ const ListItemForm = (props) => {
     setdescription(data["description"]);
   }
 
-  const fullSubmit = () => {
+  const fullSubmit = async () => {
     if (isNaN(Number.parseFloat(price))) {
       setPriceError(true);
       setPriceErrorMessage("Enter a numeric value");
@@ -104,6 +136,7 @@ const ListItemForm = (props) => {
             quantity: quantity,
             description: description,
             category: selectedCategory,
+            imageData: imageURLSProduct,
           };
           const token = localStorage.getItem("Token");
           const headers = {
@@ -127,6 +160,8 @@ const ListItemForm = (props) => {
               console.log("response addproduct error" + response);
             });
           // navigate("/sellerdashboard");
+
+          // imageUpload
           alert("Success");
         }
       }
@@ -251,7 +286,7 @@ const ListItemForm = (props) => {
             </div>
           </form>
         </Container>
-        <UploadProductImage />
+        <UploadProductImage getDataFromPictures={getDataFromPictures} />
       </Box>
     </>
   );

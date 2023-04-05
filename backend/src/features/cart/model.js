@@ -1,66 +1,64 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const CartSchema = new mongoose.Schema({
   cartId: {
     type: Number,
-    required: true
+    required: true,
   },
   userId: {
     type: String,
-    required: true
+    required: true,
   },
-cartItems: [
+  cartItems: [
     {
-        productId: {
-            type: Number,
-            required: true,
-            unique: true
-          },
-          name: {
-            type: String,
-            required: true
-          },
-          description: {
-            type: String,
-            required: true
-          },
-          price: {
-            type: Number,
-            required: true
-          },
-          averageRating: {
-            type: Number,
-            required: true
-          },
-          totalRating: {
-            type: Number,
-            required: true
-          },
-          category: {
-            type: String,
-            required: true
-          },
-          quantity: {
-            type: Number,
-            required: true
-          },
-          imageThumbnailUrl: {
-            type: String,
-            required: true
-          }
-    }
-],
-  
+      productId: {
+        type: String,
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        required: true,
+      },
+      price: {
+        type: Number,
+        required: true,
+      },
+      averageRating: {
+        type: Number,
+        required: true,
+      },
+      totalRating: {
+        type: Number,
+        required: true,
+      },
+      category: {
+        type: String,
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+      imageThumbnailUrl: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
+
   totalCost: {
     type: Number,
-    required: true
+    required: true,
   },
   totalQuantity: {
     type: Number,
-    required: true
-  }
- 
+    required: true,
+  },
 });
 
-const Cart = mongoose.model('Cart', CartSchema);
+const Cart = mongoose.model("Cart", CartSchema);
 module.exports = Cart;

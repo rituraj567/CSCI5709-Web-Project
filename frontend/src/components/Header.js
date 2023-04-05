@@ -22,40 +22,9 @@ const Header = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const { utilState, setUtilState } = useContext(SearchContext);
-  const cartItems = [
-    {
-      id: 9,
-      title: "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
-      price: 64,
-      description:
-        "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems; Compatibility may vary depending on user’s hardware configuration and operating system",
-      category: "electronics",
-      image: "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg",
-      rating: {
-        rate: 3.3,
-        count: 203,
-      },
-      reviews: [
-        {
-          rating: 4,
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Crasfermentum fringilla ante, nec gravida urna elementum ut. Nullaporttitor sit amet nisl vitae tincidunt. Pellentesque ut eniminterdum, scelerisque turpis gravida, fringilla nibh",
-          user: "Rituraj",
-          date: "February 22nd, 2023",
-        },
-        {
-          rating: 3,
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Crasfermentum fringilla ante, nec gravida urna elementum ut. Nullaporttitor sit amet nisl vitae tincidunt. Pellentesque ut eniminterdum, scelerisque turpis gravida, fringilla nibh",
-          user: "Yogesh",
-          date: "February 22nd, 2023",
-        },
-      ],
-      quantity: 1,
-    },
-  ];
-  const totalCost = 30;
-  const totalItems = 1;
+  const cartItems = [];
+  const totalCost = 0;
+  const totalItems = 0;
 
   const logout = () => {
     const token = localStorage.getItem("Token");
@@ -71,7 +40,6 @@ const Header = () => {
   };
 
   const handleSearch = () => {
-    console.log(searchValue);
     setUtilState({ ...utilState, search: searchValue });
     navigate("/home");
   };

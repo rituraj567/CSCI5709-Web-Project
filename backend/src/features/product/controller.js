@@ -175,6 +175,8 @@ exports.getRatings = async (req, res) => {
   }
 };
 
+//it will filter the products with selected filter and sorting option
+
 exports.filterProducts = async (req, res) => {
   const limit = 12;
   const page = req.query.page || 1;
@@ -238,6 +240,7 @@ exports.filterProducts = async (req, res) => {
   }
 };
 
+//it will return the selected sort option
 const sortObject = async (sortCategory) => {
   let sortObj = {};
   switch (sortCategory) {

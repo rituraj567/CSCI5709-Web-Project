@@ -36,6 +36,7 @@ function App() {
           <Route path="/reset" element={<RestrictedResetPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/sellerdashboard" element={<SellerDashboard />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/product" element={<ProductPageDetails />} />
@@ -47,7 +48,6 @@ function App() {
           <Route path="/address" element={<AddressPage />} />
           <Route path="/additem" element={<ListItemForm preFilled="false" />} />
           <Route path="/updateitem" element={<UpdateItems />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
           <Route
             path="/updateitemform"
             element={<ListItemForm preFilled="true" />}

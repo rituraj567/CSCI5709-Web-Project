@@ -4,8 +4,7 @@ import { Grid } from "@mui/material";
 import CartComponent from "./CartComponent";
 import { Rating } from "@mui/material";
 import { AttachMoney } from "@mui/icons-material";
-function ProductInfo({ product,userId }) {
- 
+function ProductInfo({ product }) {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={4}>
@@ -48,7 +47,7 @@ function ProductInfo({ product,userId }) {
         </div>
       </Grid>
       <Grid item xs={12} md={4}>
-        <CartComponent product={product} userId={userId} />
+        <CartComponent product={product} />
       </Grid>
     </Grid>
   );

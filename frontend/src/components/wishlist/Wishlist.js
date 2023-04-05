@@ -4,11 +4,12 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import axios from "axios";
-import { SearchContext } from "../../SearchContext";
+import { useNavigate } from "react-router-dom";
 
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
   const token = localStorage.getItem("Token");
+  const navigate = useNavigate();
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";
 
@@ -40,6 +41,15 @@ const Wishlist = () => {
     fetchWishlist();
   };
 
+  const handleProductClick = (item) => {
+    console.log("test", item);
+    navigate(`/product`, {
+      state: {
+        id: item.productId,
+      },
+    });
+  };
+
   useEffect(() => {
     fetchWishlist();
   }, []);
@@ -59,6 +69,7 @@ const Wishlist = () => {
             <Grid container spacing={2}>
               <Grid item xs={4}>
                 <LazyLoadImage
+                  onClick={() => handleProductClick(item)}
                   src={item.imageThumbnailUrl}
                   width={"50%"}
                   style={{
@@ -70,9 +81,17 @@ const Wishlist = () => {
                 />
               </Grid>
               <Grid item xs={8}>
-                <Typography variant="h6" color="initial" align="left">
+                <p
+                  style={{
+                    textDecoration: "none",
+                    color: primaryColor,
+                    "&:hover": { color: selectedColor },
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleProductClick(item)}
+                >
                   {item.name}
-                </Typography>
+                </p>
                 <Box
                   sx={{
                     display: "flex",
@@ -83,21 +102,6 @@ const Wishlist = () => {
                     width: "100%",
                   }}
                 >
-                  <Button
-                    aria-label="Add to Cart"
-                    sx={{
-                      background: primaryColor,
-                      textTransform: "none",
-                      height: "2.5rem",
-                      width: "7rem",
-                      "&:hover": {
-                        backgroundColor: selectedColor,
-                      },
-                    }}
-                    variant="contained"
-                  >
-                    Add to Cart
-                  </Button>
                   <Button
                     aria-label="Delete"
                     sx={{

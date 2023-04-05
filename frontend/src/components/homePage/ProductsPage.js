@@ -1,3 +1,4 @@
+//author: Nishith Gadhiya
 import { Box, Grid, Pagination } from "@mui/material";
 import React, { useState, useEffect, useContext } from "react";
 import Filters from "./Filters";
@@ -6,6 +7,7 @@ import axios from "axios";
 import Sort from "./Sort";
 import { SearchContext } from "../../SearchContext";
 
+//this component will fetch the productlist and manage
 const ProductsPage = () => {
   const [productsList, setProductsList] = useState([]);
   const [totalPages, setTotalPages] = useState(1);

@@ -1,127 +1,17 @@
+//author: Nishith Gadhiya
 import { Box, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import Link from "@mui/material/Link";
 import Rating from "@mui/material/Rating";
 import axios from "axios";
 import { SearchContext } from "../../SearchContext";
+import {
+  categories,
+  priceListFilter,
+  review,
+} from "../jsonObject/categoryJson";
 
-const categories = [
-  {
-    id: 0,
-    title: "All",
-  },
-  {
-    id: 1,
-    title: "Electronics",
-  },
-  {
-    id: 2,
-    title: "Kitchen",
-  },
-  {
-    id: 3,
-    title: "Hardware & Tools",
-  },
-  {
-    id: 4,
-    title: "Seasonal",
-  },
-  {
-    id: 5,
-    title: "Clothes & Accessories",
-  },
-  {
-    id: 6,
-    title: "Health & Beauty",
-  },
-  {
-    id: 7,
-    title: "Stationary & Craft",
-  },
-  {
-    id: 8,
-    title: "Home Decor",
-  },
-  {
-    id: 9,
-    title: "Celebration",
-  },
-  {
-    id: 10,
-    title: "Cards",
-  },
-  {
-    id: 11,
-    title: "Food",
-  },
-  {
-    id: 12,
-    title: "Toys",
-  },
-];
-
-const priceListFilter = [
-  {
-    id: 0,
-    title: "All",
-    minValue: -1,
-    maxValue: -1,
-  },
-  {
-    id: 1,
-    title: "Under $25",
-    minValue: 1,
-    maxValue: 25,
-  },
-  {
-    id: 2,
-    title: "$25 to $50",
-    minValue: 25,
-    maxValue: 50,
-  },
-  {
-    id: 3,
-    title: "$50 to $100",
-    minValue: 50,
-    maxValue: 100,
-  },
-  {
-    id: 4,
-    title: "$100 to $200",
-    minValue: 100,
-    maxValue: 200,
-  },
-  {
-    id: 5,
-    title: "$200 & Above",
-    minValue: 200,
-    maxValue: 99999999999,
-  },
-];
-
-const review = [
-  {
-    id: 0,
-    title: "All",
-  },
-  {
-    id: 4,
-    title: "4",
-  },
-  {
-    id: 3,
-    title: "3",
-  },
-  {
-    id: 2,
-    title: "2",
-  },
-  {
-    id: 1,
-    title: "1",
-  },
-];
-
+//this component is filter categories like department, price, ratings
 const Filters = ({
   setProductsList,
   sortCategory,

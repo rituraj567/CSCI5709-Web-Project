@@ -1,3 +1,4 @@
+//author: Nishith Gadhiya
 import React, { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Logo from "../images/logo.png";
@@ -16,6 +17,7 @@ import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { SearchContext } from "../SearchContext";
 
+//this component is as name suggests Header
 const Header = () => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";

@@ -1,3 +1,4 @@
+//author: Nishith Gadhiya
 import {
   SoupKitchen,
   LaptopTwoTone,
@@ -14,6 +15,7 @@ import {
   ShoppingBagOutlined,
 } from "@mui/icons-material";
 
+//this component contains necessary json objects
 export const categories = [
   {
     id: 0,
@@ -79,5 +81,67 @@ export const categories = [
     id: 12,
     title: "Toys",
     icon: ToysTwoTone,
+  },
+];
+
+export const priceListFilter = [
+  {
+    id: 0,
+    title: "All",
+    minValue: -1,
+    maxValue: -1,
+  },
+  {
+    id: 1,
+    title: "Under $25",
+    minValue: 1,
+    maxValue: 25,
+  },
+  {
+    id: 2,
+    title: "$25 to $50",
+    minValue: 25,
+    maxValue: 50,
+  },
+  {
+    id: 3,
+    title: "$50 to $100",
+    minValue: 50,
+    maxValue: 100,
+  },
+  {
+    id: 4,
+    title: "$100 to $200",
+    minValue: 100,
+    maxValue: 200,
+  },
+  {
+    id: 5,
+    title: "$200 & Above",
+    minValue: 200,
+    maxValue: 99999999999,
+  },
+];
+
+export const review = [
+  {
+    id: 0,
+    title: "All",
+  },
+  {
+    id: 4,
+    title: "4",
+  },
+  {
+    id: 3,
+    title: "3",
+  },
+  {
+    id: 2,
+    title: "2",
+  },
+  {
+    id: 1,
+    title: "1",
   },
 ];

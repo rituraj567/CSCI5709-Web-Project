@@ -1,8 +1,10 @@
+//author: Nishith Gadhiya
 import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import Product from "./Product";
 import Grid from "@mui/material/Grid";
 
+//this component will manage list of products
 const ProductsList = ({ productsList }) => {
   return (
     <Box

@@ -7,7 +7,7 @@ import ErrorPage from "../components/ErrorPage";
 const WishlistPage = () => {
   return (
     <Box>
-      {localStorage.getItem("isUserLoggedIn") ? (
+      {localStorage.getItem("Token") ? (
         <Box>
           <Header />
           <Divider />

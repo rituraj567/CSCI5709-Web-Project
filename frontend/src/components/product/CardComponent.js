@@ -1,3 +1,5 @@
+//Authors - Rituraj Kadamati
+
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -5,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+//Displays the cart details and cart buttons in a card
 export function CardComponent(props) {
   const navigate = useNavigate();
   return (

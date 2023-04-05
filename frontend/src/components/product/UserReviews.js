@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+//Author - Rituraj Kadamati
 import { Star } from "@mui/icons-material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Products from "./Products.json";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 export function UserReviews({ product }) {
   const [reviews, setRatings] = useState();
   const fetchRatings = async () => {

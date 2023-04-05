@@ -1,3 +1,4 @@
+//Author - Rituraj Kadamati
 import { Star } from "@mui/icons-material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -51,6 +52,7 @@ const token = localStorage.getItem('Token')
     fetchRatings();
   };
 
+  //function to fetch the ratings associated with the product
   const fetchRatings = async () => {
     try {
       const response = await axios.get(

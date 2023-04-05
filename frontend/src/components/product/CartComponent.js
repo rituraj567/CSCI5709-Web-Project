@@ -1,3 +1,4 @@
+//Authors - Rituraj Kadamati
 import {
   AddCircleOutlineOutlined,
   RemoveCircleOutlined,
@@ -5,7 +6,6 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Row } from "react-bootstrap";
-import { ConeStriped } from "react-bootstrap-icons";
 import { CardComponent } from "./CardComponent";
 
 export default function CartComponent({ product }) {
@@ -21,6 +21,7 @@ export default function CartComponent({ product }) {
     getCartItems();
   }, []);
 
+  
   const getCartItems = async () => {
     const response = await axios.get(
       `${process.env.REACT_APP_BACKEND_SERVER}/cart/`,
@@ -38,8 +39,8 @@ export default function CartComponent({ product }) {
     setTotalCartItems(Number(response.data.totalQuantity).toFixed(2));
   };
 
+  //function to handle Add to Cart Functionality
   const handleCartProcess = async () => {
-    console.log("innnnn");
     const response = await axios.post(
       `${process.env.REACT_APP_BACKEND_SERVER}/cart`,
       {
@@ -68,6 +69,7 @@ export default function CartComponent({ product }) {
     setRemoveError("");
   };
 
+  //Funtion to handle remove from Cart functionality
   const handleRemoveCartProcess = async () => {
     const itemExists = cartItems.find((item) => item.productId === product._id);
     if (itemExists) {

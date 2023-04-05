@@ -1,9 +1,10 @@
-import React from "react";
-import { CurrencyDollar, Star } from "react-bootstrap-icons";
-import { Grid } from "@mui/material";
-import CartComponent from "./CartComponent";
-import { Rating } from "@mui/material";
+//Author - Rituraj Kadamati
 import { AttachMoney } from "@mui/icons-material";
+import { Grid, Rating } from "@mui/material";
+import React from "react";
+import CartComponent from "./CartComponent";
+
+//Displays the product information 
 function ProductInfo({ product }) {
   return (
     <Grid container spacing={3}>

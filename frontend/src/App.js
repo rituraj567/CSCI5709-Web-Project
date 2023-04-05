@@ -16,8 +16,7 @@ import UpdateItems from "./components/productManagement/UpdateItems";
 import ProductPageDetails from "./pages/ProductDetailsPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Success from "./components/paymentGateway/Success";
-import Counter from "./components/Counter";
-import WalletPage from './pages/WalletPage';
+import WalletPage from "./pages/WalletPage";
 import WishlistPage from "./pages/WishlistPage";
 import { SearchContext } from "./SearchContext";
 import { useState } from "react";
@@ -32,13 +31,13 @@ function App() {
       <SearchContext.Provider value={{ utilState, setUtilState }}>
         <Routes>
           <Route index element={<Main />} />
-          <Route path="/counter" element={<Counter />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/otp" element={<ResetPage />} />
           <Route path="/reset" element={<RestrictedResetPage />} />
           <Route path="/account" element={<AccountPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/sellerdashboard" element={<SellerDashboard />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/product" element={<ProductPageDetails />} />
@@ -50,7 +49,6 @@ function App() {
           <Route path="/address" element={<AddressPage />} />
           <Route path="/additem" element={<ListItemForm preFilled="false" />} />
           <Route path="/updateitem" element={<UpdateItems />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/transaction" element={<TransactionPage />} />
           <Route
             path="/updateitemform"

@@ -5,9 +5,10 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Row } from "react-bootstrap";
+import { ConeStriped } from "react-bootstrap-icons";
 import { CardComponent } from "./CardComponent";
 
-export default function CartComponent({ product, userId }) {
+export default function CartComponent({ product }) {
   const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const token = localStorage.getItem("Token");
@@ -15,6 +16,7 @@ export default function CartComponent({ product, userId }) {
   const [totalCartItems, setTotalCartItems] = useState(0);
   const [removeError, setRemoveError] = useState();
   const [quantity, setQuantity] = useState(0);
+  console.log(product._id);
   useEffect(() => {
     getCartItems();
   }, []);
@@ -29,7 +31,7 @@ export default function CartComponent({ product, userId }) {
 
     setCartItems(response.data.cartItems);
     const item = response.data.cartItems.find(
-      (p) => p.productId === product.productId
+      (p) => p.productId === product._id
     );
     setQuantity(item?.quantity ? item?.quantity : 0);
     setTotalCartCost(Number(response.data.totalCost).toFixed(2));
@@ -37,10 +39,11 @@ export default function CartComponent({ product, userId }) {
   };
 
   const handleCartProcess = async () => {
+    console.log("innnnn");
     const response = await axios.post(
-      `${process.env.REACT_APP_BACKEND_SERVER}/cart/`,
+      `${process.env.REACT_APP_BACKEND_SERVER}/cart`,
       {
-        productId: product.productId,
+        productId: product._id,
         name: product.name,
         description: product.description,
         price: product.price,
@@ -54,8 +57,9 @@ export default function CartComponent({ product, userId }) {
         headers: { Authorization: token },
       }
     );
+    console.log("response", response);
     const cartItems = response.data.cartItems;
-    const item = cartItems.find((p) => p.productId === product.productId);
+    const item = cartItems.find((p) => p.productId === product._id);
     setTotalCartCost(Number(response.data.totalCost).toFixed(2));
     setTotalCartItems(response.data.totalQuantity);
     setCartVisible(true);
@@ -65,19 +69,17 @@ export default function CartComponent({ product, userId }) {
   };
 
   const handleRemoveCartProcess = async () => {
-    const itemExists = cartItems.find(
-      (item) => item.productId === product.productId
-    );
+    const itemExists = cartItems.find((item) => item.productId === product._id);
     if (itemExists) {
       const response = await axios.delete(
-        `${process.env.REACT_APP_BACKEND_SERVER}/cart/${product.productId}`,
+        `${process.env.REACT_APP_BACKEND_SERVER}/cart/${product._id}`,
         {
           headers: { Authorization: token },
         }
       );
 
       const item = response.data.cartItems.find(
-        (p) => p.productId === product.productId
+        (p) => p.productId === product._id
       );
       setTotalCartCost(response.data.totalCost);
       setTotalCartItems(response.data.totalQuantity);

@@ -1,11 +1,10 @@
 import React from "react";
 import Address from "../components/paymentGateway/Address";
 
-
 function AddressPage() {
   return (
     <div>
-      {localStorage.getItem("isUserLoggedIn") ? (
+      {localStorage.getItem("Token") ? (
         <div>
           <Address />
         </div>

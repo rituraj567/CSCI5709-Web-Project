@@ -5,7 +5,7 @@ import ErrorPage from "../components/ErrorPage";
 function CheckoutPage() {
   return (
     <div>
-      {localStorage.getItem("isUserLoggedIn") ? (
+      {localStorage.getItem("Token") ? (
         <div>
           <Wallet />
         </div>

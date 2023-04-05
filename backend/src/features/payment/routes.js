@@ -1,6 +1,6 @@
 const authenticateUser = require("../../utils/authenticateUser");
 const express = require("express");
-const { createAddress, createOrder, validatePayment} = require("./paymentcontroller");
+const { createAddress, createOrder, validatePayment, getCart} = require("./paymentcontroller");
 const router = express.Router();
 
 
@@ -30,6 +30,20 @@ router.post("/transaction", authenticateUser, async(req,res)=>{
             const response= await createOrder(data,userId)
             res.send(response)
         }
+    } catch (error) {
+        res.json({
+            status:"Failed",
+            message:error.message})
+    }
+})
+
+router.get("/getcart", authenticateUser, async(req,res)=>{
+    try {
+        
+        const userId = req.user.id;
+        const response= await getCart(userId)
+            res.send(response)
+        
     } catch (error) {
         res.json({
             status:"Failed",

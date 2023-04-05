@@ -5,16 +5,58 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Header from "../Header";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 const initialValues = {
   name: "",
   card: "",
   expiry: "",
   cvv: "",
-  radiobuttons:"Credit"
-  
+  radiobuttons: "Credit",
 };
 function Payment() {
+  const [accountbalance, setAccountBalance] = useState("");
+  const [cartTotal, setcartTotal] = useState("");
+  useEffect(() => {
+    const token = localStorage.getItem("Token");
+
+    const headers = {
+      Authorization: token,
+    };
+
+    axios
+      .get(process.env.REACT_APP_BACKEND_SERVER + "/wallet/getwalletdetails", {
+        headers: headers,
+      })
+      .then((response) => {
+        const output = response.data;
+        console.log(output);
+
+        if (output.responseStatus) {
+          setAccountBalance(output.responseData.accountbalance);
+        }
+      })
+      .catch((response) => {
+        console.log("response" + response);
+      });
+
+      axios
+      .get(process.env.REACT_APP_BACKEND_SERVER + "/payment/getcart", {
+        headers: headers,
+      })
+      .then((response) => {
+        const cartOutput = response.data;
+        console.log(cartOutput);
+
+        if (cartOutput.responseStatus) {
+          setcartTotal(cartOutput.responseData.totalCost);
+        }
+      })
+      .catch((response) => {
+        console.log("response" + response);
+      });
+  }, []);
+
   const navigate = useNavigate();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -22,7 +64,7 @@ function Payment() {
       validationSchema: card,
       onSubmit: (values, action) => {
         // values.preventDefault();
-        
+
         const token = localStorage.getItem("Token");
 
         const headers = {
@@ -47,7 +89,7 @@ function Payment() {
           )
           .then((response) => {
             const output = response.data;
-            
+
             if (output.responseStatus) {
               navigate("/checkout/success");
             }
@@ -55,7 +97,6 @@ function Payment() {
           .catch((response) => {
             console.log("Response" + response);
           });
-        
       },
     });
   // console.log("errors", errors);
@@ -72,9 +113,10 @@ function Payment() {
       ></meta>
 
       <Header />
-      <h1 style={{ fontWeight: "bold" }}>Payment Gateway</h1>
+      
       <div className="form-layout">
         <form onSubmit={handleSubmit} sx={{ display: "flex", gap: 2 }}>
+        <h1 style={{ fontWeight: "bold" }}>Payment Gateway</h1>
           <div className="mode">
             <input
               type="radio"
@@ -161,7 +203,6 @@ function Payment() {
                   name="expiry"
                   placeholder="Expiry MMYY"
                   onChange={handleChange}
-                  
                   required
                 />
                 {errors.expiry && touched.expiry ? (
@@ -247,11 +288,12 @@ function Payment() {
                   name="expiry"
                   placeholder="Expiry MMYY"
                   onChange={handleChange}
-                  
                   required
                 />
                 {errors.expiry && touched.expiry ? (
-                  <p className="form-error" style={{color:"#D90429"}}>{errors.expiry}</p>
+                  <p className="form-error" style={{ color: "#D90429" }}>
+                    {errors.expiry}
+                  </p>
                 ) : null}
               </div>
 
@@ -291,14 +333,15 @@ function Payment() {
 
           {values.radiobuttons === "Wallet" && (
             <div className="form">
-              <h3>Shobhit Arora</h3>
-              <h3>Available Balance: $20</h3>
-              <input
+              <h3>Available Balance: ${accountbalance}</h3>
+              <h4>Payable Amount: ${cartTotal}</h4>
+              {/* <input
                 type="number"
                 style={{ width: 500, padding: 12, margin: 8 }}
                 placeholder="Top Up Amount"
                 required
-              />
+                value={cartTotal}
+              /> */}
               <br></br>
               <Button
                 aria-label="Submit"

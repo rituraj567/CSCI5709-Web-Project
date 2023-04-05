@@ -38,7 +38,7 @@ function Wallet() {
         console.log("response" + response);
       });
 
-})
+},[])
 
   const addMoneyHandler= async()=>{
     let newbalance= parseInt(accountbalance)+parseInt(amount);
@@ -77,7 +77,7 @@ function Wallet() {
       <div className='wallet-card'>
       <Typography variant="h3" textAlign="center" sx={{pb:8, fontWeight:"bold"}}><AccountBalanceWalletIcon sx={{fontSize:"56px"}}/> Wallet </Typography>
       <Typography variant='h5'>Account Balance:</Typography>
-      <Typography variant="h1" sx={{pb:8}} fontWeight={200}>{accountbalance}</Typography>
+      <Typography variant="h1" sx={{pb:8}} fontWeight={200}>${accountbalance}</Typography>
       <FormControl fullWidth sx={{ m: 1 }}>
           <InputLabel htmlFor="outlined-adornment-amount">Amount</InputLabel>
           <OutlinedInput

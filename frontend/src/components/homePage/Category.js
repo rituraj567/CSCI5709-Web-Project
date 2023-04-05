@@ -1,3 +1,4 @@
+//author: Nishith Gadhiya
 import { React, SyntheticEvent, useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Tabs, { tabsClasses } from "@mui/material/Tabs";
@@ -8,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import { IconButton } from "@mui/material";
 import { SearchContext } from "../../SearchContext";
 
+//this component is the category bar below header
 const Category = () => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";

@@ -1,3 +1,4 @@
+//author: Nishith Gadhiya
 import { Box, Button, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -6,6 +7,7 @@ import Divider from "@mui/material/Divider";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+//this component will showcase the wishlisted items and manage
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
   const token = localStorage.getItem("Token");

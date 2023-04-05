@@ -1,3 +1,4 @@
+//author: Nishith Gadhiya
 import { Box, Typography, IconButton, useMediaQuery } from "@mui/material";
 import React, { useContext, useState } from "react";
 import Rating from "@mui/material/Rating";
@@ -9,6 +10,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import axios from "axios";
 import { SearchContext } from "../../SearchContext";
 
+//this component will render single product card
 const Product = (props) => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";

@@ -1,3 +1,4 @@
+//author: Nishith Gadhiya
 import { Box } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,6 +9,7 @@ import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { SearchContext } from "../../SearchContext";
 
+//this component will sort the products list
 const Sort = () => {
   const [initial, setInitial] = useState(true);
   const { utilState, setUtilState } = useContext(SearchContext);

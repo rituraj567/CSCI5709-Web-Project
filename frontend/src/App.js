@@ -22,6 +22,7 @@ import { SearchContext } from "./SearchContext";
 import { useState } from "react";
 import RestrictedResetPage from "./pages/RestrictedResetPage";
 import AddressPage from "./pages/AddressPage";
+import TransactionPage from "./pages/TransactionPage";
 
 function App() {
   const [utilState, setUtilState] = useState({});
@@ -48,6 +49,7 @@ function App() {
           <Route path="/address" element={<AddressPage />} />
           <Route path="/additem" element={<ListItemForm preFilled="false" />} />
           <Route path="/updateitem" element={<UpdateItems />} />
+          <Route path="/transaction" element={<TransactionPage />} />
           <Route
             path="/updateitemform"
             element={<ListItemForm preFilled="true" />}

@@ -5,16 +5,59 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Header from "../Header";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { red } from "@mui/material/colors";
 
 const initialValues = {
   name: "",
   card: "",
   expiry: "",
   cvv: "",
-  radiobuttons:"Credit"
-  
+  radiobuttons: "Credit",
 };
 function Payment() {
+  const [accountbalance, setAccountBalance] = useState("");
+  const [cartTotal, setcartTotal] = useState("");
+  const [paymentError, setPaymentError] = useState("");
+  useEffect(() => {
+    const token = localStorage.getItem("Token");
+
+    const headers = {
+      Authorization: token,
+    };
+
+    axios
+      .get(process.env.REACT_APP_BACKEND_SERVER + "/wallet/getwalletdetails", {
+        headers: headers,
+      })
+      .then((response) => {
+        const output = response.data;
+
+        if (output.responseStatus) {
+          setAccountBalance(output.responseData.accountbalance);
+        }
+      })
+      .catch((response) => {
+        console.log("response" + response);
+      });
+
+    axios
+      .get(process.env.REACT_APP_BACKEND_SERVER + "/payment/getcart", {
+        headers: headers,
+      })
+      .then((response) => {
+        const cartOutput = response.data;
+        console.log(cartOutput);
+
+        if (cartOutput.responseStatus) {
+          setcartTotal(cartOutput.responseData.totalCost);
+        }
+      })
+      .catch((response) => {
+        console.log("response" + response);
+      });
+  }, []);
+
   const navigate = useNavigate();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -22,20 +65,22 @@ function Payment() {
       validationSchema: card,
       onSubmit: (values, action) => {
         // values.preventDefault();
-        
+        console.log("On submit "+values);
         const token = localStorage.getItem("Token");
 
         const headers = {
           Authorization: token,
         };
-
-        const data = {
-          name: values.name,
-          card: values.card,
-          expiry: values.expiry,
-          cvv: values.cvv,
-          source: values.radiobuttons,
-        };
+        let data={}
+        
+           data = {
+            name: values.name,
+            card: values.card,
+            expiry: values.expiry,
+            cvv: values.cvv,
+            source: values.radiobuttons,
+          };
+       
 
         axios
           .post(
@@ -47,18 +92,60 @@ function Payment() {
           )
           .then((response) => {
             const output = response.data;
-            
+
             if (output.responseStatus) {
               navigate("/checkout/success");
             }
           })
           .catch((response) => {
             console.log("Response" + response);
+            setPaymentError(response.responseMessage);
           });
-        
       },
     });
-  // console.log("errors", errors);
+  console.log("data", values.radiobuttons);
+
+  const handleWalletSubmit =()=>{
+    console.log("inside wallet submit")
+    const token = localStorage.getItem("Token");
+
+    const headers = {
+      Authorization: token,
+    };
+    let data={}
+    
+       data = {
+        name: values.name,
+        card: values.card,
+        expiry: values.expiry,
+        cvv: values.cvv,
+        source: values.radiobuttons,
+      };
+   
+
+    axios
+      .post(
+        process.env.REACT_APP_BACKEND_SERVER + "/payment/transaction",
+        data,
+        {
+          headers: headers,
+        }
+      )
+      .then((response) => {
+        console.log("Response", response);
+        const output = response.data;
+        
+        if (output.responseStatus) {
+          navigate("/checkout/success");
+        }
+        else{
+          setPaymentError(output.responseMessage)
+        }
+      })
+      .catch((response) => {
+        console.log("Response", response);
+      });
+  }
 
   let title = "Payment";
   const primaryColor = "#2B2D42";
@@ -72,9 +159,10 @@ function Payment() {
       ></meta>
 
       <Header />
-      <h1 style={{ fontWeight: "bold" }}>Payment Gateway</h1>
+
       <div className="form-layout">
         <form onSubmit={handleSubmit} sx={{ display: "flex", gap: 2 }}>
+          <h1 style={{ fontWeight: "bold" }}>Payment Gateway</h1>
           <div className="mode">
             <input
               type="radio"
@@ -161,7 +249,6 @@ function Payment() {
                   name="expiry"
                   placeholder="Expiry MMYY"
                   onChange={handleChange}
-                  
                   required
                 />
                 {errors.expiry && touched.expiry ? (
@@ -247,11 +334,12 @@ function Payment() {
                   name="expiry"
                   placeholder="Expiry MMYY"
                   onChange={handleChange}
-                  
                   required
                 />
                 {errors.expiry && touched.expiry ? (
-                  <p className="form-error">{errors.expiry}</p>
+                  <p className="form-error" style={{ color: "#D90429" }}>
+                    {errors.expiry}
+                  </p>
                 ) : null}
               </div>
 
@@ -282,7 +370,6 @@ function Payment() {
                 }}
                 type="submit"
                 variant="contained"
-                onClick={() => navigate("success")}
               >
                 Pay
               </Button>
@@ -291,15 +378,19 @@ function Payment() {
 
           {values.radiobuttons === "Wallet" && (
             <div className="form">
-              <h3>Shobhit Arora</h3>
-              <h3>Available Balance: $20</h3>
-              <input
+              <h3>Available Balance: ${accountbalance}</h3>
+              <h4>Payable Amount: ${cartTotal}</h4>
+              {/* <input
                 type="number"
                 style={{ width: 500, padding: 12, margin: 8 }}
                 placeholder="Top Up Amount"
                 required
-              />
+                value={cartTotal}
+              /> */}
               <br></br>
+              {paymentError  ? (
+                  <p style={{color:"red !important" }}>{paymentError}</p>
+                ) : null}
               <Button
                 aria-label="Submit"
                 sx={{
@@ -312,10 +403,11 @@ function Payment() {
                 }}
                 type="submit"
                 variant="contained"
-                onClick={() => navigate("success")}
+                onClick={handleWalletSubmit}
               >
                 Pay
               </Button>
+
             </div>
           )}
         </form>

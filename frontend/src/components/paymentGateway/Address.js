@@ -18,7 +18,6 @@ function Address() {
   const [submittedforPersonalDetails, setSubmittedforPersonalDetails] =
     useState(true);
   const [submittedforAddress, setSubmittedforAddress] = useState(true);
-  const [expanded, setExpanded] = useState(false);
   const EMPTY_FIELD = "Field cannot be empty!";
   const ALPHABET_ONLY = "Field can contain only alphabets!";
   const POSTAL_CODE =

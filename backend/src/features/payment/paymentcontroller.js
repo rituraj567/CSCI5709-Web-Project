@@ -3,6 +3,7 @@ const { json } = require("express");
 const Card = require("./Card");
 const Transaction = require("./Transaction");
 const Order = require("./Order");
+const Wallet= require("../wallet/Wallet")
 
 const cart = {
   totalcost: 234,
@@ -73,7 +74,7 @@ exports.validatePayment = async (data, userId) => {
         let transactionDb = await Transaction.create({
           amount: cart.totalcost,
           date: new Date(),
-          type: "Debit",
+          type: "Debited",
           source: data.source,
           userid: userId,
         });
@@ -82,20 +83,34 @@ exports.validatePayment = async (data, userId) => {
           responseMessage: "Transaction was success",
           responseData: transactionDb,
         };
-      } else {
-        response = {
-          responseStatus: false,
-          responseMessage: "Transaction failed",
-        };
-      }
+      } 
     } else if (data.source == "Wallet") {
-      let walletDb = await Wallet.find({ userId: userId });
-      if (walletDb.balance == cart.totalcost) {
+      let walletDb = await Wallet.find({ userid: userId });
+      let balance=walletDb.balance;
+      if (balance >= cart.totalcost) {
+        balance=balance-cart.totalcost;
+        let updateWalletData={
+          accountbalance:balance
+        }
+
+        updatedWalletDb= await Wallet.findByIdAndUpdate(walletDb.id, updateWalletData,{ new: true });
         response = {
           responseStatus: true,
           responseMessage: "Transaction was success",
         };
       }
+      else{
+        response = {
+          responseStatus: false,
+          responseMessage: "Not enough balance in wallet",
+        };
+      }
+    }
+    else {
+      response = {
+        responseStatus: false,
+        responseMessage: "Transaction failed",
+      };
     }
   } catch (error) {
     console.log(error);

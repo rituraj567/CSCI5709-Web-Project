@@ -251,7 +251,7 @@ function Payment() {
                   required
                 />
                 {errors.expiry && touched.expiry ? (
-                  <p className="form-error">{errors.expiry}</p>
+                  <p className="form-error" style={{color:"#D90429"}}>{errors.expiry}</p>
                 ) : null}
               </div>
 

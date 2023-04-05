@@ -7,16 +7,15 @@ import HomeIcon from "@mui/icons-material/Home";
 import { Link, useNavigate } from "react-router-dom";
 import "./sellerdashboard.css";
 function SellerNavbar() {
+  const navigate = useNavigate();
 
-  const navigate=useNavigate();
-
-  const logout=()=>{
-    const token=localStorage.getItem("Token");
-    if(token){
+  const logout = () => {
+    const token = localStorage.getItem("Token");
+    if (token) {
       localStorage.removeItem("Token");
       navigate("/");
     }
-  }
+  };
   return (
     <Box sx={{ alignSelf: "stretch" }}>
       <AppBar position="static" sx={{ bgcolor: "#FFFFFF" }}>
@@ -31,11 +30,15 @@ function SellerNavbar() {
           </b>
           <Button variant="contained" sx={{ marginLeft: "auto" }} id="buttons">
             <Link to="/sellerdashboard" id="links">
-            <AccountCircle />
+              <AccountCircle />
             </Link>
-
           </Button>
-          <Button variant="contained" sx={{ marginLeft: "10px" }} id="buttons" onClick={logout} >
+          <Button
+            variant="contained"
+            sx={{ marginLeft: "10px" }}
+            id="buttons"
+            onClick={logout}
+          >
             <LogoutIcon />
           </Button>
         </Toolbar>

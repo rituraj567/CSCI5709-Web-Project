@@ -1,6 +1,7 @@
 const Wishlist = require("./model");
 const { ObjectId } = require("mongoose");
 
+//fetch the wishlist collection items that user has added
 exports.getWishlist = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -12,6 +13,7 @@ exports.getWishlist = async (req, res) => {
   }
 };
 
+// delete the product from the wishlist collection
 exports.deleteFromWishlist = async (req, res) => {
   try {
     const id = req.user.id;
@@ -28,6 +30,7 @@ exports.deleteFromWishlist = async (req, res) => {
   }
 };
 
+//add the product to the wishlist collection
 exports.addToWishlist = async (req, res) => {
   try {
     console.log(req.user.id);

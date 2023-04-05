@@ -16,8 +16,7 @@ import UpdateItems from "./components/productManagement/UpdateItems";
 import ProductPageDetails from "./pages/ProductDetailsPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import Success from "./components/paymentGateway/Success";
-import Counter from "./components/Counter";
-import WalletPage from './pages/WalletPage';
+import WalletPage from "./pages/WalletPage";
 import WishlistPage from "./pages/WishlistPage";
 import { SearchContext } from "./SearchContext";
 import { useState } from "react";
@@ -31,7 +30,6 @@ function App() {
       <SearchContext.Provider value={{ utilState, setUtilState }}>
         <Routes>
           <Route index element={<Main />} />
-          <Route path="/counter" element={<Counter />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/otp" element={<ResetPage />} />

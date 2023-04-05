@@ -40,7 +40,6 @@ const Header = () => {
   };
 
   const handleSearch = () => {
-    console.log(searchValue);
     setUtilState({ ...utilState, search: searchValue });
     navigate("/home");
   };

@@ -200,8 +200,7 @@ const ListItemForm = (props) => {
       <Box className="listItemsForm">
         <Container id="addNewItemStyle">
           <form>
-            <h1>List Item Form</h1>
-            <h3 style={{ color: "grey" }}>
+            <h3 style={{ color: "#454545" }}>
               Let's put your item on our e-store
             </h3>
             <div>
@@ -225,6 +224,7 @@ const ListItemForm = (props) => {
                 fullWidth
                 error={priceError}
                 value={price}
+                type="number"
                 // inputProps={{ inputMode: "numeric" }}
                 helperText={priceError ? priceErrorMessage : ""}
                 required
@@ -238,6 +238,7 @@ const ListItemForm = (props) => {
                 margin="normal"
                 fullWidth
                 required
+                type="number"
                 error={quantityError}
                 helperText={quantityError ? quantityErrorMessage : ""}
                 onChange={handleQuantityChange}

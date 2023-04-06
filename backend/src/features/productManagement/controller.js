@@ -9,13 +9,10 @@ const OrderObj = require("../payment/Order");
 exports.addProduct = async (req, res) => {
   const sellerId = req.user.id;
   const data = req.body;
-  console.log("addProduct outside");
-  console.log(data.imageData);
   const imageURLSObject = generateImageURLObject(data.imageData);
   const noImageAvailableURL =
     "http://res.cloudinary.com/dihkowyae/image/upload/v1680702363/vjhv6fbbcoxzmqgmftrv.jpg";
   if (data.currentProductId) {
-    console.log(`Existing Product ${data.currentProductId}`);
     const productId = data.currentProductId;
 
     const updateFields = {
@@ -34,7 +31,6 @@ exports.addProduct = async (req, res) => {
     );
     res.send("success");
   } else {
-    console.log("add called");
     const productAdd = await ProductManagementDbObj.create({
       productId:
         Math.floor(Math.random() * 1000) + Math.floor(Math.random() * 1000) + 1,
@@ -72,7 +68,6 @@ exports.getProductsBySellerId = async (req, res) => {
 };
 
 exports.getProductForm = async (req, res) => {
-  // console.log(`data from getProduct ${req.body.productId}`);
   const productId = req.body.productId;
   const productFormDetails = await ProductManagementObj.find({
     _id: productId,
@@ -81,7 +76,6 @@ exports.getProductForm = async (req, res) => {
 };
 
 exports.getSellerOverview = async (req, res) => {
-  console.log("seller overview called");
   const sellerId = req.user.id;
   const sellerProducts = await ProductManagementDbObj.find({
     sellerId: sellerId,
@@ -94,7 +88,6 @@ exports.getSellerOverview = async (req, res) => {
   sellerOveview["totalBusinessAmount"] = await getSellerTotalAmountSold(
     sellerProducts
   );
-  console.log(sellerOveview);
   res.send(sellerOveview);
 };
 
@@ -124,23 +117,28 @@ const averageRating = (productsData) => {
 };
 
 const getSellerTotalAmountSold = async (productsData) => {
-  // const allOrders = await OrderObj.find({});
-  const productIdSpecificSeller = [];
-  let totalBusinessAmount = 0;
-  let ordersForSeller = [];
-  for (let i = 0; i < productsData.length; i++) {
-    let productId = productsData[i]["_id"].toString();
-    productIdSpecificSeller.push(productId);
+  try {
+    // const allOrders = await OrderObj.find({});
+    const productIdSpecificSeller = [];
+    let totalBusinessAmount = 0;
+    let ordersForSeller = [];
+    for (let i = 0; i < productsData.length; i++) {
+      let productId = productsData[i]["_id"].toString();
+      productIdSpecificSeller.push(productId);
+    }
+    ordersForSeller = await OrderObj.find({
+      productid: {
+        $in: productIdSpecificSeller,
+      },
+    });
+    for (let i = 0; i < ordersForSeller.length; i++) {
+      totalBusinessAmount += ordersForSeller[i]["amount"];
+    }
+    return totalBusinessAmount;
+  } catch (error) {
+    console.log(error);
+    return 0;
   }
-  ordersForSeller = await OrderObj.find({
-    productid: {
-      $in: productIdSpecificSeller,
-    },
-  });
-  for (let i = 0; i < ordersForSeller.length; i++) {
-    totalBusinessAmount += ordersForSeller[i]["amount"];
-  }
-  return totalBusinessAmount;
 };
 
 exports.testDummy = async (req, res) => {

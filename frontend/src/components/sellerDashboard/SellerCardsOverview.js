@@ -8,6 +8,7 @@ const SellerCardsOverview = () => {
   const [totalProducts, settotalProducts] = useState();
   const [productsRunningLow, setproductsRunningLow] = useState();
   const [averageRating, setaverageRating] = useState();
+  const [sellerTotalAmount, setsellerTotalAmount] = useState(0);
   useEffect(() => {
     const token = localStorage.getItem("Token");
     const headers = {
@@ -25,6 +26,7 @@ const SellerCardsOverview = () => {
         settotalProducts(response.data.numberOfProducts);
         setproductsRunningLow(response.data.numberOfLowProducts);
         setaverageRating(response.data.averageRating);
+        setsellerTotalAmount(response.data.totalBusinessAmount);
       })
       .catch((response) => {
         console.log(`Error useEffect sellerProducts ${response}`);
@@ -50,7 +52,7 @@ const SellerCardsOverview = () => {
           />
           <DashboardCard
             cardName="Average Rating"
-            cardNumber={averageRating}
+            cardNumber={Number(averageRating).toFixed(2)}
             cardSymbol="★"
           />
         </Grid>
@@ -62,7 +64,11 @@ const SellerCardsOverview = () => {
             cardNumber={productsRunningLow}
             cardSymbol="⚠"
           />
-          <DashboardCard cardName="Rating" cardNumber="4.2" cardSymbol="★" />
+          <DashboardCard
+            cardName="Total amount of orders"
+            cardNumber={sellerTotalAmount}
+            cardSymbol="$"
+          />
         </Grid>
       </Container>
     </Box>

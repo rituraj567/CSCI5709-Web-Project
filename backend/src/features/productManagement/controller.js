@@ -4,6 +4,7 @@ This is the controller for seller's product management
 */
 const ProductManagementObj = require("./model");
 const ProductManagementDbObj = require("./model");
+const OrderObj = require("../payment/Order");
 
 exports.addProduct = async (req, res) => {
   const sellerId = req.user.id;
@@ -18,7 +19,6 @@ exports.addProduct = async (req, res) => {
     const productId = data.currentProductId;
 
     const updateFields = {
-      productId: 1234,
       quantity: data.quantity,
       name: data.productName,
       price: data.price,
@@ -91,6 +91,9 @@ exports.getSellerOverview = async (req, res) => {
   sellerOveview["numberOfProducts"] = sellerProducts.length;
   sellerOveview["numberOfLowProducts"] = numberOfLowProducts;
   sellerOveview["averageRating"] = averageRating(sellerProducts);
+  sellerOveview["totalBusinessAmount"] = await getSellerTotalAmountSold(
+    sellerProducts
+  );
   console.log(sellerOveview);
   res.send(sellerOveview);
 };
@@ -118,6 +121,26 @@ const averageRating = (productsData) => {
     return 0;
   }
   return rating / totalProductsToCount;
+};
+
+const getSellerTotalAmountSold = async (productsData) => {
+  // const allOrders = await OrderObj.find({});
+  const productIdSpecificSeller = [];
+  let totalBusinessAmount = 0;
+  let ordersForSeller = [];
+  for (let i = 0; i < productsData.length; i++) {
+    let productId = productsData[i]["_id"].toString();
+    productIdSpecificSeller.push(productId);
+  }
+  ordersForSeller = await OrderObj.find({
+    productid: {
+      $in: productIdSpecificSeller,
+    },
+  });
+  for (let i = 0; i < ordersForSeller.length; i++) {
+    totalBusinessAmount += ordersForSeller[i]["amount"];
+  }
+  return totalBusinessAmount;
 };
 
 exports.testDummy = async (req, res) => {

@@ -24,7 +24,7 @@ export function CardComponent(props) {
             Total {Number(props.totalItems).toFixed()} items added to cart
           </Typography>
           <div className="mt-4 center-buttons">
-            <Link to="/checkout" className="link">
+            <Link to="/address" className="link">
               <Button
                 variant="contained"
                 sx={{ minWidth: "100%" }}

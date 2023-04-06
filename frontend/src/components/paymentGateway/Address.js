@@ -3,7 +3,7 @@ import { TextField, Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import Header from "../Header";
-
+//Author: Shobhit Arora
 function Address() {
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
@@ -54,13 +54,12 @@ function Address() {
       )
       .then((response) => {
         const output = response.data;
-
         if (output.responseStatus) {
           navigate("/checkout");
         }
       })
       .catch((response) => {
-        console.log("Response" + response);
+        console.log("Response",  response);
       });
   };
 

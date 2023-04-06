@@ -9,7 +9,7 @@ import {
 import React from "react";
 // https://github.com/devias-io/material-kit-react
 const DashboardCard = (props) => {
-  const { cardName, cardNumber } = props;
+  const { cardName, cardNumber, cardSymbol } = props;
   return (
     <Card sx={{ height: "100%", width: "100%", margin: "10px" }}>
       <CardContent>
@@ -32,7 +32,7 @@ const DashboardCard = (props) => {
               width: 56,
             }}
           >
-            $
+            {cardSymbol}
           </Avatar>
         </Stack>
       </CardContent>

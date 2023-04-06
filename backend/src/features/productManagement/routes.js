@@ -1,3 +1,7 @@
+/* 
+Author: Yogesh Kumar
+This works as the entry point for /productmanagement routes
+*/
 const express = require("express");
 const router = express.Router();
 const authenticateUser = require("../../utils/authenticateUser");

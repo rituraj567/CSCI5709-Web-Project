@@ -1,3 +1,8 @@
+/* 
+Author: Yogesh Kumar
+Seller Dashboard to view the products at a glance. This is a seperate feature, and requires further work. 
+Although the product management is working and in sync with other teammates modules.
+*/
 import React from "react";
 import SellerNavbar from "../components/sellerDashboard/SellerNavbar";
 import { Button, Card } from "@mui/material";

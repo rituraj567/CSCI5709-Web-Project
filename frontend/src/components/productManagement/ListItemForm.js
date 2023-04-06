@@ -1,10 +1,14 @@
+/* 
+Author: Yogesh Kumar
+This is the list item form that is used by seller.
+It is reused to update as well
+*/
 import React, { useEffect } from "react";
 import { Button, MenuItem, Select, TextField } from "@mui/material";
 import "./listItemsForm.css";
 import Box from "@mui/material/Box";
 import { Container } from "@mui/system";
 import { useState } from "react";
-// import { useHistory } from "react-router-dom";
 import UploadProductImage from "./UploadProductImage";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import SellerNavbar from "../sellerDashboard/SellerNavbar";

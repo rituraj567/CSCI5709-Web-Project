@@ -1,3 +1,8 @@
+/* 
+Author: Yogesh Kumar
+This component is used to fetch relevant details from backend for the products specific to sellers.
+This component is reused during the update items as well.
+*/
 import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";

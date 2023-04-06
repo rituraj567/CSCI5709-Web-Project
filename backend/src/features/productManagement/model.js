@@ -1,3 +1,7 @@
+/* 
+Author Yogesh Kumar
+This is the schema for the seller module
+*/
 const mangoose = require("mongoose");
 const Schema = mangoose.Schema;
 

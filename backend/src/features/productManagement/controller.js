@@ -1,3 +1,7 @@
+/* 
+Author: Yogesh Kumar
+This is the controller for seller's product management
+*/
 const ProductManagementObj = require("./model");
 const ProductManagementDbObj = require("./model");
 

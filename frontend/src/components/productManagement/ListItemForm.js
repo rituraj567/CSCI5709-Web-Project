@@ -14,6 +14,7 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 import SellerNavbar from "../sellerDashboard/SellerNavbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { categories } from "../jsonObject/categoryJson";
 
 const ListItemForm = (props) => {
   const { state } = useLocation();
@@ -40,6 +41,8 @@ const ListItemForm = (props) => {
   const [preFilled, setPreFilled] = useState(false);
 
   const [imageURLSProduct, setimageURLSProduct] = useState([]);
+  const modifiedCategories = categories;
+  modifiedCategories[0]["title"] = "Other";
 
   useEffect(() => {
     if (props.preFilled == "false") {
@@ -252,18 +255,13 @@ const ListItemForm = (props) => {
                 required
                 onChange={handleCategoryChange}
               >
-                <MenuItem key="Electronics" value="Electronics">
-                  Electronics
-                </MenuItem>
-                <MenuItem key="Personal care" value="Personal care">
-                  Personal care
-                </MenuItem>
-                <MenuItem key="Food" value="Food">
-                  Food
-                </MenuItem>
-                <MenuItem key="Other" value="Other">
-                  Other
-                </MenuItem>
+                {modifiedCategories.map((item) => {
+                  return (
+                    <MenuItem key={item["title"]} value={item["title"]}>
+                      {item["title"]}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </div>
 

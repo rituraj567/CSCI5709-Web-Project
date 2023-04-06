@@ -46,7 +46,7 @@ const SellerCardsOverview = () => {
           <DashboardCard
             cardName="Total products"
             cardNumber={totalProducts}
-            cardSymbol="$"
+            cardSymbol="#"
           />
           <DashboardCard
             cardName="Average Rating"
@@ -58,9 +58,9 @@ const SellerCardsOverview = () => {
       <Container maxWidth="xl">
         <Grid xs={12} sm={6} lg={3} sx={{ display: "flex" }}>
           <DashboardCard
-            cardName="Products running low (<=3))"
+            cardName="Products running low (<=3)"
             cardNumber={productsRunningLow}
-            cardSymbol="!!!"
+            cardSymbol="⚠"
           />
           <DashboardCard cardName="Rating" cardNumber="4.2" cardSymbol="★" />
         </Grid>

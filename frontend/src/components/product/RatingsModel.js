@@ -1,3 +1,4 @@
+//Author - Rituraj Kadamati
 import React, { useState } from "react";
 import axios from "axios"; // import axios
 import Button from '@mui/material/Button';
@@ -12,12 +13,13 @@ export function RatingsModel({product}) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  //function to handle adding of rating and reviews when user clicks on save button
   const handleSaveChanges = async () => {
     const ratingInput = document.getElementById("rating-input").value;
     const descriptionInput = document.getElementById("description-input").value;
 
     try {
-      const response = await axios.post(`http://localhost:5000/products/${product.productId}/rating`, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_SERVER}/${product.productId}/rating`, {
         rating: ratingInput,
         comment: descriptionInput
       });

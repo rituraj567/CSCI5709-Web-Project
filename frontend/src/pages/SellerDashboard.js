@@ -5,11 +5,13 @@ Although the product management is working and in sync with other teammates modu
 */
 import React from "react";
 import SellerNavbar from "../components/sellerDashboard/SellerNavbar";
-import { Button, Card } from "@mui/material";
+import { Box, Button, Card } from "@mui/material";
 import { Link } from "react-router-dom";
 import "../components/sellerDashboard/sellerdashboard.css";
 import ProductTable from "../components/productManagement/ProductTable";
 import ErrorPage from "../components/ErrorPage";
+import DashboardCard from "../components/sellerDashboard/DashboardCard";
+import SellerCardsOverview from "../components/sellerDashboard/SellerCardsOverview";
 
 function SellerDashboard() {
   return (
@@ -31,8 +33,11 @@ function SellerDashboard() {
                 </Link>
               </Button>
             </div>
+            <div>
+              <SellerCardsOverview />
+            </div>
 
-            <div id="seller-overview">
+            {/* <div id="seller-overview">
               <Card variant="outlined" id="dashboard-card">
                 <p style={{ textAlign: "center" }}>
                   <h2> Product Count </h2>
@@ -57,7 +62,7 @@ function SellerDashboard() {
                   <br /> <h3> 35 </h3>
                 </p>
               </Card>
-            </div>
+            </div> */}
             <ProductTable showEditButton="false" />
           </div>
         </div>

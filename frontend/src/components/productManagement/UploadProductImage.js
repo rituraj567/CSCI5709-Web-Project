@@ -1,3 +1,7 @@
+/* 
+Author: Yogesh Kumar
+This handles the image input from the seller for listing items.
+*/
 import { Button, ImageList } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
@@ -15,28 +19,6 @@ const UploadProductImage = ({ getDataFromPictures }) => {
     getDataFromPictures(e.target.files);
   };
 
-  const handleImageUpload = async () => {
-    console.log("image upload called");
-    // const formData = new FormData();
-    // for (let i = 0; i < images.length; i++) {
-    //   formData.append("file", images[i]);
-    //   formData.append("upload_preset", "canadabuys813a");
-    //   formData.append("cloud_name", "dihkowyae");
-
-    //   fetch(cloudinaryURL, {
-    //     method: "post",
-    //     body: formData,
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       console.log(data["url"]);
-    //       urls.push(data["url"]);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
-  };
   return (
     <div>
       <ImageList id="uploaded-images" cols={0.5}>
@@ -46,13 +28,8 @@ const UploadProductImage = ({ getDataFromPictures }) => {
           );
         })}
       </ImageList>
-      {/* add multiple after input */}
+      {/* add multiple files as input */}
       <input onChange={handleImageChange} multiple type="file" />
-      <div>
-        <Button variant="contained" onClick={handleImageUpload}>
-          Confirm images
-        </Button>
-      </div>
     </div>
   );
 };

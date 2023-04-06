@@ -8,6 +8,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { red } from "@mui/material/colors";
 
+//Author: Shobhit Arora
+
 const initialValues = {
   name: "",
   card: "",
@@ -47,7 +49,6 @@ function Payment() {
       })
       .then((response) => {
         const cartOutput = response.data;
-        console.log(cartOutput);
 
         if (cartOutput.responseStatus) {
           setcartTotal(cartOutput.responseData.totalCost);
@@ -64,23 +65,20 @@ function Payment() {
       initialValues,
       validationSchema: card,
       onSubmit: (values, action) => {
-        // values.preventDefault();
-        console.log("On submit "+values);
         const token = localStorage.getItem("Token");
 
         const headers = {
           Authorization: token,
         };
-        let data={}
-        
-           data = {
-            name: values.name,
-            card: values.card,
-            expiry: values.expiry,
-            cvv: values.cvv,
-            source: values.radiobuttons,
-          };
-       
+        let data = {};
+
+        data = {
+          name: values.name,
+          card: values.card,
+          expiry: values.expiry,
+          cvv: values.cvv,
+          source: values.radiobuttons,
+        };
 
         axios
           .post(
@@ -103,25 +101,22 @@ function Payment() {
           });
       },
     });
-  console.log("data", values.radiobuttons);
 
-  const handleWalletSubmit =()=>{
-    console.log("inside wallet submit")
+  const handleWalletSubmit = () => {
     const token = localStorage.getItem("Token");
 
     const headers = {
       Authorization: token,
     };
-    let data={}
-    
-       data = {
-        name: values.name,
-        card: values.card,
-        expiry: values.expiry,
-        cvv: values.cvv,
-        source: values.radiobuttons,
-      };
-   
+    let data = {};
+
+    data = {
+      name: values.name,
+      card: values.card,
+      expiry: values.expiry,
+      cvv: values.cvv,
+      source: values.radiobuttons,
+    };
 
     axios
       .post(
@@ -132,20 +127,18 @@ function Payment() {
         }
       )
       .then((response) => {
-        console.log("Response", response);
         const output = response.data;
-        
+
         if (output.responseStatus) {
           navigate("/checkout/success");
-        }
-        else{
-          setPaymentError(output.responseMessage)
+        } else {
+          setPaymentError(output.responseMessage);
         }
       })
       .catch((response) => {
         console.log("Response", response);
       });
-  }
+  };
 
   let title = "Payment";
   const primaryColor = "#2B2D42";
@@ -388,9 +381,9 @@ function Payment() {
                 value={cartTotal}
               /> */}
               <br></br>
-              {paymentError  ? (
-                  <p style={{color:"red !important" }}>{paymentError}</p>
-                ) : null}
+              {paymentError ? (
+                <p style={{ color: "red !important" }}>{paymentError}</p>
+              ) : null}
               <Button
                 aria-label="Submit"
                 sx={{
@@ -407,7 +400,6 @@ function Payment() {
               >
                 Pay
               </Button>
-
             </div>
           )}
         </form>

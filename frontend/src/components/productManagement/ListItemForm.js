@@ -286,7 +286,9 @@ const ListItemForm = (props) => {
             </div>
           </form>
         </Container>
-        <UploadProductImage getDataFromPictures={getDataFromPictures} />
+        <Box id="UploadImageTagListItem">
+          <UploadProductImage getDataFromPictures={getDataFromPictures} />
+        </Box>
       </Box>
     </>
   );

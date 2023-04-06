@@ -5,6 +5,7 @@ This handles the image input from the seller for listing items.
 import { Button, ImageList } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
+import ImagesGrid from "./ImagesGrid";
 
 const UploadProductImage = ({ getDataFromPictures }) => {
   // useState array images
@@ -21,13 +22,7 @@ const UploadProductImage = ({ getDataFromPictures }) => {
 
   return (
     <div>
-      <ImageList id="uploaded-images" cols={0.5}>
-        {Array.from(images).map((image) => {
-          return (
-            <img src={image ? URL.createObjectURL(image) : null} width={400} />
-          );
-        })}
-      </ImageList>
+      {images.length > 0 ? <ImagesGrid images={images} /> : <></>}
       {/* add multiple files as input */}
       <input onChange={handleImageChange} multiple type="file" />
     </div>

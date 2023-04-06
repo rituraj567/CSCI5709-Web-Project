@@ -286,9 +286,14 @@ const ListItemForm = (props) => {
             </div>
           </form>
         </Container>
-        <Box id="UploadImageTagListItem">
-          <UploadProductImage getDataFromPictures={getDataFromPictures} />
-        </Box>
+        {props.preFilled == "true" ? (
+          <></>
+        ) : (
+          <Box id="UploadImageTagListItem">
+            <h3>Image Section</h3>
+            <UploadProductImage getDataFromPictures={getDataFromPictures} />
+          </Box>
+        )}
       </Box>
     </>
   );

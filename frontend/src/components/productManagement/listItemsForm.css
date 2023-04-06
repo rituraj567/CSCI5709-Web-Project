@@ -48,13 +48,13 @@
 }
 
 .ImagesGrid{
-    background: #EF233C;
     display: flex;
     flex-direction: row;
     width: 600px;
     height: 300px;
     overflow: scroll;   
-    margin: 10px;
+    margin: 15px;
+    padding: 5px;
 }
 
 .ImageGridFull{
@@ -64,5 +64,6 @@
 }
 
 .ImageGridMainImage{
-    margin: 10px;
+    padding-top: 10px;
+    margin: 15px;
 }

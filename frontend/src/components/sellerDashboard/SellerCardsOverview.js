@@ -66,7 +66,7 @@ const SellerCardsOverview = () => {
           />
           <DashboardCard
             cardName="Total amount of orders"
-            cardNumber={sellerTotalAmount}
+            cardNumber={`$ ${sellerTotalAmount}`}
             cardSymbol="$"
           />
         </Grid>

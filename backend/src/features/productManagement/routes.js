@@ -24,4 +24,10 @@ router.post("/getproductform", productManagementController.getProductForm);
 
 router.get("/test", productManagementController.testDummy);
 
+router.get(
+  "/getselleroverview",
+  authenticateUser,
+  productManagementController.getSellerOverview
+);
+
 module.exports = router;

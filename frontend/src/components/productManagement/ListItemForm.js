@@ -88,7 +88,6 @@ const ListItemForm = (props) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data["url"]);
           imageURLS.push(data["url"]);
         })
         .catch((err) => {
@@ -190,7 +189,6 @@ const ListItemForm = (props) => {
 
   const handleAdditionalInformationChange = (event) => {
     setdescription(event.target.value);
-    console.log(description);
   };
 
   return (

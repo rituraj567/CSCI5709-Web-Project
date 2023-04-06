@@ -65,7 +65,6 @@ exports.addProduct = async (req, res) => {
 
 exports.getProductsBySellerId = async (req, res) => {
   const sellerId = req.user.id;
-  console.log("get product by id called");
   const sellerProducts = await ProductManagementDbObj.find({
     sellerId: sellerId,
   });
@@ -79,6 +78,46 @@ exports.getProductForm = async (req, res) => {
     _id: productId,
   });
   res.json(productFormDetails);
+};
+
+exports.getSellerOverview = async (req, res) => {
+  console.log("seller overview called");
+  const sellerId = req.user.id;
+  const sellerProducts = await ProductManagementDbObj.find({
+    sellerId: sellerId,
+  });
+  const numberOfLowProducts = productsRunningLow(sellerProducts);
+  const sellerOveview = {};
+  sellerOveview["numberOfProducts"] = sellerProducts.length;
+  sellerOveview["numberOfLowProducts"] = numberOfLowProducts;
+  sellerOveview["averageRating"] = averageRating(sellerProducts);
+  console.log(sellerOveview);
+  res.send(sellerOveview);
+};
+
+const productsRunningLow = (productsData) => {
+  let lowProducts = 0;
+  for (let i = 0; i < productsData.length; i++) {
+    if (productsData[i]["quantity"] < 4) {
+      lowProducts += 1;
+    }
+  }
+  return lowProducts;
+};
+
+const averageRating = (productsData) => {
+  let rating = 0;
+  let totalProductsToCount = 0;
+  for (let i = 0; i < productsData.length; i++) {
+    if (productsData[i]["averageRating"] > 0) {
+      rating += productsData[i]["averageRating"];
+      totalProductsToCount += 1;
+    }
+  }
+  if (totalProductsToCount == 0) {
+    return 0;
+  }
+  return rating / totalProductsToCount;
 };
 
 exports.testDummy = async (req, res) => {

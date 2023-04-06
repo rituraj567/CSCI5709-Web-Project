@@ -20,7 +20,7 @@ function SellerNavbar() {
   };
   return (
     <Box sx={{ alignSelf: "stretch", heigh: "8vh" }}>
-      <AppBar position="static" sx={{ bgcolor: "#FFFFFF", height: "8vh" }}>
+      <AppBar position="static" sx={{ bgcolor: "#FFFFFF", height: "60px" }}>
         <Toolbar>
           <Box
             sx={{

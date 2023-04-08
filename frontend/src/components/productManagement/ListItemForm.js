@@ -14,6 +14,7 @@ import { Link, useLocation, useSearchParams } from "react-router-dom";
 import SellerNavbar from "../sellerDashboard/SellerNavbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { categories } from "../jsonObject/categoryJson";
 
 const ListItemForm = (props) => {
   const { state } = useLocation();
@@ -40,6 +41,8 @@ const ListItemForm = (props) => {
   const [preFilled, setPreFilled] = useState(false);
 
   const [imageURLSProduct, setimageURLSProduct] = useState([]);
+  const modifiedCategories = categories;
+  modifiedCategories[0]["title"] = "Other";
 
   useEffect(() => {
     if (props.preFilled == "false") {
@@ -88,7 +91,6 @@ const ListItemForm = (props) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data["url"]);
           imageURLS.push(data["url"]);
         })
         .catch((err) => {
@@ -190,7 +192,6 @@ const ListItemForm = (props) => {
 
   const handleAdditionalInformationChange = (event) => {
     setdescription(event.target.value);
-    console.log(description);
   };
 
   return (
@@ -199,8 +200,7 @@ const ListItemForm = (props) => {
       <Box className="listItemsForm">
         <Container id="addNewItemStyle">
           <form>
-            <h1>List Item Form</h1>
-            <h3 style={{ color: "grey" }}>
+            <h3 style={{ color: "#454545" }}>
               Let's put your item on our e-store
             </h3>
             <div>
@@ -224,6 +224,7 @@ const ListItemForm = (props) => {
                 fullWidth
                 error={priceError}
                 value={price}
+                type="number"
                 // inputProps={{ inputMode: "numeric" }}
                 helperText={priceError ? priceErrorMessage : ""}
                 required
@@ -237,6 +238,7 @@ const ListItemForm = (props) => {
                 margin="normal"
                 fullWidth
                 required
+                type="number"
                 error={quantityError}
                 helperText={quantityError ? quantityErrorMessage : ""}
                 onChange={handleQuantityChange}
@@ -254,18 +256,13 @@ const ListItemForm = (props) => {
                 required
                 onChange={handleCategoryChange}
               >
-                <MenuItem key="Electronics" value="Electronics">
-                  Electronics
-                </MenuItem>
-                <MenuItem key="Personal care" value="Personal care">
-                  Personal care
-                </MenuItem>
-                <MenuItem key="Food" value="Food">
-                  Food
-                </MenuItem>
-                <MenuItem key="Other" value="Other">
-                  Other
-                </MenuItem>
+                {modifiedCategories.map((item) => {
+                  return (
+                    <MenuItem key={item["title"]} value={item["title"]}>
+                      {item["title"]}
+                    </MenuItem>
+                  );
+                })}
               </Select>
             </div>
 
@@ -290,7 +287,14 @@ const ListItemForm = (props) => {
             </div>
           </form>
         </Container>
-        <UploadProductImage getDataFromPictures={getDataFromPictures} />
+        {props.preFilled == "true" ? (
+          <></>
+        ) : (
+          <Box id="UploadImageTagListItem">
+            <h3>Image Section</h3>
+            <UploadProductImage getDataFromPictures={getDataFromPictures} />
+          </Box>
+        )}
       </Box>
     </>
   );

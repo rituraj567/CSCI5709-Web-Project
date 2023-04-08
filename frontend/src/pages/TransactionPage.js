@@ -10,7 +10,7 @@ function TransactionPage() {
     
   return (
     <div>
-      {localStorage.getItem("isUserLoggedIn") ? (
+      {localStorage.getItem("Token") ? (
         <div>
           <Transaction />
         </div>

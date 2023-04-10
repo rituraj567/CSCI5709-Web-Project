@@ -41,3 +41,29 @@
     color: white;
     text-decoration: none;
 }
+
+#UploadImageTagListItem{
+    /* background-color: #EF233C; */
+    /* position: static; */
+}
+
+.ImagesGrid{
+    display: flex;
+    flex-direction: row;
+    width: 600px;
+    height: 300px;
+    overflow: scroll;   
+    margin: 15px;
+    padding: 5px;
+}
+
+.ImageGridFull{
+    display: flex;
+    flex-direction: column;
+    /* position: static; */
+}
+
+.ImageGridMainImage{
+    padding-top: 10px;
+    margin: 15px;
+}

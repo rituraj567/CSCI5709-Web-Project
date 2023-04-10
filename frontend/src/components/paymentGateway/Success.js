@@ -1,7 +1,7 @@
 import { Card, CardContent, Typography, Grid, Paper } from "@mui/material";
 import React from "react";
 import Header from "../Header";
-
+//Author: Shobhit Arora
 function Success() {
   return (
     <div>
@@ -15,7 +15,7 @@ function Success() {
           </Grid>
           <Grid container padding={"20px 10px"}>
             <Typography variant="subtitle1">
-              Your order number is #2001539. We have emailed your order
+              Your order was sucessfully placed. We have emailed your order
               confirmation, and will send you an update when your order has
               shipped.
             </Typography>

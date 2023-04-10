@@ -1,7 +1,9 @@
+//author: Nishith Gadhiya
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
+//this component will display error page
 function ErrorPage() {
   return (
     <Box

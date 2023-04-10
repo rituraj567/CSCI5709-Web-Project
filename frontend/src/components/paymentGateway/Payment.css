@@ -104,3 +104,7 @@
     width: 100px;
     margin-top: 10px;
   }
+
+  .form-error{
+    color:#D90429
+  }

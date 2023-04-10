@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+/* 
+Author: Yogesh Kumar
+This component is used to fetch relevant details from backend for the products specific to sellers.
+This component is reused during the update items as well.
+*/
+import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -7,76 +12,110 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import EditSharpIcon from "@mui/icons-material/EditSharp";
-import { Link } from "react-router-dom";
-
-
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function ProductTable(props) {
-    const [editButton, setEditButton] = useState(false);
-    console.log(props.showEditButton);
-  
-    function createData(productName, quantity, price, rating) {
-      return { productName, quantity, price, rating };
-    }
-  
-    const rows = [
-      createData("Product 1", 12, 100, 4.2),
-      createData("Product 2", 11, 150, 4.3),
-      createData("Product 3", 13, 80, 4.5),
-      createData("Product 4", 10, 120, 3.5),
-      createData("Product 5", 12, 100, 4),
-    ];
-  
-    return (
-      <div id="product-table">
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  <b>Product Name </b>
-                </TableCell>
-                <TableCell align="right">
-                  <b>Quantity</b>
-                </TableCell>
-                <TableCell align="right">
-                  <b>Price</b>
-                </TableCell>
-                <TableCell align="right">
-                  <b>Quantity</b>
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <TableRow
-                  key={row.productName}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.productName}
-                  </TableCell>
-                  <TableCell align="right">{row.quantity}</TableCell>
-                  <TableCell align="right">{row.price}</TableCell>
-                  <TableCell align="right">{row.rating}</TableCell>
-                  {props.showEditButton
-                    ? false
-                    : true && (
-                        <TableCell align="right">
-                          <Link to="/updateitemform">
-                            <EditSharpIcon />
-                          </Link>
-                        </TableCell>
-                      )}
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+  const navigate = useNavigate();
+  const [editButton, setEditButton] = useState(false);
+  const [sellerList, setsellerList] = useState([]);
+
+  const sellerProducts = [];
+
+  useEffect(() => {
+    const token = localStorage.getItem("Token");
+    const headers = {
+      Authorization: token,
+    };
+    axios
+      .get(
+        process.env.REACT_APP_BACKEND_SERVER +
+          "/productmanagement/getsellerproducts",
+        {
+          headers: headers,
+        }
+      )
+      .then((response) => {
+        setsellerList(response["data"]);
+      })
+      .catch((response) => {
+        console.log(`Error useEffect sellerProducts ${response}`);
+      });
+  }, []);
+
+  function createData(productName, quantity, price, rating, id) {
+    return { productName, quantity, price, rating, id };
+  }
+
+  const rows = [];
+
+  for (let i = 0; i < sellerList.length; i++) {
+    rows.push(
+      createData(
+        sellerList[i]["name"],
+        sellerList[i]["quantity"],
+        sellerList[i]["price"],
+        sellerList[i]["rating"],
+        sellerList[i]["_id"]
+      )
     );
   }
-  
-  export default ProductTable;
-  
 
+  function handleEditItem(id) {
+    console.log(`handle edit called for ${id}`);
+    navigate("/updateitemform", {
+      state: {
+        productId: id,
+      },
+    });
+  }
+
+  return (
+    <div id="product-table">
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>
+                <b>Product Name </b>
+              </TableCell>
+              <TableCell align="right">
+                <b>Quantity</b>
+              </TableCell>
+              <TableCell align="right">
+                <b>Price</b>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.productName}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.productName}
+                </TableCell>
+                <TableCell align="right">{row.quantity}</TableCell>
+                <TableCell align="right">{row.price}</TableCell>
+                <TableCell align="right">{row.rating}</TableCell>
+                {props.showEditButton
+                  ? false
+                  : true && (
+                      <TableCell
+                        align="right"
+                        onClick={() => handleEditItem(row.id)}
+                      >
+                        <EditSharpIcon />
+                      </TableCell>
+                    )}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
+}
+
+export default ProductTable;

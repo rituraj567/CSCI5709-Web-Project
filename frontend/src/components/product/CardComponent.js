@@ -1,41 +1,51 @@
+//Authors - Rituraj Kadamati
+
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 import React from "react";
-import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import { Link, useNavigate } from "react-router-dom";
+
+//Displays the cart details and cart buttons in a card
 export function CardComponent(props) {
   const navigate = useNavigate();
   return (
     <div>
-      <Card style={{ width: "18rem" }}>
-        <Card.Body>
-          <Card.Title>Card Total: ${props.totalCost} </Card.Title>
-
-          <Card.Text>{props.totalItems} items added to cart</Card.Text>
+      <Card sx={{ maxWidth: 345 }}>
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            Cart Total: ${props.totalCost}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Quantity of this product: {Number(props.quantity).toFixed()}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Total {Number(props.totalItems).toFixed()} items added to cart
+          </Typography>
           <div className="mt-4 center-buttons">
-            <Link to="/checkout">
-              <Button variant="dark" size="lg" className="mb-3">
-                Proceed To Checkout
+            <Link to="/address" className="link">
+              <Button
+                variant="contained"
+                sx={{ minWidth: "100%" }}
+                size="large"
+                className="mb-3 button"
+              >
+                Checkout
               </Button>
             </Link>
 
             <Button
-              variant="warning"
-              size="lg"
-              onClick={() =>
-                navigate("/cart", {
-                  replace: false,
-                  state: {
-                    cartItems: props.cartItems,
-                    totalCost: props.totalCost,
-                    totalItems: props.totalItems,
-                  },
-                })
-              }
+              variant="outlined"
+              size="large"
+              className="button-black"
+              sx={{ minWidth: "100%", color: "#fff" }}
+              onClick={() => navigate("/cart")}
             >
-              Go to Cart
+              View Cart
             </Button>
           </div>
-        </Card.Body>
+        </CardContent>
       </Card>
     </div>
   );

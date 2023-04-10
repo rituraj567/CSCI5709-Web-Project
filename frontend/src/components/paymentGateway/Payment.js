@@ -4,26 +4,141 @@ import { card } from "./PaymentValidation";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Header from "../Header";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { red } from "@mui/material/colors";
+
+//Author: Shobhit Arora
 
 const initialValues = {
   name: "",
   card: "",
   expiry: "",
   cvv: "",
-  radiobuttons: "a",
+  radiobuttons: "Credit",
 };
 function Payment() {
+  const [accountbalance, setAccountBalance] = useState("");
+  const [cartTotal, setcartTotal] = useState("");
+  const [paymentError, setPaymentError] = useState("");
+  useEffect(() => {
+    const token = localStorage.getItem("Token");
+
+    const headers = {
+      Authorization: token,
+    };
+
+    axios
+      .get(process.env.REACT_APP_BACKEND_SERVER + "/wallet/getwalletdetails", {
+        headers: headers,
+      })
+      .then((response) => {
+        const output = response.data;
+
+        if (output.responseStatus) {
+          setAccountBalance(output.responseData.accountbalance);
+        }
+      })
+      .catch((response) => {
+        console.log("response" + response);
+      });
+
+    axios
+      .get(process.env.REACT_APP_BACKEND_SERVER + "/payment/getcart", {
+        headers: headers,
+      })
+      .then((response) => {
+        const cartOutput = response.data;
+
+        if (cartOutput.responseStatus) {
+          setcartTotal(cartOutput.responseData.totalCost);
+        }
+      })
+      .catch((response) => {
+        console.log("response" + response);
+      });
+  }, []);
+
   const navigate = useNavigate();
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues,
       validationSchema: card,
       onSubmit: (values, action) => {
-        action.resetForm();
-      
+        const token = localStorage.getItem("Token");
+
+        const headers = {
+          Authorization: token,
+        };
+        let data = {};
+
+        data = {
+          name: values.name,
+          card: values.card,
+          expiry: values.expiry,
+          cvv: values.cvv,
+          source: values.radiobuttons,
+        };
+
+        axios
+          .post(
+            process.env.REACT_APP_BACKEND_SERVER + "/payment/transaction",
+            data,
+            {
+              headers: headers,
+            }
+          )
+          .then((response) => {
+            const output = response.data;
+
+            if (output.responseStatus) {
+              navigate("/checkout/success");
+            }
+          })
+          .catch((response) => {
+            console.log("Response" + response);
+            setPaymentError(response.responseMessage);
+          });
       },
     });
-  console.log("errors", errors);
+
+  const handleWalletSubmit = () => {
+    const token = localStorage.getItem("Token");
+
+    const headers = {
+      Authorization: token,
+    };
+    let data = {};
+
+    data = {
+      name: values.name,
+      card: values.card,
+      expiry: values.expiry,
+      cvv: values.cvv,
+      source: values.radiobuttons,
+    };
+
+    axios
+      .post(
+        process.env.REACT_APP_BACKEND_SERVER + "/payment/transaction",
+        data,
+        {
+          headers: headers,
+        }
+      )
+      .then((response) => {
+        const output = response.data;
+
+        if (output.responseStatus) {
+          navigate("/checkout/success");
+        } else {
+          setPaymentError(output.responseMessage);
+        }
+      })
+      .catch((response) => {
+        console.log("Response", response);
+      });
+  };
 
   let title = "Payment";
   const primaryColor = "#2B2D42";
@@ -37,31 +152,32 @@ function Payment() {
       ></meta>
 
       <Header />
-      <h1 style={{ fontWeight: "bold" }}>Payment Gateway</h1>
+
       <div className="form-layout">
         <form onSubmit={handleSubmit} sx={{ display: "flex", gap: 2 }}>
+          <h1 style={{ fontWeight: "bold" }}>Payment Gateway</h1>
           <div className="mode">
             <input
               type="radio"
-              checked={values.radiobuttons === "a"}
+              checked={values.radiobuttons === "Credit"}
               onChange={handleChange}
-              value="a"
+              value="Credit"
               name="radiobuttons"
               id="option-1"
             />
             <input
               type="radio"
-              checked={values.radiobuttons === "b"}
+              checked={values.radiobuttons === "Debit"}
               onChange={handleChange}
-              value="b"
+              value="Debit"
               name="radiobuttons"
               id="option-2"
             />
             <input
               type="radio"
-              checked={values.radiobuttons === "c"}
+              checked={values.radiobuttons === "Wallet"}
               onChange={handleChange}
-              value="c"
+              value="Wallet"
               name="radiobuttons"
               id="option-3"
             />
@@ -81,7 +197,7 @@ function Payment() {
             </label>
           </div>
 
-          {values.radiobuttons === "a" && (
+          {values.radiobuttons === "Credit" && (
             <div className="form">
               <div>
                 <input
@@ -118,15 +234,14 @@ function Payment() {
 
               <div>
                 <input
-                  type="month"
+                  type="text"
                   style={{ width: 500, padding: 12, margin: 8 }}
                   id="formfield"
                   value={values.expiry}
                   onBlur={handleBlur}
                   name="expiry"
-                  placeholder="Expiry"
+                  placeholder="Expiry MMYY"
                   onChange={handleChange}
-                  min={2023}
                   required
                 />
                 {errors.expiry && touched.expiry ? (
@@ -161,15 +276,13 @@ function Payment() {
                 }}
                 type="submit"
                 variant="contained"
-                onClick={() => navigate("success")}
               >
                 Pay
               </Button>
-              
             </div>
           )}
 
-          {values.radiobuttons === "b" && (
+          {values.radiobuttons === "Debit" && (
             <div className="form">
               <div>
                 <input
@@ -206,19 +319,20 @@ function Payment() {
 
               <div>
                 <input
-                  type="month"
+                  type="text"
                   style={{ width: 500, padding: 12, margin: 8 }}
                   id="formfield"
                   value={values.expiry}
                   onBlur={handleBlur}
                   name="expiry"
-                  placeholder="Expiry"
+                  placeholder="Expiry MMYY"
                   onChange={handleChange}
-                  min={2023}
                   required
                 />
                 {errors.expiry && touched.expiry ? (
-                  <p className="form-error">{errors.expiry}</p>
+                  <p className="form-error" style={{ color: "#D90429" }}>
+                    {errors.expiry}
+                  </p>
                 ) : null}
               </div>
 
@@ -249,25 +363,27 @@ function Payment() {
                 }}
                 type="submit"
                 variant="contained"
-                onClick={() => navigate("success")}
               >
                 Pay
               </Button>
-              
             </div>
           )}
 
-          {values.radiobuttons === "c" && (
+          {values.radiobuttons === "Wallet" && (
             <div className="form">
-              <h3>Shobhit Arora</h3>
-              <h3>Available Balance: $20</h3>
-              <input
+              <h3>Available Balance: ${accountbalance}</h3>
+              <h4>Payable Amount: ${cartTotal}</h4>
+              {/* <input
                 type="number"
                 style={{ width: 500, padding: 12, margin: 8 }}
                 placeholder="Top Up Amount"
                 required
-              />
+                value={cartTotal}
+              /> */}
               <br></br>
+              {paymentError ? (
+                <p style={{ color: "red !important" }}>{paymentError}</p>
+              ) : null}
               <Button
                 aria-label="Submit"
                 sx={{
@@ -280,7 +396,7 @@ function Payment() {
                 }}
                 type="submit"
                 variant="contained"
-                onClick={() => navigate("success")}
+                onClick={handleWalletSubmit}
               >
                 Pay
               </Button>

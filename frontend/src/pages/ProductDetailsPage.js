@@ -1,26 +1,49 @@
-import React, { useState } from "react";
+//Author - Rituraj Kadamati
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-import { NavBar } from "../components/product/NavBar";
-import Header from "../components/Header";
-import Products from "../components/product/Products.json";
-import ProductInfo from "../components/product/ProductInfo";
-import { QuestionAnswers } from "../components/product/QuestionAnswers";
-import { Ratings } from "../components/product/Ratings";
-import { UserReviews } from "../components/product/UserReviews";
+import { useLocation } from "react-router-dom";
+import "../components/cart/ViewCart.css";
 import ErrorPage from "../components/ErrorPage";
+import Header from "../components/Header";
+import ProductInfo from "../components/product/ProductInfo";
+import { Ratings } from "../components/product/Ratings";
+
 export default function ProductPageDetails() {
-  const [products, setProducts] = useState(Products);
+  const [product, setProduct] = useState("");
+  const { state } = useLocation();
+
+  const token = localStorage.getItem("Token");
+
+  const id = state.id;
+
+  const fetchProductDetails = async () => {
+    const tempProduct = await axios.get(
+      `${process.env.REACT_APP_BACKEND_SERVER}/products/${id}`,
+      {
+        headers: { Authorization: token },
+      }
+    );
+    setProduct(tempProduct.data);
+  };
+
+  useEffect(() => {
+    fetchProductDetails();
+    console.log("nishith", product);
+  }, []);
+
   return (
     <div>
-      {localStorage.getItem("isUserLoggedIn") ? (
+      {localStorage.getItem("Token") ? (
         <div>
           <Header />
           <Container className="margin-top">
-            <ProductInfo product={products[0]} />
-
-            <Ratings />
-            <UserReviews />
-            <QuestionAnswers />
+            {product ? (
+              <div>
+                <ProductInfo product={product} />
+                <Ratings product={product} />
+              </div>
+            ) : null}
           </Container>
         </div>
       ) : (

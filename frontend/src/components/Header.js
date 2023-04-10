@@ -1,4 +1,5 @@
-import React from "react";
+//author: Nishith Gadhiya
+import React, { useContext, useState } from "react";
 import Box from "@mui/material/Box";
 import Logo from "../images/logo.png";
 import { TextField, IconButton } from "@mui/material";
@@ -14,53 +15,43 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { SearchContext } from "../SearchContext";
 
+//this component is as name suggests Header
 const Header = () => {
   const primaryColor = "#2B2D42";
   const selectedColor = "#EF233C";
-  const handleSearch = () => {};
   const navigate = useNavigate();
-  const cartItems = [
-    {
-      id: 9,
-      title: "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
-      price: 64,
-      description:
-        "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems; Compatibility may vary depending on user’s hardware configuration and operating system",
-      category: "electronics",
-      image: "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg",
-      rating: {
-        rate: 3.3,
-        count: 203,
-      },
-      reviews: [
-        {
-          rating: 4,
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Crasfermentum fringilla ante, nec gravida urna elementum ut. Nullaporttitor sit amet nisl vitae tincidunt. Pellentesque ut eniminterdum, scelerisque turpis gravida, fringilla nibh",
-          user: "Rituraj",
-          date: "February 22nd, 2023",
-        },
-        {
-          rating: 3,
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Crasfermentum fringilla ante, nec gravida urna elementum ut. Nullaporttitor sit amet nisl vitae tincidunt. Pellentesque ut eniminterdum, scelerisque turpis gravida, fringilla nibh",
-          user: "Yogesh",
-          date: "February 22nd, 2023",
-        },
-      ],
-      quantity: 1,
-    },
-  ];
-  const totalCost = 30;
-  const totalItems = 1;
+  const [searchValue, setSearchValue] = useState("");
+  const { utilState, setUtilState } = useContext(SearchContext);
+  const cartItems = [];
+  const totalCost = 0;
+  const totalItems = 0;
 
   const logout = () => {
-    const isUserLoggedIn = localStorage.getItem("isUserLoggedIn");
-    if (isUserLoggedIn) {
-      localStorage.removeItem("isUserLoggedIn");
+    const token = localStorage.getItem("Token");
+    if (token) {
+      localStorage.removeItem("Token");
       navigate("/");
     }
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleSearch = () => {
+    setUtilState({ ...utilState, search: searchValue });
+    navigate("/home");
+  };
+
+  const handleWishlist = () => {
+    navigate("/wishlist");
+  };
+
+  const handleWallett = () => {
+    navigate("/wallet");
   };
 
   const handleViewCart = () => {
@@ -100,8 +91,6 @@ const Header = () => {
               />
             </div>
           </Link>
-
-          {/* <p style={{ fontFamily: "Lato", color: { primaryColor } }}>Logo</p> */}
         </Box>
       </Box>
       <Box
@@ -130,6 +119,8 @@ const Header = () => {
                 border: "1px solid #8098ab",
               },
             }}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={handleKeyDown}
             id="outlined-basic"
             label="search"
             variant="outlined"
@@ -138,7 +129,7 @@ const Header = () => {
           />
           <IconButton
             type="button"
-            onClick={{ handleSearch }}
+            onClick={handleSearch}
             aria-label="Start searching"
           >
             <SearchOutlined
@@ -229,6 +220,7 @@ const Header = () => {
               sx={{
                 padding: "0",
               }}
+              onClick={handleWishlist}
             >
               <FavoriteBorderOutlined
                 style={{
@@ -253,6 +245,7 @@ const Header = () => {
             <IconButton
               type="button"
               aria-label="Wallet"
+              onClick={handleWallett}
               sx={{
                 padding: "0",
               }}

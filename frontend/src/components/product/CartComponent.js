@@ -1,121 +1,149 @@
+//Authors - Rituraj Kadamati
+import {
+  AddCircleOutlineOutlined,
+  RemoveCircleOutlined,
+} from "@mui/icons-material";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import Row from "react-bootstrap/Row";
-import Products from "./Products.json";
+import { Row } from "react-bootstrap";
 import { CardComponent } from "./CardComponent";
-export default function CartComponent() {
+
+export default function CartComponent({ product }) {
   const [cartVisible, setCartVisible] = useState(false);
   const [cartItems, setCartItems] = useState([]);
-  const [products, setProducts] = useState(Products);
+  const token = localStorage.getItem("Token");
   const [totalCartCost, setTotalCartCost] = useState(0);
   const [totalCartItems, setTotalCartItems] = useState(0);
-
+  const [removeError, setRemoveError] = useState();
+  const [quantity, setQuantity] = useState(0);
+  console.log(product._id);
   useEffect(() => {
-    handleTotalCostOfCart();
-  }, [cartItems]);
+    getCartItems();
+  }, []);
 
-  const handleAddProductsToCart = (item) => {
-    console.log(item);
-    const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.id === item.id
-    );
-    console.log("existing", existingCartItem);
-    if (existingCartItem) {
-      setCartItems((prevCartItems) =>
-        prevCartItems.map((cartItem) =>
-          cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem
-        )
-      );
-    } else {
-      setCartItems((prevCartItems) => [
-        ...prevCartItems,
-        { ...item, quantity: 1 },
-      ]);
-    }
-  };
-
-  const handleRemoveProductsFromCart = (cartItemToRemove) => {
-    const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.id === cartItemToRemove.id
-    );
-
-    if (existingCartItem) {
-      if (existingCartItem.quantity === 1) {
-        setCartItems((prevCartItems) =>
-          prevCartItems.filter(
-            (cartItem) => cartItem.id !== cartItemToRemove.id
-          )
-        );
-      } else {
-        setCartItems((prevCartItems) =>
-          prevCartItems.map((cartItem) =>
-            cartItem.id === cartItemToRemove.id
-              ? { ...cartItem, quantity: cartItem.quantity - 1 }
-              : cartItem
-          )
-        );
+  
+  const getCartItems = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BACKEND_SERVER}/cart/`,
+      {
+        headers: { Authorization: token },
       }
+    );
+
+    setCartItems(response.data.cartItems);
+    const item = response.data.cartItems.find(
+      (p) => p.productId === product._id
+    );
+    setQuantity(item?.quantity ? item?.quantity : 0);
+    setTotalCartCost(Number(response.data.totalCost).toFixed(2));
+    setTotalCartItems(Number(response.data.totalQuantity).toFixed(2));
+  };
+
+  //function to handle Add to Cart Functionality
+  const handleCartProcess = async () => {
+    const response = await axios.post(
+      `${process.env.REACT_APP_BACKEND_SERVER}/cart`,
+      {
+        productId: product._id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        averageRating: product.averageRating,
+        totalRating: product.totalRating,
+        category: product.category,
+        quantity: 1,
+        imageThumbnailUrl: product.imageThumbnailUrl,
+      },
+      {
+        headers: { Authorization: token },
+      }
+    );
+    console.log("response", response);
+    const cartItems = response.data.cartItems;
+    const item = cartItems.find((p) => p.productId === product._id);
+    setTotalCartCost(Number(response.data.totalCost).toFixed(2));
+    setTotalCartItems(response.data.totalQuantity);
+    setCartVisible(true);
+    setCartItems(cartItems);
+    setQuantity(item?.quantity ? item?.quantity : 0);
+    setRemoveError("");
+  };
+
+  //Funtion to handle remove from Cart functionality
+  const handleRemoveCartProcess = async () => {
+    const itemExists = cartItems.find((item) => item.productId === product._id);
+    if (itemExists) {
+      const response = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_SERVER}/cart/${product._id}`,
+        {
+          headers: { Authorization: token },
+        }
+      );
+
+      const item = response.data.cartItems.find(
+        (p) => p.productId === product._id
+      );
+      setTotalCartCost(response.data.totalCost);
+      setTotalCartItems(response.data.totalQuantity);
+      setQuantity(item?.quantity ? item?.quantity : 0);
+      setCartItems(cartItems);
+    } else {
+      setRemoveError("Item doesn't exist in the cart, cannot remove");
     }
   };
-
-  const handleTotalCostOfCart = () => {
-    let sum = 0;
-    let items = 0;
-    cartItems.map((cartItem) => {
-      sum += cartItem.price * cartItem.quantity;
-      items += cartItem.quantity;
-    });
-
-    setTotalCartCost(sum);
-    setTotalCartItems(items);
-    console.log(totalCartCost);
-  };
-
-  console.log(cartItems);
 
   return (
     <div>
       <div className="add-cart">
         <Row>
-          <div className="d-grid">
-            <Button
-              variant="dark"
-              size="lg"
-              className="mb-3"
-              onClick={() => {
-                handleAddProductsToCart(products[0]);
-                handleTotalCostOfCart();
-                setCartVisible(true);
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <span
+              style={{
+                marginTop: "-1rem",
+
+                marginRight: "1rem",
               }}
             >
-              Add to Cart
-            </Button>
+              Add Items:
+            </span>
+            <AddCircleOutlineOutlined
+              sx={{
+                color: "#2ecc71",
+                marginTop: "-1rem",
+                cursor: "pointer",
+                marginRight: "1rem",
+              }}
+              onClick={() => handleCartProcess()}
+            />
+            <span
+              style={{
+                marginTop: "-1rem",
 
-            {cartVisible ? (
-              <Button
-                variant="danger"
-                size="lg"
-                className="mt-3"
-                onClick={() => {
-                  handleRemoveProductsFromCart(products[0]);
-                  handleTotalCostOfCart();
-                }}
-              >
-                Remove From Cart
-              </Button>
-            ) : null}
+                marginRight: "1rem",
+              }}
+            >
+              Remove Items:
+            </span>
+            <RemoveCircleOutlined
+              sx={{
+                color: "#d90429",
+                marginTop: "-1rem",
+                cursor: "pointer",
+              }}
+              onClick={() => handleRemoveCartProcess()}
+            />
           </div>
         </Row>
         <Row className="mt-5">
-          {cartVisible ? (
+          <div>
+            <p style={{ marginBottom: "1rem" }}>{removeError}</p>
             <CardComponent
               totalCost={totalCartCost}
               totalItems={totalCartItems}
               cartItems={cartItems}
+              quantity={quantity}
             />
-          ) : null}
+          </div>
         </Row>
       </div>
     </div>
